@@ -1,0 +1,25 @@
+{
+    "name": "codecollab-server",
+    "version": "1.0.0",
+    "description": "Backend for CodeCollab",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/UTSCC09/project-bigbrain_time.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/UTSCC09/project-bigbrain_time/issues"
+    },
+    "homepage": "https://github.com/UTSCC09/project-bigbrain_time#readme",
+    "dependencies": {
+        "apollo-server-express": "^2.21.0",
+        "bcrypt": "^5.0.1",
+        "express": "^4.17.1",
+        "graphql": "^15.5.0"
+    }
+}
