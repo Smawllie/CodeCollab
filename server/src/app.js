@@ -27,7 +27,7 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         // TODO: Convert to MongoDB + Mongoose
-        users: (_1, _2, _3) => users,
+        users: (_1, _2, _3) => Object.values(users),
         // TODO: Convert to MongoDB + Mongoose
         user: (_1, { email }, _3) => user[email],
     },
