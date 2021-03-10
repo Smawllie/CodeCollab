@@ -1,12 +1,15 @@
-import { hash } from "bcrypt";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { AuthenticationError } from "apollo-server-errors";
+import { compare, hash } from "bcrypt";
+import { Context } from "../../context";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 
 import { User, UserModel } from "../../entities/User";
+import { LoginInput } from "./input/LoginInput";
 import { RegisterInput } from "./input/RegisterInput";
 
 @Resolver()
 export class AuthenticationResolver {
-    // Delete this when I have an actual query
+    // TODO: Delete this when I have an actual query
     @Query(() => String)
     hello(): string {
         return "Hello World!";
@@ -17,9 +20,9 @@ export class AuthenticationResolver {
         @Arg("user")
         { email, username, password, firstName, lastName }: RegisterInput
     ): Promise<User> {
-        const passwordHash = await hash(password, 10);
+        let passwordHash = await hash(password, 10);
 
-        const user = new UserModel({
+        let user = new UserModel({
             email,
             username,
             passwordHash,
@@ -28,6 +31,25 @@ export class AuthenticationResolver {
         });
 
         await user.save();
+
+        return user;
+    }
+
+    @Mutation(() => User)
+    async login(
+        @Arg("user")
+        { email, password }: LoginInput,
+        @Ctx() context: Context
+    ): Promise<User> {
+        let user = await UserModel.findOne({ email });
+
+        if (!user) throw new AuthenticationError("Access Denied");
+
+        let valid = await compare(password, user.passwordHash);
+
+        if (!valid) throw new AuthenticationError("Access Denied");
+
+        context.req.session.user = user;
 
         return user;
     }
