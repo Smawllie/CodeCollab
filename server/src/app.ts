@@ -1,15 +1,23 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import * as express from "express";
+import { createServer } from "http";
+import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
-import * as http from "http";
-import { RegisterResolver } from "./modules/user/register";
 
+import { AuthenticationResolver } from "./modules/authentication";
+
+const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
 
 const main = async () => {
+    connect(MONGO_DB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+
     const schema = await buildSchema({
-        resolvers: [RegisterResolver],
+        resolvers: [AuthenticationResolver],
     });
 
     const apolloServer = new ApolloServer({ schema });
@@ -18,7 +26,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app });
 
-    http.createServer(app).listen(PORT, function () {
+    createServer(app).listen(PORT, function () {
         console.log(`
             HTTP GraphQL server on http://localhost:${PORT}/graphql/
             Run queries at https://studio.apollographql.com/dev/

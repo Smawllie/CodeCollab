@@ -1,8 +1,26 @@
+import { getModelForClass, prop as Property } from "@typegoose/typegoose";
+import { Field, ObjectType, ID } from "type-graphql";
+
+@ObjectType()
 export class User {
-    id: number;
-    firstName: string;
-    lastName: string;
-    username: string;
+    @Field()
+    @Property({ required: true, unique: true })
     email: string;
-    password: string;
+
+    @Field(() => ID)
+    @Property({ required: true, unique: true })
+    username: string;
+
+    @Property({ required: true })
+    passwordHash: string;
+
+    @Field({ nullable: true })
+    @Property()
+    firstName: string;
+
+    @Field({ nullable: true })
+    @Property()
+    lastName: string;
 }
+
+export const UserModel = getModelForClass(User);
