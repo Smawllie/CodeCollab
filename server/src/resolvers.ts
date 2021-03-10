@@ -1,6 +1,10 @@
 import { NonEmptyArray } from "type-graphql";
-import { AuthenticationResolver } from "./modules/user/AuthenticationResolver";
+
+import { SignUpResolver } from "./modules/authentication/signUp.resolver";
+import { SignInResolver } from "./modules/authentication/signIn.resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
-    AuthenticationResolver,
+    // Authentication Resolvers
+    SignUpResolver,
+    SignInResolver,
 ];

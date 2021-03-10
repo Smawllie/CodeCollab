@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-import { User } from "./entities/User";
+import { User } from "./entities/user.entity";
 
 export const context = ({ req }: any) => {
     // Add the HTTP request from express to the context
