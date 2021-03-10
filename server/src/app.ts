@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
-import * as express from "express";
+import Express from "express";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
@@ -20,7 +20,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({ schema });
 
-    const app = express();
+    const app = Express();
 
     apolloServer.applyMiddleware({ app });
 
