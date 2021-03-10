@@ -27,7 +27,7 @@ const main = async () => {
             resave: false,
             saveUninitialized: true,
             // TODO: Add helmet and look at cors package
-            cookie: { httpOnly: true, secure: true, sameSite: true },
+            // cookie: { httpOnly: true, secure: true, sameSite: true },
         })
     );
 
