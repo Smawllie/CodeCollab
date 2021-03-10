@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
-import { User, UserModel } from "../entities/user";
+import { User, UserModel } from "../../entities/user";
 
 @Resolver()
 export class AuthenticationResolver {
@@ -19,6 +19,7 @@ export class AuthenticationResolver {
         @Arg("firstName", { nullable: true }) firstName: string,
         @Arg("lastName", { nullable: true }) lastName: string
     ): Promise<User> {
+        // TODO: Check if username/email are taken
         const passwordHash = await hash(password, 10);
 
         const user = new UserModel({

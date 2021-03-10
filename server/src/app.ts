@@ -5,7 +5,7 @@ import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
 
-import { AuthenticationResolver } from "./modules/authentication";
+import { resolvers } from "./resolvers";
 
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
@@ -16,9 +16,7 @@ const main = async () => {
         useUnifiedTopology: true,
     });
 
-    const schema = await buildSchema({
-        resolvers: [AuthenticationResolver],
-    });
+    const schema = await buildSchema({ resolvers });
 
     const apolloServer = new ApolloServer({ schema });
 
