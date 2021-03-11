@@ -5,7 +5,6 @@ import { Field, ObjectType, ID } from "type-graphql";
 @ObjectType()
 export class User {
     @Field(() => ID)
-    @Property()
     _id: Types.ObjectId;
 
     @Field()
