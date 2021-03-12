@@ -1,9 +1,13 @@
+import { ApolloProvider } from '@apollo/client';
 import React from 'react';
 import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import routes from './config/route';
+import client from './apolloClient';
+
 
 const App: React.FunctionComponent<{}> = (props) => {
 	return (<div>
+        <ApolloProvider client={client}>
         <BrowserRouter>
             <Switch>
                 {routes.map((route,index)=>{
@@ -23,6 +27,8 @@ const App: React.FunctionComponent<{}> = (props) => {
                 })}
             </Switch>
         </BrowserRouter>
+        </ApolloProvider>
+
     </div>);
 };
 
