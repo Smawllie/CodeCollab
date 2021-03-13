@@ -1,10 +1,11 @@
 import { AuthenticationError } from "apollo-server-errors";
 import { compare } from "bcrypt";
-import { Context } from "../../context";
+import Cookie from "cookie";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 
+import { Context } from "../../context";
 import { User, UserModel } from "../../entities/user.entity";
-import { SignInInput } from "./input/signIn.input"
+import { SignInInput } from "./input/signIn.input";
 
 @Resolver()
 export class SignInResolver {
@@ -22,7 +23,18 @@ export class SignInResolver {
 
         if (!valid) throw new AuthenticationError("Access Denied");
 
-        context.req.session.userId = user._id;
+        // Set session cookie and cookie for frontend
+        context.req.session.userId = user._id.toString();
+        context.res.setHeader(
+            "Set-Cookie",
+            Cookie.serialize("userId", user._id.toString(), {
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
+                // TODO: Figure out the security headers
+                // secure : true,
+                // sameSite: true
+            })
+        );
 
         return user;
     }
