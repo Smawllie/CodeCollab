@@ -8,6 +8,7 @@ import { buildSchema } from "type-graphql";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";
+import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
@@ -31,7 +32,7 @@ const main = async () => {
         })
     );
 
-    const schema = await buildSchema({ resolvers });
+    const schema = await buildSchema({ resolvers, authChecker });
     const apolloServer = new ApolloServer({ schema, context });
     apolloServer.applyMiddleware({ app });
 

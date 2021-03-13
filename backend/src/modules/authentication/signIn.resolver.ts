@@ -22,7 +22,7 @@ export class SignInResolver {
 
         if (!valid) throw new AuthenticationError("Access Denied");
 
-        context.req.session.user = user;
+        context.req.session.userId = user._id;
 
         return user;
     }

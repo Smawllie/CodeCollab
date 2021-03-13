@@ -1,6 +1,5 @@
 import { Request } from "express";
-
-import { User } from "./entities/user.entity";
+import { Types } from "mongoose";
 
 export const context = ({ req }: any) => {
     // Add the HTTP request from express to the context
@@ -11,7 +10,7 @@ export const context = ({ req }: any) => {
 export interface Context {
     req: Request & {
         session: {
-            user: User;
+            userId: Types.ObjectId;
         };
     };
 }
