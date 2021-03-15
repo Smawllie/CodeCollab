@@ -5,6 +5,7 @@ import Session from "express-session";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
+import cors from "cors";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";
@@ -30,6 +31,8 @@ const main = async () => {
             // cookie: { httpOnly: true, secure: true, sameSite: true },
         })
     );
+
+    app.use(cors());
 
     const schema = await buildSchema({ resolvers });
     const apolloServer = new ApolloServer({ schema, context });
