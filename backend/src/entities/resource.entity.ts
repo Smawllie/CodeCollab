@@ -16,11 +16,11 @@ export class Resource {
 
     @Field(() => Project)
     @Property({ ref: "Project", required: true })
-    project: Ref<Project>
+    project: Ref<Project>;
 
     @Field(() => Directory, { nullable: true })
     @Property({ ref: "Directory", default: null })
-    parent: Ref<Directory>
+    parent: Ref<Directory>;
 
     @Field(() => String)
     @Property({ required: true })

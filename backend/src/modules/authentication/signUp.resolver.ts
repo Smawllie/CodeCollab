@@ -1,18 +1,11 @@
 import { hash } from "bcrypt";
-import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
 
 import { User, UserModel } from "../../entities/user.entity";
 import { SignUpInput } from "./input/signUp.input";
 
 @Resolver()
 export class SignUpResolver {
-    // TODO: Delete this when I have an actual query
-    @Query(() => String)
-    @Authorized()
-    hello(): string {
-        return "Hello World!";
-    }
-
     @Mutation(() => User)
     async signUp(
         @Arg("user")
