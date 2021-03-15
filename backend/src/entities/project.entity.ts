@@ -1,6 +1,7 @@
 import { getModelForClass, prop as Property, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { Field, ObjectType, ID } from "type-graphql";
+import { Directory } from "./directory.entity";
 
 import { User } from "./user.entity";
 
@@ -16,6 +17,10 @@ export class Project {
     @Field(() => User)
     @Property({ ref: "User", required: true })
     owner: Ref<User>;
+
+    @Field(() => Directory)
+    @Property({ required: true })
+    root: Ref<Directory>;
 
     _doc: any;
 }

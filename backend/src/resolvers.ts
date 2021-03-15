@@ -12,6 +12,12 @@ import { ProjectResolver } from "./modules/project/project.resolver";
 // User resolvers
 import { UserResolver } from "./modules/user/user.resolver";
 
+// Resource resolvers
+import { ResourceResolver } from "./modules/resource/resource.resolver";
+
+// Directory resolvers
+import { DirectoryResolver } from "./modules/directory/directory.resolver";
+
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
     SignUpResolver,
@@ -24,4 +30,10 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
 
     // User Resolvers
     UserResolver,
+
+    // Resource resolvers
+    ResourceResolver,
+
+    // Directory resolvers
+    DirectoryResolver,
 ];
