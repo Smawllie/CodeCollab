@@ -1,6 +1,8 @@
-import { getModelForClass, prop as Property } from "@typegoose/typegoose";
+import { getModelForClass, prop as Property, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { Field, ObjectType, ID } from "type-graphql";
+
+import { Project } from "./project.entity";
 
 @ObjectType()
 export class User {
@@ -25,6 +27,10 @@ export class User {
     @Field({ nullable: true })
     @Property()
     lastName: string;
+
+    @Field(() => [Project])
+    @Property({ ref: "Project" })
+    createdProjects: Ref<Project>[];
 }
 
 export const UserModel = getModelForClass(User);
