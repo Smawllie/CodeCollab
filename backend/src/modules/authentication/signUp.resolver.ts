@@ -2,7 +2,7 @@ import { hash } from "bcrypt";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 
 import { User, UserModel } from "../../entities/user.entity";
-import { SignUpInput } from "./input/signUp.input"
+import { SignUpInput } from "./input/signUp.input";
 
 @Resolver()
 export class SignUpResolver {

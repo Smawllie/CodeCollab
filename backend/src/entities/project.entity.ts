@@ -16,6 +16,8 @@ export class Project {
     @Field(() => User)
     @Property({ ref: "User", required: true })
     owner: Ref<User>;
+
+    _doc: any;
 }
 
 export const ProjectModel = getModelForClass(Project);

@@ -29,8 +29,10 @@ export class User {
     lastName: string;
 
     @Field(() => [Project])
-    @Property({ ref: "Project" })
+    @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
+
+    _doc: any;
 }
 
 export const UserModel = getModelForClass(User);
