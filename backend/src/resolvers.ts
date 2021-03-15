@@ -7,9 +7,10 @@ import { SignOutResolver } from "./modules/authentication/signOut.resolver";
 
 // Project resolvers
 import { CreateProjectResolver } from "./modules/project/createProject.resolver";
+import { ProjectResolver } from "./modules/project/project.resolver";
 
 // User resolvers
-import { UserResolver } from "./modules/user/user.resolver"
+import { UserResolver } from "./modules/user/user.resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
@@ -19,6 +20,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
 
     // Project Resolvers
     CreateProjectResolver,
+    ProjectResolver,
 
     // User Resolvers
     UserResolver,
