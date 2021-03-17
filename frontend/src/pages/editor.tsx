@@ -1,7 +1,5 @@
 import React from 'react';
-import Dropdown from '../components/Dropdown';
 import Editor from '../components/Editor';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 function EditorPage(props: any) {
@@ -16,9 +14,6 @@ function EditorPage(props: any) {
 				<Editor language="xml" displayName="HTML" onChange={setHtml} value={html} />
 				<Editor language="css" displayName="CSS" onChange={setCss} value={css} />
 				<Editor language="javascript" displayName="JS" onChange={setJS} value={JS} />
-			</div>
-			<div>
-				<iframe>{`<html><body>Hello world</body></html>`}</iframe>
 			</div>
 		</div>
 	);

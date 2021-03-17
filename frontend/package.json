@@ -26,7 +26,7 @@
   "scripts": {
     "start": "craco start",
     "build": "yarn run generate && craco build",
-    "test": "craco test",
+    "test": "snyk test && craco test",
     "eject": "react-scripts eject",
     "generate": "graphql-codegen --config codegen.yml",
     "dev": "  yarn run start   &&  yarn run generate --watch"
@@ -56,10 +56,11 @@
     "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
     "@graphql-codegen/typescript-operations": "1.17.15",
     "@graphql-codegen/typescript-react-apollo": "2.2.3",
-    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",
+    "snyk": "^1.493.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
   }
 }
