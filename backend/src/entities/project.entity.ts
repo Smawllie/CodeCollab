@@ -19,7 +19,7 @@ export class Project {
     owner: Ref<User>;
 
     @Field(() => Directory)
-    @Property({ required: true })
+    @Property({ ref: "Directory", required: true })
     root: Ref<Directory>;
 
     _doc: any;

@@ -1,11 +1,12 @@
 import Cookie from "cookie";
-import { Ctx, Query, Resolver } from "type-graphql";
+import { Authorized, Ctx, Query, Resolver } from "type-graphql";
 
 import { Context } from "../../context";
 
 @Resolver()
 export class SignOutResolver {
     @Query(() => Boolean)
+    @Authorized()
     async signOut(@Ctx() context: Context): Promise<Boolean> {
         return new Promise((res, rej) =>
             context.req.session.destroy((err) => {

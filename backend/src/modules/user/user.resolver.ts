@@ -7,6 +7,7 @@ import { ProjectModel } from "../../entities/project.entity";
 export class UserResolver {
     @Query(() => User)
     // TODO: Check if id is alphanumeric and also do errors if user id not found
+    // and authentication
     async userById(@Arg("id") id: String) {
         return await UserModel.findById(id);
     }
