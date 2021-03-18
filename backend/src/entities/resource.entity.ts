@@ -22,10 +22,6 @@ export class Resource {
     @Property({ ref: "Directory", default: null })
     parent: Ref<Directory>;
 
-    @Field(() => String)
-    @Property({ required: true })
-    location: string;
-
     _doc: any;
 }
 
