@@ -20,6 +20,8 @@ import { DirectoryResolver } from "./modules/directory/directory.resolver";
 
 // File resolvers
 // import { UploadFileResolver } from "./modules/file/uploadFile.resolver";
+import { WriteFileResolver } from "./modules/file/writeFile.resolver";
+import { AddFileResolver } from "./modules/file/addFile.resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
@@ -42,4 +44,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
 
     // File resolvers
     // UploadFileResolver,
+    AddFileResolver,
+    WriteFileResolver,
 ];
