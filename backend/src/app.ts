@@ -5,7 +5,7 @@ import Session from "express-session";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
-import { graphqlUploadExpress } from "graphql-upload";
+// import { graphqlUploadExpress } from "graphql-upload";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";
@@ -33,7 +33,7 @@ const main = async () => {
         })
     );
 
-    app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
+    // app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
 
     const schema = await buildSchema({ resolvers, authChecker });
     const apolloServer = new ApolloServer({ schema, context, uploads: false });
