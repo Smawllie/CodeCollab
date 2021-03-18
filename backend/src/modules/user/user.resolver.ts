@@ -9,7 +9,11 @@ export class UserResolver {
     // TODO: Check if id is alphanumeric and also do errors if user id not found
     // and authentication
     async userById(@Arg("id") id: String) {
-        return await UserModel.findById(id);
+        let user = await UserModel.findById(id);
+
+        if (!user) throw new Error(`User with id: ${id} does not exist`);
+
+        return user;
     }
 
     @FieldResolver()
