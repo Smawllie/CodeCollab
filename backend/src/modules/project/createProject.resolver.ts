@@ -1,5 +1,4 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
-import fs from "fs";
 
 import { Context } from "../../context";
 import { Project, ProjectModel } from "../../entities/project.entity";
@@ -32,18 +31,13 @@ export class CreateProjectResolver {
         let root = new DirectoryModel({
             name: project._id,
             project,
-            location: `./storage/projects/${project._id}`,
         });
 
         // Add project root directory to the object
-        project.root = root;
-
-        // Create the root directory (assumes that ./storage/projects is already
-        // created)
-        await fs.promises.mkdir(root.location);
+        project.root = root._id;
 
         // Add the newly created project to the user
-        user.createdProjects.push(project);
+        user.createdProjects.push(project._id);
 
         // Save it all to the database
         await root.save();
