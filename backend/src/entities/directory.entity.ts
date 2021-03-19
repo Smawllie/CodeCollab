@@ -4,7 +4,7 @@ import {
     Ref,
 } from "@typegoose/typegoose";
 
-import { Field, ObjectType } from "type-graphql";
+import { Field, FieldResolver, ObjectType, Resolver, Root } from "type-graphql";
 
 import { Resource, ResourceModel } from "./resource.entity";
 
@@ -21,3 +21,15 @@ export const DirectoryModel = getDiscriminatorModelForClass(
     ResourceModel,
     Directory
 );
+
+@Resolver(() => Directory)
+export class DirectoryFieldResolver {
+    @FieldResolver()
+    async contents(@Root() directory: Directory): Promise<Resource[]> {
+        return Promise.all(
+            directory._doc.contents.map((resourceId: any) =>
+                ResourceModel.findById(resourceId).exec()
+            )
+        );
+    }
+}

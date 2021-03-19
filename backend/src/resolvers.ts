@@ -17,7 +17,7 @@ import { UserFieldResolver } from "./entities/user.entity";
 import { ResourceFieldResolver } from "./entities/resource.entity";
 
 // Directory resolvers
-import { DirectoryResolver } from "./modules/directory/directory.resolver";
+import { DirectoryFieldResolver } from "./entities/directory.entity";
 import { AddDirectoryResolver } from "./modules/directory/addDirectory.resolver";
 import { GetDirectoryResolver } from "./modules/directory/getDirectory.resolver";
 
@@ -44,7 +44,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     ResourceFieldResolver,
 
     // Directory resolvers
-    DirectoryResolver,
+    DirectoryFieldResolver,
     AddDirectoryResolver,
     GetDirectoryResolver,
 
