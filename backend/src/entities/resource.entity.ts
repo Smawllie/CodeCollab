@@ -1,9 +1,16 @@
 import { getModelForClass, prop as Property, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
-import { Field, ObjectType, ID } from "type-graphql";
+import {
+    Field,
+    ObjectType,
+    ID,
+    Resolver,
+    FieldResolver,
+    Root,
+} from "type-graphql";
 
-import { Directory } from "./directory.entity";
-import { Project } from "./project.entity";
+import { Directory, DirectoryModel } from "./directory.entity";
+import { Project, ProjectModel } from "./project.entity";
 
 @ObjectType()
 export class Resource {
@@ -26,3 +33,16 @@ export class Resource {
 }
 
 export const ResourceModel = getModelForClass(Resource);
+
+@Resolver(() => Resource)
+export class ResourceFieldResolver {
+    @FieldResolver()
+    async project(@Root() resource: Resource) {
+        return ProjectModel.findById(resource._doc.project).exec();
+    }
+
+    @FieldResolver()
+    async parent(@Root() resource: Resource) {
+        return DirectoryModel.findById(resource._doc.parent).exec();
+    }
+}
