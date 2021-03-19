@@ -32,6 +32,10 @@ export class User {
     @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
 
+    @Field(() => [Project])
+    @Property({ ref: "Project", default: [] })
+    sharedProjects: Ref<Project>[];
+
     _doc: any;
 }
 
