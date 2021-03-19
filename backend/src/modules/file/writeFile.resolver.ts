@@ -25,7 +25,7 @@ export class WriteFileResolver {
         if (isDocument(file.project)) {
             let isOwner = file.project!.owner!.toString() === userId;
             let isCollaborator = file.project.collaborators.some(
-                (userId: any) => userId.toString() === userId
+                (collaboratorId: any) => collaboratorId.toString() === userId
             );
 
             if (!isOwner && !isCollaborator)
