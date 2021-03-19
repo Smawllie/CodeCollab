@@ -11,22 +11,18 @@ export class SignUpResolver {
         @Arg("user")
         { email, username, password, firstName, lastName }: SignUpInput
     ): Promise<User> {
-        return new Promise((resolve, reject) =>
-            hash(password, 10, (err, passwordHash) => {
-                if (err) reject(err);
+        let passwordHash = await hash(password, 10);
 
-                let user = new UserModel({
-                    email,
-                    username,
-                    passwordHash,
-                    firstName,
-                    lastName,
-                });
+        let user = new UserModel({
+            email,
+            username,
+            passwordHash,
+            firstName,
+            lastName,
+        });
 
-                user.save();
+        user.save();
 
-                resolve(user);
-            })
-        );
+        return user;
     }
 }
