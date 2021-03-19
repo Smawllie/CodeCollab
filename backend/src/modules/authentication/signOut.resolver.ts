@@ -8,9 +8,9 @@ export class SignOutResolver {
     @Query(() => Boolean)
     @Authorized()
     async signOut(@Ctx() context: Context): Promise<Boolean> {
-        return new Promise((res, _) =>
+        return new Promise((resolve, reject) =>
             context.req.session.destroy((err) => {
-                if (err) throw new Error(err);
+                if (err) reject(err);
 
                 context.res.setHeader(
                     "Set-Cookie",
@@ -23,7 +23,7 @@ export class SignOutResolver {
                     })
                 );
 
-                res(true);
+                resolve(true);
             })
         );
     }
