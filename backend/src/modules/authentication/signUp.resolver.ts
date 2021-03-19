@@ -21,7 +21,7 @@ export class SignUpResolver {
             lastName,
         });
 
-        await user.save();
+        user.save();
 
         return user;
     }
