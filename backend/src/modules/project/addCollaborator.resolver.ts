@@ -40,8 +40,9 @@ export class AddCollaboratorResolver {
         if (!collaborator)
             throw new Error(`User with id: ${collaboratorId} does not exist`);
 
+        collaborator.sharedProjects.push(project._id);
         project.collaborators.push(collaborator._id);
-        await project.save();
+        await Promise.all([project.save(), collaborator.save()]);
 
         return project;
     }
