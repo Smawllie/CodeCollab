@@ -5,12 +5,12 @@ import Session from "express-session";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
-// import { graphqlUploadExpress } from "graphql-upload";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
+// TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
 
@@ -33,10 +33,8 @@ const main = async () => {
         })
     );
 
-    // app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
-
     const schema = await buildSchema({ resolvers, authChecker });
-    const apolloServer = new ApolloServer({ schema, context, uploads: false });
+    const apolloServer = new ApolloServer({ schema, context });
     apolloServer.applyMiddleware({ app });
 
     createServer(app).listen(PORT, function () {
