@@ -20,13 +20,10 @@ export class AddCollaboratorResolver {
 
         let userId = context.req.session.userId;
         let isOwner = project.owner!.toString() === userId;
-        let isCollaborator = project.collaborators.some(
-            (collaborator: any) => collaborator.toString() === userId
-        );
 
-        if (!isOwner && !isCollaborator)
+        if (!isOwner)
             throw new Error(
-                "You must be a collaborator or owner of this project to add a new collaborator"
+                "You must be the owner of the project to add a new collaborator"
             );
 
         let collaboratorExists = project.collaborators.some(
