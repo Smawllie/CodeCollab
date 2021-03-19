@@ -21,7 +21,6 @@ import { AddDirectoryResolver } from "./modules/directory/addDirectory.resolver"
 import { GetDirectoryResolver } from "./modules/directory/getDirectory.resolver";
 
 // File resolvers
-// import { UploadFileResolver } from "./modules/file/uploadFile.resolver";
 import { WriteFileResolver } from "./modules/file/writeFile.resolver";
 import { AddFileResolver } from "./modules/file/addFile.resolver";
 import { GetFileResolver } from "./modules/file/getFile.resolver";
@@ -48,7 +47,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     GetDirectoryResolver,
 
     // File resolvers
-    // UploadFileResolver,
     AddFileResolver,
     WriteFileResolver,
     GetFileResolver,
