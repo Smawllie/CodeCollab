@@ -27,7 +27,7 @@ export class AddDirectoryResolver {
         if (isDocument(parent.project)) {
             let isOwner = parent.project!.owner!.toString() === userId;
             let isCollaborator = parent.project.collaborators.some(
-                (userId: any) => userId.toString() === userId
+                (collaboratorId: any) => collaboratorId.toString() === userId
             );
 
             if (!isOwner && !isCollaborator)
