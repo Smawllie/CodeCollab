@@ -6,7 +6,7 @@ import { User, UserModel } from "../../entities/user.entity";
 export class GetUserResolver {
     @Query(() => User)
     @Authorized()
-    async getUserById(@Arg("user") { id }: String) {
+    async getUserById(@Arg("user") id: String) {
         let user = await UserModel.findById(id).exec();
 
         if (!user) throw new Error(`User with id: ${id} does not exist`);
