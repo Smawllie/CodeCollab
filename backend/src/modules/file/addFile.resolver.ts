@@ -5,7 +5,7 @@ import { isDocumentArray } from "@typegoose/typegoose";
 import { File, FileModel } from "../../entities/file.entity";
 import { AddFileInput } from "./input/addFile.input";
 import { Context } from "../../context";
-import { ProjectModel } from "src/entities/project.entity";
+import { ProjectModel } from "../../entities/project.entity";
 
 @Resolver()
 export class AddFileResolver {

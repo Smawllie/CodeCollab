@@ -8,6 +8,7 @@ import { SignOutResolver } from "./modules/authentication/signOut.resolver";
 // Project resolvers
 import { CreateProjectResolver } from "./modules/project/createProject.resolver";
 import { ProjectFieldResolver } from "./entities/project.entity";
+import { GetProjectResolver } from "./modules/project/getProject.resolver";
 
 // User resolvers
 import { GetUserResolver } from "./modules/user/getUser.resolver";
@@ -28,7 +29,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Project Resolvers
     CreateProjectResolver,
     ProjectFieldResolver,
-    // GetProjectResolver,
+    GetProjectResolver,
     AddCollaboratorResolver,
 
     // User Resolvers
