@@ -13,7 +13,7 @@ export class File extends Resource {
     @Property({ required: true, default: "" })
     content: string;
 
-    _doc: any
+    _doc: any;
 }
 
 export const FileModel = getDiscriminatorModelForClass(ResourceModel, File);
