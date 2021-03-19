@@ -18,7 +18,7 @@ import { ResourceFieldResolver } from "./entities/resource.entity";
 
 // Directory resolvers
 import { DirectoryFieldResolver } from "./entities/directory.entity";
-import { AddDirectoryResolver } from "./modules/directory/addDirectory.resolver";
+// import { AddDirectoryResolver } from "./modules/directory/addDirectory.resolver";
 import { GetDirectoryResolver } from "./modules/directory/getDirectory.resolver";
 
 // File resolvers
@@ -47,7 +47,8 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
 
     // Directory resolvers
     DirectoryFieldResolver,
-    AddDirectoryResolver,
+    // Don't show add directory, keep the projects flat (not nested)
+    // AddDirectoryResolver,
     GetDirectoryResolver,
 
     // File resolvers
