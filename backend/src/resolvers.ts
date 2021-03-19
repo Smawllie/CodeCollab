@@ -8,6 +8,7 @@ import { SignOutResolver } from "./modules/authentication/signOut.resolver";
 // Project resolvers
 import { CreateProjectResolver } from "./modules/project/createProject.resolver";
 import { ProjectFieldResolver } from "./entities/project.entity";
+import { AddCollaboratorResolver } from "./modules/project/addCollaborator.resolver";
 import { GetProjectResolver } from "./modules/project/getProject.resolver";
 
 // User resolvers
@@ -18,7 +19,7 @@ import { UserFieldResolver } from "./entities/user.entity";
 import { WriteFileResolver } from "./modules/file/writeFile.resolver";
 import { AddFileResolver } from "./modules/file/addFile.resolver";
 import { GetFileResolver } from "./modules/file/getFile.resolver";
-import { AddCollaboratorResolver } from "./modules/project/addCollaborator.resolver";
+import { FileFieldResolver } from "./entities/file.entity";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
@@ -38,6 +39,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
 
     // File resolvers
     AddFileResolver,
+    FileFieldResolver,
     WriteFileResolver,
     GetFileResolver,
 ];

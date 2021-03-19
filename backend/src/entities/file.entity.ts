@@ -1,8 +1,15 @@
 import { getModelForClass, prop as Property, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
+import {
+    Field,
+    FieldResolver,
+    ID,
+    ObjectType,
+    Resolver,
+    Root,
+} from "type-graphql";
 
-import { Field, ID, ObjectType } from "type-graphql";
-import { Project } from "./project.entity";
+import { Project, ProjectModel } from "./project.entity";
 
 @ObjectType()
 export class File {
@@ -25,3 +32,11 @@ export class File {
 }
 
 export const FileModel = getModelForClass(File);
+
+@Resolver(() => File)
+export class FileFieldResolver {
+    @FieldResolver(() => Project)
+    async project(@Root() file: File) {
+        return ProjectModel.findById(file._doc.project).exec();
+    }
+}
