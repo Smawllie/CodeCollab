@@ -25,6 +25,7 @@ import { GetDirectoryResolver } from "./modules/directory/getDirectory.resolver"
 import { WriteFileResolver } from "./modules/file/writeFile.resolver";
 import { AddFileResolver } from "./modules/file/addFile.resolver";
 import { GetFileResolver } from "./modules/file/getFile.resolver";
+import { AddCollaboratorResolver } from "./modules/project/addCollaborator.resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
@@ -35,6 +36,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Project Resolvers
     CreateProjectResolver,
     ProjectFieldResolver,
+    AddCollaboratorResolver,
 
     // User Resolvers
     GetUserResolver,
