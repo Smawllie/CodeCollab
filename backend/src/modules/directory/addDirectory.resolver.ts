@@ -22,8 +22,8 @@ export class AddDirectoryResolver {
         });
 
         parent.contents.push(directory._id);
-        await parent.save();
-        await directory.save();
+
+        await Promise.all([parent.save(), directory.save()]);
 
         return directory;
     }
