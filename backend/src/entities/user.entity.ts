@@ -1,8 +1,15 @@
 import { getModelForClass, prop as Property, Ref } from "@typegoose/typegoose";
 import { Types } from "mongoose";
-import { Field, ObjectType, ID } from "type-graphql";
+import {
+    Field,
+    ObjectType,
+    ID,
+    Resolver,
+    FieldResolver,
+    Root,
+} from "type-graphql";
 
-import { Project } from "./project.entity";
+import { Project, ProjectModel } from "./project.entity";
 
 @ObjectType()
 export class User {
@@ -40,3 +47,24 @@ export class User {
 }
 
 export const UserModel = getModelForClass(User);
+
+@Resolver(() => User)
+export class UserFieldResolver {
+    @FieldResolver()
+    async createdProjects(@Root() user: User) {
+        return Promise.all(
+            user._doc.createdProjects.map((projectId: any) =>
+                ProjectModel.findById(projectId).exec()
+            )
+        );
+    }
+
+    @FieldResolver()
+    async sharedProjects(@Root() user: User) {
+        return Promise.all(
+            user._doc.sharedProjects.map((projectId: any) =>
+                ProjectModel.findById(projectId).exec()
+            )
+        );
+    }
+}
