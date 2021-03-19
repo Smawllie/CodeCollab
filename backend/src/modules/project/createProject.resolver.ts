@@ -5,7 +5,6 @@ import { Context } from "../../context";
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { CreateProjectInput } from "./input/createProject.input";
 import { UserModel } from "../../entities/user.entity";
-import { DirectoryModel } from "../../entities/directory.entity";
 
 @Resolver()
 export class CreateProjectResolver {
@@ -36,25 +35,17 @@ export class CreateProjectResolver {
                 );
         }
 
-        // Create new project and its root directory
+        // Create new project
         let project = new ProjectModel({
             name,
             owner: user,
         });
 
-        let root = new DirectoryModel({
-            name: project._id,
-            project,
-        });
-
-        // Add project root directory to the object
-        project.root = root._id;
-
         // Add the newly created project to the user
         user.createdProjects.push(project._id);
 
         // Save it all to the database
-        await Promise.all([root.save(), project.save(), user.save()]);
+        await Promise.all([project.save(), user.save()]);
 
         return project;
     }

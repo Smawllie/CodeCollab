@@ -6,7 +6,7 @@ export class AddFileInput {
     name: string;
 
     @Field()
-    parentId: string;
+    projectId: string;
 
     @Field()
     content: string;

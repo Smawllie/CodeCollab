@@ -9,7 +9,7 @@ import {
     Root,
 } from "type-graphql";
 
-import { Directory, DirectoryModel } from "./directory.entity";
+import { File, FileModel } from "./file.entity";
 import { User, UserModel } from "./user.entity";
 
 @ObjectType()
@@ -25,9 +25,9 @@ export class Project {
     @Property({ ref: "User", required: true })
     owner: Ref<User>;
 
-    @Field(() => Directory)
-    @Property({ ref: "Directory", required: true })
-    root: Ref<Directory>;
+    @Field(() => [File])
+    @Property({ ref: "File", required: true })
+    files: Ref<File>[];
 
     @Field(() => [User])
     @Property({ ref: "User", required: true, default: [] })
@@ -45,9 +45,13 @@ export class ProjectFieldResolver {
         return UserModel.findById(project._doc.owner).exec();
     }
 
-    @FieldResolver(() => Directory)
-    async root(@Root() project: Project) {
-        return DirectoryModel.findById(project._doc.root).exec();
+    @FieldResolver(() => [File])
+    async files(@Root() project: Project) {
+        return Promise.all(
+            project._doc.files.map((fileId: any) =>
+                FileModel.findById(fileId).exec()
+            )
+        );
     }
 
     @FieldResolver(() => [User])

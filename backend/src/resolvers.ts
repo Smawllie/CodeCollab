@@ -13,14 +13,6 @@ import { ProjectFieldResolver } from "./entities/project.entity";
 import { GetUserResolver } from "./modules/user/getUser.resolver";
 import { UserFieldResolver } from "./entities/user.entity";
 
-// Resource resolvers
-import { ResourceFieldResolver } from "./entities/resource.entity";
-
-// Directory resolvers
-import { DirectoryFieldResolver } from "./entities/directory.entity";
-// import { AddDirectoryResolver } from "./modules/directory/addDirectory.resolver";
-import { GetDirectoryResolver } from "./modules/directory/getDirectory.resolver";
-
 // File resolvers
 import { WriteFileResolver } from "./modules/file/writeFile.resolver";
 import { AddFileResolver } from "./modules/file/addFile.resolver";
@@ -36,20 +28,12 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Project Resolvers
     CreateProjectResolver,
     ProjectFieldResolver,
+    // GetProjectResolver,
     AddCollaboratorResolver,
 
     // User Resolvers
     GetUserResolver,
     UserFieldResolver,
-
-    // Resource resolvers
-    ResourceFieldResolver,
-
-    // Directory resolvers
-    DirectoryFieldResolver,
-    // Don't show add directory, keep the projects flat (not nested)
-    // AddDirectoryResolver,
-    GetDirectoryResolver,
 
     // File resolvers
     AddFileResolver,
