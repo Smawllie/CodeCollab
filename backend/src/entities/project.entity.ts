@@ -42,11 +42,20 @@ export const ProjectModel = getModelForClass(Project);
 export class ProjectFieldResolver {
     @FieldResolver(() => User)
     async owner(@Root() project: Project) {
-        return UserModel.findById(project._doc.owner);
+        return UserModel.findById(project._doc.owner).exec();
     }
 
     @FieldResolver(() => Directory)
     async root(@Root() project: Project) {
-        return DirectoryModel.findById(project._doc.root);
+        return DirectoryModel.findById(project._doc.root).exec();
+    }
+
+    @FieldResolver(() => [User])
+    async collaborators(@Root() project: Project) {
+        return Promise.all(
+            project._doc.collaborators.map((userId: any) =>
+                UserModel.findById(userId).exec()
+            )
+        );
     }
 }
