@@ -9,20 +9,20 @@ export class AddFileResolver {
     @Mutation(() => File)
     @Authorized()
     async addFile(@Arg("file") { name, parentId, content }: AddFileInput) {
-        let directory = await DirectoryModel.findById(parentId);
+        let parent = await DirectoryModel.findById(parentId);
 
-        if (!directory)
+        if (!parent)
             throw new Error(`Directory with id: ${parentId} does not exist`);
 
         let file = new FileModel({
             name,
-            project: directory.project,
-            parent: directory._id,
+            project: parent.project,
+            parent: parent._id,
             content,
         });
 
-        directory.contents.push(file._id);
-        await directory.save();
+        parent.contents.push(file._id);
+        await parent.save();
         await file.save();
 
         return file;
