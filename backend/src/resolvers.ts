@@ -20,6 +20,7 @@ import { WriteFileResolver } from "./modules/file/writeFile.resolver";
 import { AddFileResolver } from "./modules/file/addFile.resolver";
 import { GetFileResolver } from "./modules/file/getFile.resolver";
 import { FileFieldResolver } from "./entities/file.entity";
+import { DeleteFileResolver } from "./modules/file/deleteFile.resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     // Authentication Resolvers
@@ -32,14 +33,17 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     ProjectFieldResolver,
     GetProjectResolver,
     AddCollaboratorResolver,
+    // DeleteProjectResolver,
 
     // User Resolvers
     GetUserResolver,
     UserFieldResolver,
+    // DeleteUserResolver,
 
     // File resolvers
     AddFileResolver,
     FileFieldResolver,
     WriteFileResolver,
     GetFileResolver,
+    DeleteFileResolver,
 ];
