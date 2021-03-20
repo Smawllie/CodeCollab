@@ -1,3 +1,4 @@
+
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
 import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
@@ -32,6 +33,7 @@ const App: React.FunctionComponent<{}> = () => {
         </ApolloProvider>
 
     </>);
+
 };
 
 export default App;
