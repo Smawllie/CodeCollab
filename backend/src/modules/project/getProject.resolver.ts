@@ -6,7 +6,7 @@ import { Project, ProjectModel } from "../../entities/project.entity";
 export class GetProjectResolver {
     @Query(() => Project)
     async getProjectById(@Arg("id") id: String) {
-        let project = ProjectModel.findById(id);
+        let project = await ProjectModel.findById(id).exec();
 
         if (!project) throw new Error(`Project with id: ${id} does not exist`);
 
