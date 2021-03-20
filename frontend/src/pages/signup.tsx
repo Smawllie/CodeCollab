@@ -1,18 +1,19 @@
 import React, { FormEvent } from 'react';
 import { RouteComponentProps, withRouter, Link } from 'react-router-dom';
-import {  useMutation } from '@apollo/client';
-import {loader} from 'graphql.macro';
 import User from '../@types/user';
+import {useMutation} from '@apollo/client';
+import AuthOperations from '../graphql/operations/authOperations';
 import Error from '../components/Error';
+
 
 const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
 	const [userInfo,setUserInfo ] = React.useState<User>({
 		email:'',
 		password:''
-	})
+	});
 
-	const SignUpMutation = loader('../graphql/operations/signUp.gql');
-	const [ signUpUser, { data, error } ] = useMutation(SignUpMutation);
+
+	const [signUpUser,{data,error}] = useMutation(AuthOperations.SignUp);
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -23,7 +24,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 	return (
 		<div className="bg-blue-100 h-screen w-screen">
 			{data ? <div>Logged In</div>:<></>}
-			{error ? <Error message={error.message} /> :<></>}
+			{error ? <Error message={error.message} />:null}
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
 					<Link to="/" className="bg-blue-700 text-white font-bold text-xl p-4">

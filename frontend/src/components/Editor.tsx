@@ -7,19 +7,20 @@ import 'codemirror/mode/css/css';
 import {Controlled as ControlledEditor} from 'react-codemirror2';
 
 
+
 interface EditorProps{
     displayName:String;
     language:String;
-    value:string;
+    code:any;
     onChange:any
 }
 
-function Editor({displayName,language,value,onChange}:EditorProps) {
+function Editor({displayName,language,code,onChange}:EditorProps) {
     
 
     function handleChange(editor:any,data:String,value:string){
-        onChange(value);
-    }
+            onChange({...code,language:value});
+    };
     return (
         <div className="bg-gray-400" >
             <div className="bg-gray-700 flex justify-between p-2 text-white">
@@ -28,7 +29,7 @@ function Editor({displayName,language,value,onChange}:EditorProps) {
             </div>
           <ControlledEditor
             onBeforeChange={handleChange}
-            value={value}
+            value={code.language}
             className=""
             options={{
                 lint:true,
