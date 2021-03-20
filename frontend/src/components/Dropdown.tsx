@@ -1,9 +1,10 @@
 import React from 'react';
+import DropBoxOptions from '../@types/dropBoxOptions';
 
 interface DropdownProps<T> {
 	title: string;
 	setSelected: any;
-	list: T[];
+	list: DropBoxOptions[];
 };
 
 
@@ -18,9 +19,9 @@ function Dropdown<T>({ title, list, setSelected }: DropdownProps<T>) {
 			</div>
 			{open && (
 				<div id="dd-list" className="border-black p-3">
-                       {list.map((item:T)=>{ return( <div className="">
+                       {list.map((item:DropBoxOptions)=>{ return( <div className="">
                                 <button className="border-gray-400" onClick={()=>{setSelected(item)}}>
-                                   <span className="text-red-400">Hello World</span>
+                                   <span className="text-red-400">{item.option}</span>
                                </button>
                            </div>);
                        })}

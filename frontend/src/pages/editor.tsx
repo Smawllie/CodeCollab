@@ -7,21 +7,21 @@ import Language from '../@types/language';
 function EditorPage(props: any) {
 	const languages:Language[] = [
 		{
-			displayName: "HTML",
+			option: "HTML",
 			language: "xml",
 			selected: false,
 			key: 'langauge',
 			
 		},
 		{
-			displayName: "JS",
+			option: "JS",
 			language: "javascript",
 			selected: false,
 			key: 'langauge',
 		
 		},
 		{
-			displayName: "CSS",
+			option: "CSS",
 			language: "css",
 			selected: false,
 			key: 'langauge',
@@ -36,7 +36,7 @@ function EditorPage(props: any) {
 			<Navbar />
 			<Dropdown<Language> title="Select Langauge" list={languages} setSelected={setSelected} />
 			<div className="h-screen m-0 flex-col">
-				<Editor language={selected.language} displayName={selected.displayName} onChange={setCode} code={code} />
+				<Editor language={selected.language} displayName={selected.option} onChange={setCode} code={code} />
 			</div>
 		</div>
 	);

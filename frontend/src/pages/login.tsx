@@ -12,7 +12,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 
 	const submitForm = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		loginUser({ variables: userInfo })
+		loginUser({ variables: userInfo });
 	};
 
 	return (
