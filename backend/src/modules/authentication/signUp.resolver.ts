@@ -11,9 +11,18 @@ export class SignUpResolver {
         @Arg("user")
         { email, username, password, firstName, lastName }: SignUpInput
     ): Promise<User> {
+        let user = await UserModel.findOne({ email }).exec();
+
+        if (user) throw new Error(`User with email: ${email} exists already`);
+
+        user = await UserModel.findOne({ username }).exec();
+
+        if (user)
+            throw new Error(`User with username: ${username} exists already`);
+
         let passwordHash = await hash(password, 10);
 
-        let user = new UserModel({
+        user = new UserModel({
             email,
             username,
             passwordHash,
