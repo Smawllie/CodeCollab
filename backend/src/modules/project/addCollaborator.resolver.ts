@@ -28,11 +28,11 @@ export class AddCollaboratorResolver {
 
         let collaboratorExists = project.collaborators.some(
             (userId: any) => userId.toString() === collaboratorId
-        );
+        ) || project!.owner!.toString() === collaboratorId;
 
         if (collaboratorExists)
             throw new Error(
-                `The user with id: ${collaboratorId} already is a collaborator`
+                `The user with id: ${collaboratorId} already is a collaborator or is the owner`
             );
 
         let collaborator = await UserModel.findById(collaboratorId).exec();
