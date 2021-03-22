@@ -5,46 +5,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Paper from "@material-ui/core/Paper";
 import Snackbar from "@material-ui/core/Snackbar";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import "./App.css";
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import DragnDrop from "./DragnDrop";
+
 import { createWorker } from "tesseract.js";
-
-// put in own file
-function MyDropzone({ dropHTML, setDropHTML, setFile, ...props }) {
-    const onDrop = useCallback((acceptedFiles) => {
-        let item;
-        for (let file of acceptedFiles) {
-            if (file.type.split("/")[0] === "image") {
-                item = file;
-                break;
-            }
-        }
-        const blob = URL.createObjectURL(item);
-        setFile(blob);
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            // setDropHTML(<img src={event.target.result}></img>);
-            setDropHTML(
-                <img src={event.target.result} className="max-w-full h-auto" />
-            );
-        };
-        reader.readAsDataURL(item);
-        // if(item)
-        // setDropHTML(<img src=/>)
-    }, []);
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-    return (
-        <div {...props} {...getRootProps()}>
-            <input {...getInputProps()} />
-            {dropHTML}
-        </div>
-    );
-}
 
 // put types above component, only for func parameters
 // create another folder to put in components
@@ -183,12 +148,12 @@ export default function OCR() {
                 <div className={dotClass}></div>
                 <DialogTitle id="dialog-title">Image-to-Text OCR</DialogTitle>
                 <DialogContent>
-                    <MyDropzone
+                    <DragnDrop
                         className="border-dashed border-3 border-gray-400 p-1 mb-5 text-center whitespace-pre-wrap"
                         dropHTML={dropHTML}
                         setDropHTML={setDropHTML}
                         setFile={setFile}
-                    ></MyDropzone>
+                    ></DragnDrop>
                     <DialogContentText
                         className="flex flex-row-reverse whitespace-pre-wrap border-dashed border-3 border-gray-400 p-1"
                         onClick={handleCopy}
