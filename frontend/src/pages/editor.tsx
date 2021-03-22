@@ -2,7 +2,7 @@ import React from "react";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
-import OCR from "../components/OCR";
+import ButtonOCR from "../components/OCR/ButtonOCR";
 import Language from "../@types/language";
 
 function EditorPage(props: any) {
@@ -36,7 +36,7 @@ function EditorPage(props: any) {
     return (
         <div>
             <Navbar />
-            <OCR />
+            <ButtonOCR />
             <Dropdown<Language>
                 title="Select Langauge"
                 list={languages}
