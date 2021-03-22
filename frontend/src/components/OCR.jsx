@@ -26,7 +26,7 @@ function MyDropzone({ dropHTML, setDropHTML, setFile, ...props }) {
         reader.onload = function (event) {
             // setDropHTML(<img src={event.target.result}></img>);
             setDropHTML(
-                <img src={event.target.result} className="dragImage" />
+                <img src={event.target.result} className="max-w-full h-auto" />
             );
         };
         reader.readAsDataURL(item);
@@ -77,10 +77,11 @@ export default function OCR() {
 
     // Dialog
     const [open, setOpen] = React.useState(false);
+    const bold = "font-bold inline";
     const [dropHTML, setDropHTML] = React.useState(
         <p>
-            <span className="bold"> Upload</span> image {"\n"}OR{"\n"}
-            <span className="bold"> Paste</span> image
+            <span className={bold}> Upload</span> image {"\n"}OR{"\n"}
+            <span className={bold}> Paste</span> image
         </p>
     );
     const [dotClass, setDotClass] = React.useState("dot-empty");
@@ -119,21 +120,25 @@ export default function OCR() {
         }
     };
 
+    const dotBase =
+        "absolute left-auto right-0 top-0 bottom-auto m-1 h-1 w-1 rounded";
+    const dotRed = dotBase.concat(" ", "bg-red-700");
+    const dotGreen = dotBase.concat(" ", "bg-green-900");
+    const dotEmpty = dotBase.concat(" ", "bg-transparent");
     const handleOCRInProgress = () => {
-        setDotClass("dot-red");
+        setDotClass(dotRed);
     };
 
     const handleOCRDone = () => {
-        setDotClass("dot-green");
+        setDotClass(dotGreen);
     };
 
     const handleEnter = () => {
-        if (dotClass === "dot-green") setDotClass("dot-empty");
+        if (dotClass === dotGreen) setDotClass(dotEmpty);
     };
 
     return (
-        <div className="outside">
-            <textarea></textarea>
+        <div className="flex justify-center items-center">
             <Button
                 variant="outlined"
                 color="primary"
@@ -153,7 +158,7 @@ export default function OCR() {
                 <DialogTitle id="dialog-title">Image-to-Text OCR</DialogTitle>
                 <DialogContent>
                     <MyDropzone
-                        className="dropzone"
+                        className="border-dashed border-3 border-gray-400 p-1 text-center whitespace-pre-wrap"
                         dropHTML={dropHTML}
                         setDropHTML={setDropHTML}
                         setFile={setFile}
