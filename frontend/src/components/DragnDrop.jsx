@@ -19,14 +19,11 @@ export default function DragnDrop({
         setFile(blob);
         var reader = new FileReader();
         reader.onload = function (event) {
-            // setDropHTML(<img src={event.target.result}></img>);
             setDropHTML(
                 <img src={event.target.result} className="max-w-full h-auto" />
             );
         };
         reader.readAsDataURL(item);
-        // if(item)
-        // setDropHTML(<img src=/>)
     }, []);
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
 

@@ -10,6 +10,8 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import DragnDrop from "../DragnDrop";
 import CopyPopup from "../CopyPopup";
 
+const bold = "font-bold inline";
+
 export default function DialogOCR({
     dot,
     dotClass,
@@ -19,7 +21,8 @@ export default function DialogOCR({
     ocr,
     setFile,
 }) {
-    const bold = "font-bold inline";
+    // Boolean open/close copy popup
+    const [openCopyPopup, setOpenCopyPopup] = React.useState(false);
 
     // Text/image in dragndrop
     const [dropHTML, setDropHTML] = React.useState(
@@ -29,11 +32,13 @@ export default function DialogOCR({
         </p>
     );
 
+    // Called when dialog is closed
     const handleClose = () => {
         setOpenDialog(false);
         setOpenCopyPopup(false);
     };
 
+    // Called when paste fires in dialog
     const handlePaste = (e) => {
         let items = e.clipboardData.items;
         let item;
@@ -56,18 +61,18 @@ export default function DialogOCR({
         }
     };
 
+    // Called when dialog is entered
     const handleEnter = (target) => {
         if (dotClass === dot.green) setDotClass(dot.empty);
     };
 
-    // snackbar
-    const [openCopyPopup, setOpenCopyPopup] = React.useState(false);
-
+    // Called when copy fires in dialog text box
     const handleCopy = (e) => {
         navigator.clipboard.writeText(ocr);
         setOpenCopyPopup(true);
     };
 
+    // Called when copy popup is closed
     const handleCloseCopyPopup = (event, reason) => {
         if (reason === "clickaway") {
             return;
