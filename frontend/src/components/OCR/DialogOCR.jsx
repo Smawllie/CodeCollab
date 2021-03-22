@@ -6,9 +6,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Snackbar from "@material-ui/core/Snackbar";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import DragnDrop from "../DragnDrop";
+import CopyPopup from "../CopyPopup";
 
 export default function DialogOCR({
     dot,
@@ -31,7 +31,7 @@ export default function DialogOCR({
 
     const handleClose = () => {
         setOpenDialog(false);
-        setOpenCopy(false);
+        setOpenCopyPopup(false);
     };
 
     const handlePaste = (e) => {
@@ -61,19 +61,19 @@ export default function DialogOCR({
     };
 
     // snackbar
-    const [openCopy, setOpenCopy] = React.useState(false);
+    const [openCopyPopup, setOpenCopyPopup] = React.useState(false);
 
     const handleCopy = (e) => {
         navigator.clipboard.writeText(ocr);
-        setOpenCopy(true);
+        setOpenCopyPopup(true);
     };
 
-    const handleCloseCopy = (event, reason) => {
+    const handleCloseCopyPopup = (event, reason) => {
         if (reason === "clickaway") {
             return;
         }
 
-        setOpenCopy(false);
+        setOpenCopyPopup(false);
     };
 
     return (
@@ -82,39 +82,30 @@ export default function DialogOCR({
             onEnter={handleEnter}
             onClose={handleClose}
             onPaste={handlePaste}
+            autoFocus
         >
             <div className={dotClass}></div>
             <DialogTitle id="dialog-title">Image-to-Text OCR</DialogTitle>
             <DialogContent>
                 <DragnDrop
-                    className="border-dashed border-3 border-gray-400 p-1 mb-5 text-center whitespace-pre-wrap"
+                    className="border-dashed border-2 border-blue-700 border-opacity-50 rounded p-1 mb-5 text-center whitespace-pre-wrap"
                     dropHTML={dropHTML}
                     setDropHTML={setDropHTML}
                     setFile={setFile}
                 ></DragnDrop>
                 <DialogContentText
-                    className="flex flex-row-reverse whitespace-pre-wrap border-dashed border-3 border-gray-400 p-1"
+                    className="flex flex-row-reverse whitespace-pre-wrap border-dashed border-2 border-blue-700 border-opacity-50 rounded p-1"
                     onClick={handleCopy}
                 >
-                    <FileCopyIcon className="" />
+                    <FileCopyIcon className="ml-1" />
                     <span className="flex-grow">{ocr}</span>
                 </DialogContentText>
             </DialogContent>
-            <Snackbar
-                className="text-center"
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                open={openCopy}
-                autoHideDuration={1500}
-                onClose={handleCloseCopy}
-                message="Copied!"
+            <CopyPopup
+                openCopyPopup={openCopyPopup}
+                handleCloseCopyPopup={handleCloseCopyPopup}
             />
             <DialogActions>
-                <Button autoFocus onClick={handleClose} color="primary">
-                    Cancel
-                </Button>
                 <Button onClick={handleClose} color="primary">
                     Done
                 </Button>
