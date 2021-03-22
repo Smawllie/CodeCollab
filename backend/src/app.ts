@@ -9,7 +9,9 @@ import cors from "cors";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";
+import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
+// TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
 
@@ -32,9 +34,7 @@ const main = async () => {
         })
     );
 
-    app.use(cors());
-
-    const schema = await buildSchema({ resolvers });
+    const schema = await buildSchema({ resolvers, authChecker });
     const apolloServer = new ApolloServer({ schema, context });
     apolloServer.applyMiddleware({ app });
 
