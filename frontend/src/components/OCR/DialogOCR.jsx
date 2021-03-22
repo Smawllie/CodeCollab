@@ -27,7 +27,8 @@ export default function DialogOCR({
     // Text/image in dragndrop
     const [dropHTML, setDropHTML] = React.useState(
         <p>
-            <span className={bold}> Upload</span> image of code{"\n"}OR{"\n"}
+            <span className={bold}> Upload</span> image of code{"\n"}OR
+            {"\n"}
             <span className={bold}> Paste</span> image of code
         </p>
     );

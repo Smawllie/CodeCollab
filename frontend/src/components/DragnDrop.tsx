@@ -1,12 +1,19 @@
+import React from "react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+
+interface DragnDropProps {
+    dropHTML: React.ReactNode;
+    setDropHTML: (state: React.ReactNode) => void;
+    setFile: any;
+}
 
 export default function DragnDrop({
     dropHTML,
     setDropHTML,
     setFile,
     ...props
-}) {
+}: DragnDropProps) {
     const onDrop = useCallback((acceptedFiles) => {
         let item;
         for (let file of acceptedFiles) {
@@ -19,9 +26,8 @@ export default function DragnDrop({
         setFile(blob);
         var reader = new FileReader();
         reader.onload = function (event) {
-            setDropHTML(
-                <img src={event.target.result} className="max-w-full h-auto" />
-            );
+            const imgSrc: string = event.target!.result as string;
+            setDropHTML(<img src={imgSrc} className="max-w-full h-auto" />);
         };
         reader.readAsDataURL(item);
     }, []);
