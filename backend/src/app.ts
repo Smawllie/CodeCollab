@@ -5,6 +5,7 @@ import Session from "express-session";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
+import cors from "cors";
 
 import { context } from "./context";
 import { resolvers } from "./resolvers";

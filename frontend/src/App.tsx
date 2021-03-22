@@ -1,12 +1,14 @@
+
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
 import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import routes from './config/route';
 import client from './apolloClient';
+import Page404 from './pages/404';
 
 
-const App: React.FunctionComponent<{}> = (props) => {
-	return (<div>
+const App: React.FunctionComponent<{}> = () => {
+	return (<>
         <ApolloProvider client={client}>
         <BrowserRouter>
             <Switch>
@@ -25,11 +27,13 @@ const App: React.FunctionComponent<{}> = (props) => {
                     />
                   );
                 })}
+                <Route component={Page404}/>
             </Switch>
         </BrowserRouter>
         </ApolloProvider>
 
-    </div>);
+    </>);
+
 };
 
 export default App;
