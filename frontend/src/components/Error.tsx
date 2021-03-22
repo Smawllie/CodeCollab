@@ -1,13 +1,27 @@
-import React from 'react';
-import Error from '../@types/error';
-const ErrorBox = ({ message }: Error) => {
+import React from "react";
+
+interface ErrorProps {
+    message:string;
+}
+
+function Error({ message }:ErrorProps) {
+    const [visible,setstate] = React.useState<React.CSSProperties>({
+        visibility:'visible'
+    });
 	return (
-		<div className="fixed z-1 left-0 top-0 w-full h-2/5 overflow-auto bg-red-200 position">
-			<div className="bg-white my-15/100 mx-auto p-5 border-red-700 w-4/5">
-			<span className="text-black float-right text-lg text-bold cursor-pointer">&times;</span>
-			<p>{message}</p>
+		<div className="flex justify-between items-center bg-red-200 relative text-red-600 py-3 px-3 rounded-lg" style={visible} >
+			<div>
+				<span className="font-semibold text-red-700">{message}</span>
+			</div>
+			<div>
+				<button type="button" className=" text-red-700" onClick={()=>{setstate({
+                    visibility:'hidden'
+                })}}>
+					<span className="text-2xl">&times;</span>
+				</button>
 			</div>
 		</div>
 	);
-};
-export default ErrorBox;
+}
+
+export default Error;

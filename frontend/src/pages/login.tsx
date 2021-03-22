@@ -1,33 +1,24 @@
 import React,{FormEvent} from 'react';
 import { RouteComponentProps, withRouter, Link } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
+import User from '../@types/user';
+import {useMutation} from '@apollo/client';
+import AuthOperations from '../graphql/operations/authOperations';
+import ErrorBox from '../components/Error';
+
 
 const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
-	const [ password, setPassword ] = React.useState('');
-	const [ email, setEmail ] = React.useState('');
-
-	const loginUserMutation = gql`
-		mutation Login($email: String!, $password: String!) {
-			signIn(user: { email: $email, password: $password }) {
-				_id
-				email
-				username
-				firstName
-				lastName
-			}
-		}
-	`;
-	const [ loginUser ] = useMutation(loginUserMutation);
+	const [userInfo,setUserInfo] = React.useState<User>({email:'',password:''});
+	const [loginUser,{data,error}] = useMutation(AuthOperations.SignIn);
 
 	const submitForm = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		loginUser({ variables: { email, password } })
-		setEmail('');
-		setPassword('');
+		loginUser({ variables: userInfo });
 	};
 
 	return (
 		<div className="bg-blue-100 h-screen">
+			{data ? <div>Logged In</div>:<></>}
+			{error ? <ErrorBox message={error.message}/>:null}
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
 					<Link to="/" className="bg-blue-700 text-white font-bold text-xl p-4">
@@ -46,7 +37,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 								<label className="text-lg text-light text-gray-500"> Email </label>
 								<input
 									name="email"
-									onChange={(e)=>{setEmail(e.target.value)}}
+									onChange={(e)=>{setUserInfo({...userInfo,email:e.target.value})}}
 									type="email"
 									className="shadow-sm appearance-none rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-4 focus:outline-none focus:ring-blue-600 focus:ring-opacity-50"
 								/>
@@ -55,7 +46,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 								<label className="text-lg text-light text-gray-500">Password</label>
 								<input
 									name="password"
-									onChange={(e)=>{setPassword(e.target.value)}}
+									onChange={(e)=>{setUserInfo({...userInfo,password:e.target.value})}}
 									type="password"
 									className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-4 focus:outline-none focus:ring-blue-600 focus:ring-opacity-50"
 								/>

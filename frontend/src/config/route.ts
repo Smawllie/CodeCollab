@@ -2,6 +2,7 @@ import Routes from "../@types/route";
 import Home from "../pages/home";
 import Login from '../pages/login';
 import SignUp from '../pages/signup';
+import EditorPage from '../pages/editor';
 
 const routes  : Routes[] = [
     {
@@ -21,6 +22,12 @@ const routes  : Routes[] = [
         exact:true,
         name:'Home Page',
         component:Home
+    },
+    {
+        path:'/editor',
+        exact:true,
+        name:'editor',
+        component:EditorPage
     }
 ];
 
