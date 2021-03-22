@@ -13,6 +13,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { createWorker } from "tesseract.js";
 
+// put in own file
 function MyDropzone({ dropHTML, setDropHTML, setFile, ...props }) {
     const onDrop = useCallback((acceptedFiles) => {
         let item;
@@ -45,10 +46,8 @@ function MyDropzone({ dropHTML, setDropHTML, setFile, ...props }) {
     );
 }
 
-function PaperComponent(props) {
-    return <Paper {...props} />;
-}
-
+// put types above component, only for func parameters
+// create another folder to put in components
 export default function OCR() {
     // OCR
     const worker = createWorker({
@@ -64,6 +63,7 @@ export default function OCR() {
         const {
             data: { text },
         } = await worker.recognize(file);
+        // pass done and progress handlers in. encapsulate
         handleOCRDone();
         setOcr(text);
     };
@@ -140,7 +140,15 @@ export default function OCR() {
         if (dotClass === dotGreen) setDotClass(dotEmpty);
     };
 
-    // Snackbar
+    // Snackbar or alert
+    // put snackbar in app level and create a hook for useSnackbar, that returns func that takes in a string
+    // child to parent: use handler
+    // sibling to sibling: goes through parent
+    // parent to child: use anything
+
+    // react context: how to pass state through entire tree. can pass state here and all children would have it
+    // use it for the app state, redux. may be helpful for current logged in user. the react-way is to use it context.
+    // app state is the state at application level
     const [openCopy, setOpenCopy] = React.useState(false);
 
     const handleCopy = (e) => {
@@ -170,7 +178,6 @@ export default function OCR() {
                 open={open}
                 onEnter={handleEnter}
                 onClose={handleClose}
-                PaperComponent={PaperComponent}
                 onPaste={handlePaste}
             >
                 <div className={dotClass}></div>
@@ -183,11 +190,11 @@ export default function OCR() {
                         setFile={setFile}
                     ></MyDropzone>
                     <DialogContentText
-                        className="whitespace-pre-wrap border-dashed border-3 border-gray-400 p-1"
+                        className="flex flex-row-reverse whitespace-pre-wrap border-dashed border-3 border-gray-400 p-1"
                         onClick={handleCopy}
                     >
-                        <FileCopyIcon className="absolute right-7" />
-                        {ocr}
+                        <FileCopyIcon className="" />
+                        <span className="flex-grow">{ocr}</span>
                     </DialogContentText>
                 </DialogContent>
                 <Snackbar
