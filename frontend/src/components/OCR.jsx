@@ -6,6 +6,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Paper from "@material-ui/core/Paper";
+import Snackbar from "@material-ui/core/Snackbar";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 import "./App.css";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
@@ -66,7 +68,7 @@ export default function OCR() {
         setOcr(text);
     };
 
-    const [ocr, setOcr] = React.useState("");
+    const [ocr, setOcr] = React.useState("Code will appear here");
     const [file, setFile] = React.useState("");
 
     React.useEffect(() => {
@@ -80,8 +82,8 @@ export default function OCR() {
     const bold = "font-bold inline";
     const [dropHTML, setDropHTML] = React.useState(
         <p>
-            <span className={bold}> Upload</span> image {"\n"}OR{"\n"}
-            <span className={bold}> Paste</span> image
+            <span className={bold}> Upload</span> image of code{"\n"}OR{"\n"}
+            <span className={bold}> Paste</span> image of code
         </p>
     );
     const [dotClass, setDotClass] = React.useState("dot-empty");
@@ -93,6 +95,7 @@ export default function OCR() {
 
     const handleClose = () => {
         setOpen(false);
+        setOpenCopy(false);
     };
 
     const handlePaste = (e) => {
@@ -133,8 +136,24 @@ export default function OCR() {
         setDotClass(dotGreen);
     };
 
-    const handleEnter = () => {
+    const handleEnter = (target) => {
         if (dotClass === dotGreen) setDotClass(dotEmpty);
+    };
+
+    // Snackbar
+    const [openCopy, setOpenCopy] = React.useState(false);
+
+    const handleCopy = (e) => {
+        navigator.clipboard.writeText(ocr);
+        setOpenCopy(true);
+    };
+
+    const handleCloseCopy = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpenCopy(false);
     };
 
     return (
@@ -158,14 +177,30 @@ export default function OCR() {
                 <DialogTitle id="dialog-title">Image-to-Text OCR</DialogTitle>
                 <DialogContent>
                     <MyDropzone
-                        className="border-dashed border-3 border-gray-400 p-1 text-center whitespace-pre-wrap"
+                        className="border-dashed border-3 border-gray-400 p-1 mb-5 text-center whitespace-pre-wrap"
                         dropHTML={dropHTML}
                         setDropHTML={setDropHTML}
                         setFile={setFile}
                     ></MyDropzone>
-
-                    <DialogContentText>{ocr}</DialogContentText>
+                    <DialogContentText
+                        className="whitespace-pre-wrap border-dashed border-3 border-gray-400 p-1"
+                        onClick={handleCopy}
+                    >
+                        <FileCopyIcon className="absolute right-7" />
+                        {ocr}
+                    </DialogContentText>
                 </DialogContent>
+                <Snackbar
+                    className="text-center"
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                    }}
+                    open={openCopy}
+                    autoHideDuration={1500}
+                    onClose={handleCloseCopy}
+                    message="Copied!"
+                />
                 <DialogActions>
                     <Button autoFocus onClick={handleClose} color="primary">
                         Cancel
@@ -173,8 +208,6 @@ export default function OCR() {
                     <Button onClick={handleClose} color="primary">
                         Done
                     </Button>
-                    <Button onClick={handleOCRInProgress}>Orange</Button>
-                    <Button onClick={handleOCRDone}>Green</Button>
                 </DialogActions>
             </Dialog>
         </div>
