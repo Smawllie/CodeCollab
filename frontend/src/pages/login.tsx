@@ -29,10 +29,10 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 					<p className="text-4xl text-blue-700 w-full text-center">Login</p>
 					<div className="bg-white shadow-lg flex w-3/5 h-full m-4">
 						<div
-							className="bg-fixed bg-cover w-1/2"
+							className="bg-fixed bg-cover w-2/5"
 							style={{ backgroundImage: `url(/media/form_bg.jpg)` }}
 						/>
-						<form className="flex flex-col pt-3 w-1/2 h-full md:pt-8 p-10" onSubmit={submitForm}>
+						<form className="flex flex-col pt-3 w-3/5 h-full md:pt-8 p-10" onSubmit={submitForm}>
 							<div className="flex flex-col pt-4">
 								<label className="text-lg text-light text-gray-500"> Email </label>
 								<input
