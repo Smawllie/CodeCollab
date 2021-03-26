@@ -4,8 +4,10 @@ import Navbar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import Language from "../@types/language";
+import {withRouter} from 'react-router-dom';
 
-function EditorPage(props: any) {
+
+function EditorPage() {
     const languages: Language[] = [
         {
             option: "HTML",
@@ -35,9 +37,9 @@ function EditorPage(props: any) {
     const [selected, setSelected] = React.useState<Language>(languages[0]);
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <ButtonOCR />
-            <Dropdown<Language>
+            <Dropdown
                 title="Select Langauge"
                 list={languages}
                 setSelected={setSelected}
@@ -54,4 +56,4 @@ function EditorPage(props: any) {
     );
 }
 
-export default EditorPage;
+export default withRouter(EditorPage);

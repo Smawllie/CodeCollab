@@ -1,3 +1,5 @@
+
+
 export default function Navbar(){
     return(
         <header>
@@ -11,6 +13,7 @@ export default function Navbar(){
                     <li><a href="/login">Sign In</a></li> 
                     <li><a href="/signup">Sign Up</a></li> 
                 </ul>
+                <button>Logout</button>
             </nav>
         </header>
         );

@@ -20,10 +20,11 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 		signUpUser({ variables: { ...userInfo } });
 	}
 
+	//set context and redirect user to editor
+
 
 	return (
 		<div className="bg-blue-100 h-screen ">
-			{data ? <div>Logged In</div>:<></>}
 			{error ? <Error message={error.message} />:null}
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
@@ -72,7 +73,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 					<div className="text-center pt-12 pb-12">
 						<p>
 							Already have an account?
-							<Link to="/login" className="px-3 underline font-semibold">
+							<Link to="/" className="px-3 underline font-semibold">
 								Sign In here.
 							</Link>
 						</p>

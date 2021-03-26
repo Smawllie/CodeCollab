@@ -25,7 +25,9 @@ function Editor({displayName,language,code,onChange}:EditorProps) {
         <div className="bg-gray-400" >
             <div className="bg-gray-700 flex justify-between p-2 text-white">
             {displayName}
-            <button className="hover:ring-4 hover:ring-green-500 hover:ring-opacity-50 ring-inset">O/C</button>
+            <div className="w-5 h-full bg-no-repeat bg-center bg-white hover:cursor-pointer" style={{ backgroundImage: `url(/media/arrows-angle-contract.svg)` }}>
+            <button className=" w-full h-full hover:ring-4 hover:ring-green-500 hover:ring-opacity-50 hover:ring-inset"></button>
+            </div>
             </div>
           <ControlledEditor
             onBeforeChange={handleChange}

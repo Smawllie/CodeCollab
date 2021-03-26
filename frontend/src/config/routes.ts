@@ -1,34 +1,42 @@
 import Routes from "../@types/route";
-import Home from "../pages/home";
 import Login from '../pages/login';
 import SignUp from '../pages/signup';
 import EditorPage from '../pages/editor';
+import Page404 from '../pages/404';
+
 
 const routes  : Routes[] = [
     {
-        path:'/login',
+        path:'/',
         name:'Login Page',
         exact:true,
-        component:Login
+        component:Login,
+        protected:false
+        
     },
     {
         path:'/signup',
         name:"Sign Up Page",
         exact:true,
-        component:SignUp
-    },
-    {
-        path:'/',
-        exact:true,
-        name:'Home Page',
-        component:Home
+        component:SignUp,
+        protected:false
+        
     },
     {
         path:'/editor',
         exact:true,
         name:'editor',
-        component:EditorPage
-    }
+        component:EditorPage,
+        protected:true
+    },
+    {
+		path: '/*',
+        name:"Not found",
+		component: Page404,
+		protected: true,
+        exact:true,
+	},
+
 ];
 
 export default routes;

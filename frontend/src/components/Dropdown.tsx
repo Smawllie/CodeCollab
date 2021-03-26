@@ -1,14 +1,14 @@
 import React from 'react';
 import DropBoxOptions from '../@types/dropBoxOptions';
 
-interface DropdownProps<T> {
+interface DropdownProps {
 	title: string;
 	setSelected: any;
 	list: DropBoxOptions[];
 };
 
 
-function Dropdown<T>({ title, list, setSelected }: DropdownProps<T>) {
+function Dropdown({ title, list, setSelected }: DropdownProps) {
 	const [ open, setOpen ] = React.useState(false);
 	return (
 		<div id="dd-wrapper" className="py-4">
@@ -18,9 +18,10 @@ function Dropdown<T>({ title, list, setSelected }: DropdownProps<T>) {
                 </button>
 			</div>
 			{open && (
-				<div id="dd-list" className="border-black p-3">
-                       {list.map((item:DropBoxOptions)=>{ return( <div className="">
-                                <button className="border-gray-400" onClick={()=>{setSelected(item)}}>
+				<div id="dd-list" className="border-black border-solid p-3">
+                       {list.map((item:DropBoxOptions,index)=>{ return( 
+					   <div key={index} className="border-bottm">
+                                <button className="hover:ring-4 hover:ring-pink-300 hover:ring-inset" onClick={()=>{setSelected(item)}}>
                                    <span className="text-red-400">{item.option}</span>
                                </button>
                            </div>);
