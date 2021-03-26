@@ -23,9 +23,9 @@ function Editor({displayName,language,code,onChange}:EditorProps) {
     };
     return (
         <div className="bg-gray-400" >
-            <div className="bg-gray-700 flex justify-between p-2 text-white">
+            <div className="bg-gray-700 flex justify-between py-2 px-3 text-white">
             {displayName}
-            <div className="w-5 h-full bg-no-repeat bg-center bg-white hover:cursor-pointer" style={{ backgroundImage: `url(/media/arrows-angle-contract.svg)` }}>
+            <div className="w-5 h-full bg-no-repeat bg-center bg-gray-300 cursor-pointer" style={{ backgroundImage: `url(/media/arrows-angle-contract.svg)` }}>
             <button className=" w-full h-full hover:ring-4 hover:ring-green-500 hover:ring-opacity-50 hover:ring-inset"></button>
             </div>
             </div>

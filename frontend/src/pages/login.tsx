@@ -9,13 +9,16 @@ import {StoreSession,useAuthDispatch} from '../context/index';
 
 
 const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
+	
+	
 	const [userInfo,setUserInfo] = React.useState<User>({email:"",password:""}); //userinfo for form submission
 
 // authentication status
 
 	const [loginUser] = useMutation(AuthOperations.SignIn);
 	const dispatch = useAuthDispatch();
-	let error=null;
+	const [error,setError ]= React.useState<any>(null);
+	
 	const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		loginUser({variables:userInfo}).
@@ -26,7 +29,8 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 			}
 		}).
 		catch(e => {
-			error = (<ErrorBox message={e.message}/>);
+			console.log(error);
+			setError(<ErrorBox message={e.message} open={true} />);
 		});
 	};
 

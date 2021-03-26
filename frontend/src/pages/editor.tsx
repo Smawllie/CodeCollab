@@ -3,46 +3,23 @@ import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
 import ButtonOCR from "../components/OCR/ButtonOCR";
-import Language from "../@types/language";
+import {Languages,code,setCode} from '../config/languages';
 import {withRouter} from 'react-router-dom';
+import Language from "../@types/language";
 
 
 function EditorPage() {
-    const languages: Language[] = [
-        {
-            option: "HTML",
-            language: "xml",
-            selected: false,
-            key: "langauge",
-        },
-        {
-            option: "JS",
-            language: "javascript",
-            selected: false,
-            key: "langauge",
-        },
-        {
-            option: "CSS",
-            language: "css",
-            selected: false,
-            key: "langauge",
-        },
-    ];
 
-    const [code, setCode] = React.useState({
-        javascript: "",
-        css: "",
-        xml: "",
-    });
-    const [selected, setSelected] = React.useState<Language>(languages[0]);
+    const [selected, setSelected] = React.useState<Language>(Languages[0]);
     return (
-        <div>
+        <div className="bg-blue-50">
             <Navbar/>
             <ButtonOCR />
             <Dropdown
                 title="Select Langauge"
-                list={languages}
+                list={Languages}
                 setSelected={setSelected}
+                className="py-2 px-5 w-1/5 shadow-xs"
             />
             <div className="h-screen m-0 flex-col">
                 <Editor
