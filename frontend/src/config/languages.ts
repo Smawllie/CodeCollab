@@ -1,5 +1,4 @@
 import Language from '../@types/language';
-import {useState} from 'react';
 
 export const Languages: Language[] = [
     {
@@ -16,9 +15,4 @@ export const Languages: Language[] = [
     },
 ];
 
-const [code, setCode] = useState({
-    javascript: "",
-    xml: "",
-});
 
-export {code,setCode};

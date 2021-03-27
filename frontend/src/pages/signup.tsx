@@ -15,6 +15,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 	});
 	const dispatch = useAuthDispatch();
 	const [error,setError ]= React.useState<any>(null);
+	const [visible,setVisible] = React.useState(false);
 
 	const [signUpUser] = useMutation(AuthOperations.SignUp);
 
@@ -29,7 +30,8 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 		}).
 		catch(e => {
 			console.log(error);
-			setError(<ErrorBox message={e.message} open={true} />);
+			setError(<ErrorBox message={e.message} setVisible={setVisible} />);
+			setVisible(true);
 		});
 	}
 	//set context and redirect user to editor
@@ -43,7 +45,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 						CodeCollab
 					</Link>
 				</header>
-				{error}
+				{visible && error}
 				<div className="flex flex-col items-center md:justify-start my-auto pt-8 md:px-24 lg:px-32">
 					<p className="text-4xl text-blue-700 text-center w-full">Sign Up</p>
 					<div className="bg-white shadow-lg flex w-3/5 flex-1 mt-4">

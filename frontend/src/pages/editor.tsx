@@ -3,13 +3,17 @@ import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
 import ButtonOCR from "../components/OCR/ButtonOCR";
-import {Languages,code,setCode} from '../config/languages';
+import {Languages} from '../config/languages';
 import {withRouter} from 'react-router-dom';
 import Language from "../@types/language";
 
 
 function EditorPage() {
 
+    const [code, setCode] = React.useState({
+        javascript: "",
+        xml: "",
+    });
     const [selected, setSelected] = React.useState<Language>(Languages[0]);
     return (
         <div className="bg-blue-50">

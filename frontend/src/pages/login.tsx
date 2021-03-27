@@ -18,6 +18,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 	const [loginUser] = useMutation(AuthOperations.SignIn);
 	const dispatch = useAuthDispatch();
 	const [error,setError ]= React.useState<any>(null);
+	const [visible,setVisible] = React.useState(false);
 	
 	const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -30,7 +31,8 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 		}).
 		catch(e => {
 			console.log(error);
-			setError(<ErrorBox message={e.message} open={true} />);
+			setError(<ErrorBox message={e.message} setVisible={setVisible} />);
+			setVisible(true);
 		});
 	};
 
@@ -42,7 +44,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 						CodeCollab
 					</Link>
 				</header>
-				{error}
+				{visible && error}
 				<div className="flex flex-col items-center md:justify-start my-auto w-full h-full pt-8 md:px-24 lg:px-32">
 					<p className="text-4xl text-blue-700 w-full text-center">Login</p>
 					<div className="bg-white shadow-lg flex w-3/5 h-full m-4">
