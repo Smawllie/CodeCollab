@@ -3,6 +3,7 @@ import Login from '../pages/login';
 import SignUp from '../pages/signup';
 import EditorPage from '../pages/editor';
 import Page404 from '../pages/404';
+import ProjectsPage from "../pages/project";
 
 
 const routes  : Routes[] = [
@@ -28,6 +29,13 @@ const routes  : Routes[] = [
         name:'editor',
         component:EditorPage,
         protected:true
+    },
+    {
+        path: "/projects",
+        exact: true,
+        name: "Projects page",
+        component: ProjectsPage,
+        protected: true,
     },
     {
 		path: '/*',
