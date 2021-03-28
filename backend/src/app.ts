@@ -22,6 +22,12 @@ const main = async () => {
 
     const app = Express();
 
+    let corsOptions = {
+        // TODO: Point this to the actual front end domain
+        origin: "http://localhost:3000",
+        credentials: true,
+    };
+
     app.use(
         Session({
             // TODO: Move secret to env or something
@@ -35,7 +41,7 @@ const main = async () => {
 
     const schema = await buildSchema({ resolvers, authChecker });
     const apolloServer = new ApolloServer({ schema, context });
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     createServer(app).listen(PORT, function () {
         console.log(`

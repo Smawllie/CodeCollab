@@ -1,6 +1,5 @@
 import { hash } from "bcrypt";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
-import Cookie from "cookie";
 
 import { User, UserModel } from "../../entities/user.entity";
 import { SignUpInput } from "./input/signUp.input";
@@ -35,18 +34,8 @@ export class SignUpResolver {
 
         await user.save();
 
-        // Set session cookie and cookie for frontend
+        // Set session cookie
         context.req.session.userId = user._id.toString();
-        context.res.setHeader(
-            "Set-Cookie",
-            Cookie.serialize("userId", user._id.toString(), {
-                path: "/",
-                maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
-                // TODO: Figure out the security headers
-                // secure : true,
-                // sameSite: true
-            })
-        );
 
         return user;
     }
