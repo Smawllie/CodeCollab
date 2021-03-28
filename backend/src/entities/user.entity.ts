@@ -21,7 +21,7 @@ export class User {
     email: string;
 
     @Field()
-    @Property({ required: true, unique: true })
+    @Property({ unique: true })
     username: string;
 
     @Property({ required: true })
