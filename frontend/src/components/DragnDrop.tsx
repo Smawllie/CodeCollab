@@ -5,15 +5,16 @@ import { useDropzone } from "react-dropzone";
 interface DragnDropProps {
     dropHTML: React.ReactNode;
     setDropHTML: (state: React.ReactNode) => void;
-    setFile: any;
+    setFile: (state: string) => void;
+    className: string;
 }
 
-export default function DragnDrop({
+const DragnDrop: React.FC<DragnDropProps> = ({
     dropHTML,
     setDropHTML,
     setFile,
     ...props
-}: DragnDropProps) {
+}) => {
     const onDrop = useCallback((acceptedFiles) => {
         let item;
         for (let file of acceptedFiles) {
@@ -39,4 +40,6 @@ export default function DragnDrop({
             {dropHTML}
         </div>
     );
-}
+};
+
+export default DragnDrop;
