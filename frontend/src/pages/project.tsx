@@ -7,7 +7,7 @@ import queryOperations from "../graphql/operations/queryOperations";
 function ProjectsPage(props: RouteComponentProps<any>) {
     function goToProject(event: any) {
         /* TODO route to actual project page */
-        props.history.push(`/poopie/${event.target.dataset.id}`)
+        props.history.push(`/poopie/${event.target.dataset.id}`);
     }
 
     const userId = localStorage.getItem("currentUser")
@@ -29,13 +29,21 @@ function ProjectsPage(props: RouteComponentProps<any>) {
             <h1>Test Header</h1>
             {data ? <h1>Created Projects</h1> : null}
             {data.getUserById.createdProjects.map((project: any) => (
-                <li key={project._id} data-id={project._id} onClick={goToProject}>
+                <li
+                    key={project._id}
+                    data-id={project._id}
+                    onClick={goToProject}
+                >
                     {project.name}
                 </li>
             ))}
             {data ? <h1>Shared Projects</h1> : null}
             {data.getUserById.sharedProjects.map((project: any) => (
-                <li key={project._id} data-id={project._id} onClick={goToProject}>
+                <li
+                    key={project._id}
+                    data-id={project._id}
+                    onClick={goToProject}
+                >
                     {project.name}
                 </li>
             ))}
