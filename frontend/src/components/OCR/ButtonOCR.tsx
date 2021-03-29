@@ -4,15 +4,22 @@ import DialogOCR from "./DialogOCR";
 
 import { createWorker } from "tesseract.js";
 
+interface dotType {
+    red: string;
+    green: string;
+    empty: string;
+}
+
 const dotBase =
     "absolute left-auto right-0 top-0 bottom-auto m-1 h-1 w-1 rounded";
 const dotRed = dotBase.concat(" ", "bg-red-700");
 const dotGreen = dotBase.concat(" ", "bg-green-900");
 const dotEmpty = dotBase.concat(" ", "bg-transparent");
-let dot = {};
-dot.red = dotRed;
-dot.green = dotGreen;
-dot.empty = dotEmpty;
+let dot: dotType = {
+    red: dotRed,
+    green: dotGreen,
+    empty: dotEmpty,
+};
 
 export default function ButtonOCR() {
     // Class of status dot
