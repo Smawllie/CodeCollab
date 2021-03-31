@@ -10,6 +10,7 @@ import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
+const MongoDBStore = require('connect-mongodb-session')(Session);
 // TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
@@ -18,6 +19,14 @@ const main = async () => {
     connect(MONGO_DB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+    });
+
+    const sessionStore = new MongoDBStore({
+        uri: MONGO_DB_URL,
+        collection: 'sessions'
+    });
+    sessionStore.on("error",function(error: Error){
+        console.log(error);
     });
 
     const app = Express();
@@ -34,6 +43,8 @@ const main = async () => {
             secret: "Change this secret later",
             resave: false,
             saveUninitialized: true,
+            store:sessionStore,
+            unset:'destroy'
             // TODO: Add helmet and look at cors package
             // cookie: { httpOnly: true, secure: true, sameSite: true },
         })
