@@ -8,9 +8,14 @@ import Navbar from "../components/Navbar";
 import projectOperations from "../graphql/operations/projectOperations";
 
 function ProjectsPage(props: RouteComponentProps<any>) {
-    function goToProject(event: any) {
+    function goToProjectOnList(event: any) {
         /* TODO route to actual project page */
         props.history.push(`/poopie/${event.target.dataset.id}`);
+    }
+
+    function goToProjectOnCreate(id: String) {
+        /* TODO route to actual project page */
+        props.history.push(`/poopie/${id}`);
     }
 
     function handleClickOpen() {
@@ -19,14 +24,16 @@ function ProjectsPage(props: RouteComponentProps<any>) {
 
     const [openDialog, setOpenDialog] = useState(false);
 
+    const { loading, error, data, refetch } = useQuery(
+        projectOperations.getUserProjects
+    );
+
     let createProjectDialogProps = {
         openDialog,
         setOpenDialog,
+        goToProjectOnCreate,
+        refetch,
     };
-
-    const { loading, error, data } = useQuery(
-        projectOperations.getUserProjects
-    );
 
     if (loading) return <div>Loading</div>;
     if (error) return <div>Error {error.message}</div>;
@@ -43,7 +50,7 @@ function ProjectsPage(props: RouteComponentProps<any>) {
                 <li
                     key={project._id}
                     data-id={project._id}
-                    onClick={goToProject}
+                    onClick={goToProjectOnList}
                 >
                     {project.name}
                 </li>
@@ -53,7 +60,7 @@ function ProjectsPage(props: RouteComponentProps<any>) {
                 <li
                     key={project._id}
                     data-id={project._id}
-                    onClick={goToProject}
+                    onClick={goToProjectOnList}
                 >
                     {project.name}
                 </li>

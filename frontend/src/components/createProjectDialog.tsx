@@ -7,6 +7,8 @@ import projectOperations from "../graphql/operations/projectOperations";
 export default function CreateProjectDialog({
     openDialog,
     setOpenDialog,
+    goToProjectOnCreate,
+    refetch,
 }: any) {
     const [createProject] = useMutation(projectOperations.createProject);
 
@@ -21,9 +23,13 @@ export default function CreateProjectDialog({
             },
         })
             .then(async (response) => {
-                if (response.data) console.log(response.data);
-                setOpenDialog(false);
-                setVisible(false);
+                if (response.data) {
+                    console.log(response.data);
+                    setOpenDialog(false);
+                    setVisible(false);
+                    refetch();
+                    goToProjectOnCreate(response.data.createProject._id);
+                }
             })
             .catch((e) => {
                 console.log(e);
