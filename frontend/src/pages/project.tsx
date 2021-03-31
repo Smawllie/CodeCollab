@@ -1,19 +1,23 @@
+import React from 'react';
 import { useQuery } from "@apollo/client";
-import { RouteComponentProps, withRouter } from "react-router-dom";
-
+import { RouteComponentProps, withRouter,useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import queryOperations from "../graphql/operations/queryOperations";
+import ErrorBox from '../components/Error';
 
 function ProjectsPage(props: RouteComponentProps<any>) {
+    let history = useHistory();
+	const [Error,setError ]= React.useState<any>(null);
+	const [visible,setVisible] = React.useState(false);
+
     function goToProject(event: any) {
         /* TODO route to actual project page */
-        props.history.push(`/poopie/${event.target.dataset.id}`);
+        history.push(`/poopie/${event.target.dataset.id}`);
     }
 
     const userId = localStorage.getItem("currentUser")
         ? JSON.parse(localStorage.getItem("currentUser")!)
         : "";
-
     console.log(userId);
 
     const { loading, error, data } = useQuery(queryOperations.getUserProjects, {
@@ -21,11 +25,16 @@ function ProjectsPage(props: RouteComponentProps<any>) {
     });
 
     if (loading) return <div>Loading</div>;
-    if (error) return <div>Error {error.message}</div>;
+    
+    if (error) {
+        setError(<ErrorBox message={error.message} setVisible={setVisible} />);
+        setVisible(true);
+    }
 
-    return (
+    return visible ? (Error) :(
         <div className="bg-blue-50">
             <Navbar />
+            {visible && Error}
             <h1>Test Header</h1>
             {data ? <h1>Created Projects</h1> : null}
             {data.getUserById.createdProjects.map((project: any) => (

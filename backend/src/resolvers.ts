@@ -4,7 +4,7 @@ import { NonEmptyArray } from "type-graphql";
 import { SignUpResolver } from "./modules/authentication/signUp.resolver";
 import { SignInResolver } from "./modules/authentication/signIn.resolver";
 import { SignOutResolver } from "./modules/authentication/signOut.resolver";
-
+import {CheckUserResolver} from "./modules/authentication/checkUser.resolver";
 // Project resolvers
 import { CreateProjectResolver } from "./modules/project/createProject.resolver";
 import { ProjectFieldResolver } from "./entities/project.entity";
@@ -28,6 +28,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     SignUpResolver,
     SignInResolver,
     SignOutResolver,
+    CheckUserResolver,
 
     // Project Resolvers
     CreateProjectResolver,
