@@ -11,12 +11,12 @@ import ErrorBox from "../components/Error";
 function ProjectsPage(props: RouteComponentProps<any>) {
     function goToProjectOnList(event: any) {
         /* TODO route to actual project page */
-        props.history.push(`/project/${event.target.dataset.id}`);
+        props.history.push(`/project/${event.target.dataset.id}/edit`);
     }
 
     function goToProjectOnCreate(id: String) {
         /* TODO route to actual project page */
-        props.history.push(`/project/${id}`);
+        props.history.push(`/project/${id}/edit`);
     }
 
     function handleClickOpen() {

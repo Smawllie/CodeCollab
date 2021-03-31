@@ -4,7 +4,7 @@ import SignUp from '../pages/signup';
 import EditorPage from '../pages/editor';
 import Page404 from '../pages/404';
 import ProjectsPage from "../pages/project";
-import LoadingScreen from "../components/LoadingScreen";
+import ProjectEditPage from "../pages/projectEdit";
 
 
 const routes  : Routes[] = [
@@ -36,6 +36,13 @@ const routes  : Routes[] = [
         exact: true,
         name: "Projects page",
         component: ProjectsPage,
+        protected: true,
+    },
+    {
+        path: "/project/:projectId/edit",
+        exact: true,
+        name: "Project Editing Page",
+        component: ProjectEditPage,
         protected: true,
     },
     {

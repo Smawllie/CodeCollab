@@ -22,6 +22,17 @@ const projectOperations = {
             }
         }
     `,
+    getProjectById: gql`
+        query getProjectById($id: String!) {
+            getProjectById(id: $id) {
+                _id
+                name
+                html
+                css
+                js
+            }
+        }
+    `,
 };
 
 export default projectOperations;
