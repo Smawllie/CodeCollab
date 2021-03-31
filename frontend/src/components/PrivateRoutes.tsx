@@ -2,6 +2,7 @@ import {useQuery} from '@apollo/client';
 import {Route,Redirect} from 'react-router-dom';
 import React from 'react';
 import AuthOperations from '../graphql/operations/authOperations';
+import LoadingScreen from './LoadingScreen';
 
 interface Props {
   component : React.FC<{}>;
@@ -16,7 +17,7 @@ function PrivateRoute({
 }:Props) {
 
   const {data,error,loading} = useQuery(AuthOperations.checkUser);
-   if (loading) return (<div>Loading</div>);
+   if (loading) return (<LoadingScreen/>);
    
    if (error) {
     console.log(error);

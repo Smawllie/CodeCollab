@@ -44,6 +44,15 @@ function EditorPage() {
     
     `;
 
+  const targetRef = React.useRef<any>(null);
+  const [width,setWidth] = React.useState<number>(0);
+
+  React.useLayoutEffect(() => {
+    if (targetRef.current) {
+		setWidth(targetRef.current!.offsetWidth);
+    }
+  }, []);
+
 	const [ selected, setSelected ] = React.useState<Language>(Languages[0]);
 	return (
 		<div className="bg-blue-50">
@@ -55,17 +64,17 @@ function EditorPage() {
 				setSelected={setSelected}
 				className="py-2 px-5 w-1/5 shadow-xs"
 			/>
-			<div className="h-screen m-0 flex">
+			<div className="h-full w-full m-0 flex" ref={targetRef}>
 				<ResizableBox
-					className="relative p-3 flex justify-items-center m-1 shadow-xs"
+					className="relative flex justify-items-center m-1 shadow-xs"
 					height={500}
-					width={300}
+					width={width/2}
 					maxConstraints={[ 800, 500 ]}
 					minConstraints={[ 300, 500 ]}
 					axis="x"
 					handle={
 						<div
-							className="absolute right-3 w-10 h-7 bg-no-repeat shadow-md bg-center bg-gray-500 cursor-pointer"
+							className="absolute right-0 h-10 w-20 bg-no-repeat shadow-md bg-center bg-gray-500 cursor-pointer"
 							style={{ backgroundImage: `url(/media/horizontal-resize.svg)` }}
 						/>
 					}
@@ -79,9 +88,9 @@ function EditorPage() {
 					/>
 				</ResizableBox>
 				<ResizableBox
-					className="relative py-3 px-2 flex justify-items-center m-1 shadow-xs"
+					className="relative px-2 flex justify-items-center m-1 shadow-xs"
 					height={500}
-					width={300}
+					width={width/2}
 					maxConstraints={[ 800, 500 ]}
 					minConstraints={[ 300, 500 ]}
 					axis="x"

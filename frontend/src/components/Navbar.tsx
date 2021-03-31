@@ -18,7 +18,7 @@ export default function Navbar(){
             <nav className="float-right px-5 py-2">
             <button
 				className="outline-none p-1 flex flex-no-wrap items-between hover:ring-3 hover:bg-blue-100 font-bold py-2 px-4 rounded"
-				onClick={()=><LogoutButton/>}
+				onClick={()=>{return handleLogout}}
 			>
 				<span className="text-blue-500 py-3">Logout</span>
 				<img
