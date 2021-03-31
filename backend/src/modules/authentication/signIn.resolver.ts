@@ -1,6 +1,5 @@
 import { AuthenticationError } from "apollo-server-errors";
 import { compare } from "bcrypt";
-import Cookie from "cookie";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { Context } from "../../context";
@@ -25,16 +24,6 @@ export class SignInResolver {
 
         // Set session cookie and cookie for frontend
         context.req.session.userId = user._id.toString();
-        context.res.setHeader(
-            "Set-Cookie",
-            Cookie.serialize("userId", user._id.toString(), {
-                path: "/",
-                maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
-                // TODO: Figure out the security headers
-                // secure : true,
-                // sameSite: true
-            })
-        );
 
         return user;
     }

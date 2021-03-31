@@ -11,16 +11,17 @@ signUp(
     }
 ) {
     _id
-    email
 }
 }
 `, SignIn: gql`
 
 mutation signIn($email: String!, $password: String!) {
-           signIn(user: { email: $email, password: $password }) {
+           signIn(
+               user: { 
+                   email: $email, 
+                   password: $password 
+                   }) {
                _id
-               email
-
            }
    }
 

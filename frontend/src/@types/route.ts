@@ -4,4 +4,5 @@ export default interface Routes {
     exact : boolean;
     component : any;
     props?:any;
+    protected :boolean;
 }

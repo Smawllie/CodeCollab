@@ -1,38 +1,58 @@
-import React,{FormEvent} from 'react';
-import { RouteComponentProps, withRouter, Link } from 'react-router-dom';
+import React from 'react';
+import { RouteComponentProps, withRouter, Link,Route,Redirect } from 'react-router-dom';
 import User from '../@types/user';
 import {useMutation} from '@apollo/client';
 import AuthOperations from '../graphql/operations/authOperations';
 import ErrorBox from '../components/Error';
+import {StoreSession,useAuthDispatch} from '../context/index';
+
 
 
 const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
-	const [userInfo,setUserInfo] = React.useState<User>({email:'',password:''});
-	const [loginUser,{data,error}] = useMutation(AuthOperations.SignIn);
+	
+	
+	const [userInfo,setUserInfo] = React.useState<User>({email:"",password:""}); //userinfo for form submission
 
-	const submitForm = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		loginUser({ variables: userInfo });
+// authentication status
+
+	const [loginUser] = useMutation(AuthOperations.SignIn);
+	const dispatch = useAuthDispatch();
+	const [error,setError ]= React.useState<any>(null);
+	const [visible,setVisible] = React.useState(false);
+	
+	const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		loginUser({variables:userInfo}).
+		then(async response => {
+			if(response.data){
+				let success = await StoreSession(dispatch,response.data.signIn);
+				if(success && success._id!=="") props.history.push('/editor');
+			}
+		}).
+		catch(e => {
+			console.log(error);
+			setError(<ErrorBox message={e.message} setVisible={setVisible} />);
+			setVisible(true);
+		});
 	};
 
 	return (
 		<div className="bg-blue-100 h-screen">
-			{data ? <div>Logged In</div>:<></>}
-			{error ? <ErrorBox message={error.message}/>:null}
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
 					<Link to="/" className="bg-blue-700 text-white font-bold text-xl p-4">
 						CodeCollab
 					</Link>
 				</header>
+				{visible && error}
 				<div className="flex flex-col items-center md:justify-start my-auto w-full h-full pt-8 md:px-24 lg:px-32">
 					<p className="text-4xl text-blue-700 w-full text-center">Login</p>
 					<div className="bg-white shadow-lg flex w-3/5 h-full m-4">
 						<div
-							className="bg-fixed bg-cover w-1/2"
+							className="bg-fixed bg-cover w-2/5"
 							style={{ backgroundImage: `url(/media/form_bg.jpg)` }}
 						/>
-						<form className="flex flex-col pt-3 w-1/2 h-full md:pt-8 p-10" onSubmit={submitForm}>
+						<form className="flex flex-col pt-3 w-3/5 h-full md:pt-8 p-10" onSubmit={submitForm}>
 							<div className="flex flex-col pt-4">
 								<label className="text-lg text-light text-gray-500"> Email </label>
 								<input

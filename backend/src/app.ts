@@ -9,7 +9,6 @@ import { buildSchema } from "type-graphql";
 import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
-// import cors from "cors";
 
 // TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
@@ -22,6 +21,12 @@ const main = async () => {
     });
 
     const app = Express();
+
+    let corsOptions = {
+        // TODO: Point this to the actual front end domain
+        origin: "http://localhost:3000",
+        credentials: true,
+    };
 
     app.use(
         Session({
@@ -53,7 +58,7 @@ const main = async () => {
         },
     });
 
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     const server = createServer(app);
     apolloServer.installSubscriptionHandlers(server);

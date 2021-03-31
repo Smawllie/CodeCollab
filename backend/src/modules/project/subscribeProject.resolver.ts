@@ -1,3 +1,4 @@
+import { MyArgs, SubscribeProjectInput } from "./input/testSubscribe.input";
 import {
     Arg,
     Subscription,
@@ -10,78 +11,78 @@ import {
     Publisher,
 } from "type-graphql";
 import { PubSubEngine } from "graphql-subscriptions";
-import { Test, Notification, NotificationPayload } from "./notification.type";
+import { Notification, NotificationPayload } from "./notification.type";
 
 @Resolver()
 export class SubscribeProjectResolver {
-    private autoIncrement = 0;
-
-    @Query(() => Date)
-    currentDate() {
-        return new Date();
-    }
-
     @Mutation(() => Boolean)
     async pubSubMutation(
         @PubSub() pubSub: PubSubEngine,
-        @Arg("message", { nullable: true }) message?: string
+        @Arg("project") { projectId, html, css, js }: SubscribeProjectInput
     ): Promise<boolean> {
         const payload: NotificationPayload = {
-            id: ++this.autoIncrement,
-            message,
+            projectId,
+            html,
+            css,
+            js,
         };
         await pubSub.publish("NOTIFICATIONS", payload);
         return true;
     }
 
-    @Mutation(() => Boolean)
-    async publisherMutation(
-        @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
-        @Arg("message", { nullable: true }) message?: string
-    ): Promise<boolean> {
-        await publish({ id: ++this.autoIncrement, message });
-        return true;
-    }
+    // @Mutation(() => Boolean)
+    // async publisherMutation(
+    //     @PubSub("NOTIFICATIONS") publish: Publisher<NotificationPayload>,
+    //     @Arg("message", { nullable: true }) message?: string
+    // ): Promise<boolean> {
+    //     await publish({ id: ++this.autoIncrement, message });
+    //     return true;
+    // }
 
     @Subscription({ topics: "NOTIFICATIONS" })
     normalSubscription(
-        @Root() { id, message }: NotificationPayload
+        @Root() { projectId, html, css, js }: NotificationPayload
     ): Notification {
-        return { id, message, date: new Date() };
+        return { projectId, html, css, js };
     }
 
     @Subscription(() => Notification, {
         topics: "NOTIFICATIONS",
-        filter: ({ payload }: ResolverFilterData<NotificationPayload>) =>
-            payload.id % 2 === 0,
+        filter: ({ payload, args }: any) => {
+            console.log(args);
+            console.log("in filter func", args.test.myArg);
+            return payload.projectId === args.test.myArg;
+        },
     })
-    subscriptionWithFilter(@Root() { id, message }: NotificationPayload) {
-        const newNotification: Notification = { id, message, date: new Date() };
-        return newNotification;
+    subscriptionWithFilter(
+        @Root() { projectId, html, css, js }: NotificationPayload,
+        @Arg("test") args: MyArgs
+    ) {
+        console.log("filter", args);
+        return { projectId, html, css, js };
     }
 
     // dynamic topic
+    // @Mutation(() => Boolean)
+    // async pubSubMutationToDynamicTopic(
+    //     @PubSub() pubSub: PubSubEngine,
+    //     @Arg("topic") topic: string,
+    //     @Arg("message", { nullable: true }) message?: string
+    // ): Promise<boolean> {
+    //     const payload: NotificationPayload = {
+    //         id: ++this.autoIncrement,
+    //         message,
+    //     };
+    //     await pubSub.publish(topic, payload);
+    //     return true;
+    // }
 
-    @Mutation(() => Boolean)
-    async pubSubMutationToDynamicTopic(
-        @PubSub() pubSub: PubSubEngine,
-        @Arg("topic") topic: string,
-        @Arg("message", { nullable: true }) message?: string
-    ): Promise<boolean> {
-        const payload: NotificationPayload = {
-            id: ++this.autoIncrement,
-            message,
-        };
-        await pubSub.publish(topic, payload);
-        return true;
-    }
-
-    @Subscription({
-        topics: ({ args }) => args.topic,
-    })
-    subscriptionWithFilterToDynamicTopic(
-        @Root() { id, message }: NotificationPayload
-    ): Notification {
-        return { id, message, date: new Date() };
-    }
+    // @Subscription({
+    //     topics: ({ args }) => args.topic,
+    // })
+    // subscriptionWithFilterToDynamicTopic(
+    //     @Root() { id, message }: NotificationPayload
+    // ): Notification {
+    //     return { id, message, date: new Date() };
+    // }
 }
