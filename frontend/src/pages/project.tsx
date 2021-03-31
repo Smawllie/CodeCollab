@@ -1,27 +1,30 @@
-import React from 'react';
 import { useQuery } from "@apollo/client";
 import { Button } from "@material-ui/core";
 import { useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import CreateProjectDialog from "../components/createProjectDialog";
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Navbar";
 import projectOperations from "../graphql/operations/projectOperations";
+import ErrorBox from "../components/Error";
 
 function ProjectsPage(props: RouteComponentProps<any>) {
     function goToProjectOnList(event: any) {
         /* TODO route to actual project page */
-        props.history.push(`/poopie/${event.target.dataset.id}`);
+        props.history.push(`/project/${event.target.dataset.id}`);
     }
 
     function goToProjectOnCreate(id: String) {
         /* TODO route to actual project page */
-        props.history.push(`/poopie/${id}`);
+        props.history.push(`/project/${id}`);
     }
 
     function handleClickOpen() {
         setOpenDialog(true);
     }
+
+    const [errorBox, setErrorBox] = useState<any>(null);
+    const [visible, setVisible] = useState(false);
 
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -36,15 +39,19 @@ function ProjectsPage(props: RouteComponentProps<any>) {
         refetch,
     };
 
-    if (loading) return (<LoadingScreen/>);
-    
-    // if (error) {
-    //     setError(<ErrorBox message={error.message} setVisible={setVisible} />);
-    //     setVisible(true);
-    // }
+    if (loading) return <LoadingScreen />;
+
+    if (error) {
+        setErrorBox(
+            <ErrorBox message={error.message} setVisible={setVisible} />
+        );
+        setVisible(true);
+    }
+
     return (
         <div className="bg-blue-50">
             <Navbar />
+            {visible && errorBox}
             <Button onClick={handleClickOpen}>Create new project</Button>
             <CreateProjectDialog
                 {...createProjectDialogProps}
