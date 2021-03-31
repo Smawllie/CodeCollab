@@ -29,6 +29,18 @@ export class Project {
     @Property({ ref: "File", required: true })
     files: Ref<File>[];
 
+    @Field(() => String)
+    @Property({ default: "" })
+    html: string;
+
+    @Field(() => String)
+    @Property({ default: "" })
+    css: string;
+
+    @Field(() => String)
+    @Property({ default: "" })
+    js: string;
+
     @Field(() => [User])
     @Property({ ref: "User", required: true, default: [] })
     collaborators: Ref<User>[];
