@@ -1,28 +1,40 @@
 import React from 'react';
 import { useQuery } from "@apollo/client";
-import { RouteComponentProps, withRouter,useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import { useState } from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import CreateProjectDialog from "../components/createProjectDialog";
+
 import Navbar from "../components/Navbar";
-import queryOperations from "../graphql/operations/queryOperations";
-import ErrorBox from '../components/Error';
+import projectOperations from "../graphql/operations/projectOperations";
 
 function ProjectsPage(props: RouteComponentProps<any>) {
-    let history = useHistory();
-	const [Error,setError ]= React.useState<any>(null);
-	const [visible,setVisible] = React.useState(false);
-
-    function goToProject(event: any) {
+    function goToProjectOnList(event: any) {
         /* TODO route to actual project page */
         history.push(`/poopie/${event.target.dataset.id}`);
     }
 
-    const userId = localStorage.getItem("currentUser")
-        ? JSON.parse(localStorage.getItem("currentUser")!)
-        : "";
-    console.log(userId);
+    function goToProjectOnCreate(id: String) {
+        /* TODO route to actual project page */
+        props.history.push(`/poopie/${id}`);
+    }
 
-    const { loading, error, data } = useQuery(queryOperations.getUserProjects, {
-        variables: { id: userId },
-    });
+    function handleClickOpen() {
+        setOpenDialog(true);
+    }
+
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const { loading, error, data, refetch } = useQuery(
+        projectOperations.getUserProjects
+    );
+
+    let createProjectDialogProps = {
+        openDialog,
+        setOpenDialog,
+        goToProjectOnCreate,
+        refetch,
+    };
 
     if (loading) return <div>Loading</div>;
     
@@ -34,24 +46,26 @@ function ProjectsPage(props: RouteComponentProps<any>) {
     return visible ? (Error) :(
         <div className="bg-blue-50">
             <Navbar />
-            {visible && Error}
-            <h1>Test Header</h1>
+            <Button onClick={handleClickOpen}>Create new project</Button>
+            <CreateProjectDialog
+                {...createProjectDialogProps}
+            ></CreateProjectDialog>
             {data ? <h1>Created Projects</h1> : null}
-            {data.getUserById.createdProjects.map((project: any) => (
+            {data.getCurrentUser.createdProjects.map((project: any) => (
                 <li
                     key={project._id}
                     data-id={project._id}
-                    onClick={goToProject}
+                    onClick={goToProjectOnList}
                 >
                     {project.name}
                 </li>
             ))}
             {data ? <h1>Shared Projects</h1> : null}
-            {data.getUserById.sharedProjects.map((project: any) => (
+            {data.getCurrentUser.sharedProjects.map((project: any) => (
                 <li
                     key={project._id}
                     data-id={project._id}
-                    onClick={goToProject}
+                    onClick={goToProjectOnList}
                 >
                     {project.name}
                 </li>

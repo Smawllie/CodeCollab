@@ -39,6 +39,9 @@ export class CreateProjectResolver {
         let project = new ProjectModel({
             name,
             owner: user,
+            html: "",
+            css: "",
+            js: "",
         });
 
         // Add the newly created project to the user
