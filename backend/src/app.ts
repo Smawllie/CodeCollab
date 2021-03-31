@@ -9,6 +9,7 @@ import { buildSchema } from "type-graphql";
 import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
+// import cors from "cors";
 
 // TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
@@ -33,15 +34,38 @@ const main = async () => {
         })
     );
 
+    // app.use(cors());
+    // const schema = await buildSchema({ resolvers });
     const schema = await buildSchema({ resolvers, authChecker });
-    const apolloServer = new ApolloServer({ schema, context });
+    const apolloServer = new ApolloServer({
+        schema,
+        context,
+        subscriptions: {
+            path: "/subscriptions",
+            onConnect: (connectionParams, webSocket, context) => {
+                // console.log(connectionParams);
+                // console.log(webSocket);
+                console.log("Client connected test");
+            },
+            onDisconnect: (_webSocket, _context) => {
+                console.log("Client disconnected test");
+            },
+        },
+    });
+
     apolloServer.applyMiddleware({ app });
 
-    createServer(app).listen(PORT, function () {
+    const server = createServer(app);
+    apolloServer.installSubscriptionHandlers(server);
+
+    server.listen(PORT, function () {
         console.log(`
             HTTP GraphQL server on http://localhost:${PORT}/graphql/
             Run queries at https://studio.apollographql.com/dev/
         `);
+        console.log(
+            `🚀 Subscriptions ready at ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
+        );
     });
 };
 
