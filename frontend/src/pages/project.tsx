@@ -1,8 +1,11 @@
 import { useQuery } from "@apollo/client";
+import { Button } from "@material-ui/core";
+import { useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import CreateProjectDialog from "../components/createProjectDialog";
 
 import Navbar from "../components/Navbar";
-import queryOperations from "../graphql/operations/queryOperations";
+import projectOperations from "../graphql/operations/projectOperations";
 
 function ProjectsPage(props: RouteComponentProps<any>) {
     function goToProject(event: any) {
@@ -10,13 +13,24 @@ function ProjectsPage(props: RouteComponentProps<any>) {
         props.history.push(`/poopie/${event.target.dataset.id}`);
     }
 
+    function handleClickOpen() {
+        setOpenDialog(true);
+    }
+
+    const [openDialog, setOpenDialog] = useState(false);
+
+    let createProjectDialogProps = {
+        openDialog,
+        setOpenDialog,
+    };
+
     const userId = localStorage.getItem("currentUser")
         ? JSON.parse(localStorage.getItem("currentUser")!)
         : "";
 
     console.log(userId);
 
-    const { loading, error, data } = useQuery(queryOperations.getUserProjects, {
+    const { loading, error, data } = useQuery(projectOperations.getUserProjects, {
         variables: { id: userId },
     });
 
@@ -26,7 +40,8 @@ function ProjectsPage(props: RouteComponentProps<any>) {
     return (
         <div className="bg-blue-50">
             <Navbar />
-            <h1>Test Header</h1>
+            <Button onClick={handleClickOpen}>Create new project</Button>
+            <CreateProjectDialog {...createProjectDialogProps}></CreateProjectDialog>
             {data ? <h1>Created Projects</h1> : null}
             {data.getUserById.createdProjects.map((project: any) => (
                 <li

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const queryOperations = {
+const projectOperations = {
     getUserProjects: gql`
         query getUserProjects($id: String!) {
             getUserById(id: $id) {
@@ -15,6 +15,13 @@ const queryOperations = {
             }
         }
     `,
+    createProject: gql`
+        mutation createProject($name: String!) {
+            createProject(project: { name: $name }) {
+                _id
+            }
+        }
+    `,
 };
 
-export default queryOperations;
+export default projectOperations;
