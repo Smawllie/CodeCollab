@@ -24,15 +24,9 @@ function ProjectsPage(props: RouteComponentProps<any>) {
         setOpenDialog,
     };
 
-    const userId = localStorage.getItem("currentUser")
-        ? JSON.parse(localStorage.getItem("currentUser")!)
-        : "";
-
-    console.log(userId);
-
-    const { loading, error, data } = useQuery(projectOperations.getUserProjects, {
-        variables: { id: userId },
-    });
+    const { loading, error, data } = useQuery(
+        projectOperations.getUserProjects
+    );
 
     if (loading) return <div>Loading</div>;
     if (error) return <div>Error {error.message}</div>;
@@ -41,9 +35,11 @@ function ProjectsPage(props: RouteComponentProps<any>) {
         <div className="bg-blue-50">
             <Navbar />
             <Button onClick={handleClickOpen}>Create new project</Button>
-            <CreateProjectDialog {...createProjectDialogProps}></CreateProjectDialog>
+            <CreateProjectDialog
+                {...createProjectDialogProps}
+            ></CreateProjectDialog>
             {data ? <h1>Created Projects</h1> : null}
-            {data.getUserById.createdProjects.map((project: any) => (
+            {data.getCurrentUser.createdProjects.map((project: any) => (
                 <li
                     key={project._id}
                     data-id={project._id}
@@ -53,7 +49,7 @@ function ProjectsPage(props: RouteComponentProps<any>) {
                 </li>
             ))}
             {data ? <h1>Shared Projects</h1> : null}
-            {data.getUserById.sharedProjects.map((project: any) => (
+            {data.getCurrentUser.sharedProjects.map((project: any) => (
                 <li
                     key={project._id}
                     data-id={project._id}

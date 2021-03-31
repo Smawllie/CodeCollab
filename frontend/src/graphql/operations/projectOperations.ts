@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 
 const projectOperations = {
     getUserProjects: gql`
-        query getUserProjects($id: String!) {
-            getUserById(id: $id) {
+        query getUserProjects {
+            getCurrentUser {
                 sharedProjects {
                     _id
                     name
