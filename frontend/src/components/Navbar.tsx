@@ -1,24 +1,31 @@
-import {useLazyQuery} from '@apollo/client';
-import { useHistory } from "react-router-dom";
+import {useMutation} from '@apollo/client';
+import { useHistory,Link } from "react-router-dom";
 import AuthOperations from '../graphql/operations/authOperations';
-import LogoutButton from './logout';
 
 export default function Navbar(){
 
     let history = useHistory();
+    const [logout] = useMutation(AuthOperations.logout);
+
     function handleLogout(){
-        history.push('/');
+        logout().then(({data})=>{
+            if(data.signOut) history.push('/');
+            else throw new Error("Cannot log out");
+        }).catch(error=>{
+            console.log(error);
+        });
+  
     };
 
    return (
         <header className="justify-between px-3">
-            <a href="/" className="text-6xl text-blue-500 px-3">
+            <Link to="/" className="text-6xl text-blue-500 px-3">
                 CodeCollab
-            </a>
+            </Link>
             <nav className="float-right px-5 py-2">
             <button
 				className="outline-none p-1 flex flex-no-wrap items-between hover:ring-3 hover:bg-blue-100 font-bold py-2 px-4 rounded"
-				onClick={()=>{return handleLogout}}
+				onClick={handleLogout}
 			>
 				<span className="text-blue-500 py-3">Logout</span>
 				<img

@@ -23,7 +23,7 @@ function PrivateRoute({
     console.log(error);
     return (<div>{error.message}</div>);}
 
-   const userId = data.checkUser;
+   const userId = data.getCurrentUser._id;
    let auth = !(userId===null || userId === undefined ) ;
 
     return (

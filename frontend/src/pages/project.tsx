@@ -4,14 +4,14 @@ import { Button } from "@material-ui/core";
 import { useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import CreateProjectDialog from "../components/createProjectDialog";
-
+import LoadingScreen from '../components/LoadingScreen';
 import Navbar from "../components/Navbar";
 import projectOperations from "../graphql/operations/projectOperations";
 
 function ProjectsPage(props: RouteComponentProps<any>) {
     function goToProjectOnList(event: any) {
         /* TODO route to actual project page */
-        history.push(`/poopie/${event.target.dataset.id}`);
+        props.history.push(`/poopie/${event.target.dataset.id}`);
     }
 
     function goToProjectOnCreate(id: String) {
@@ -36,14 +36,13 @@ function ProjectsPage(props: RouteComponentProps<any>) {
         refetch,
     };
 
-    if (loading) return <div>Loading</div>;
+    if (loading) return (<LoadingScreen/>);
     
-    if (error) {
-        setError(<ErrorBox message={error.message} setVisible={setVisible} />);
-        setVisible(true);
-    }
-
-    return visible ? (Error) :(
+    // if (error) {
+    //     setError(<ErrorBox message={error.message} setVisible={setVisible} />);
+    //     setVisible(true);
+    // }
+    return (
         <div className="bg-blue-50">
             <Navbar />
             <Button onClick={handleClickOpen}>Create new project</Button>

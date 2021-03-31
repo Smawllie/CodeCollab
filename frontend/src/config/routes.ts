@@ -4,6 +4,7 @@ import SignUp from '../pages/signup';
 import EditorPage from '../pages/editor';
 import Page404 from '../pages/404';
 import ProjectsPage from "../pages/project";
+import LoadingScreen from "../components/LoadingScreen";
 
 
 const routes  : Routes[] = [
@@ -43,7 +44,8 @@ const routes  : Routes[] = [
 		component: Page404,
 		protected: true,
         exact:true,
-	},
+	}
+   
 
 ];
 

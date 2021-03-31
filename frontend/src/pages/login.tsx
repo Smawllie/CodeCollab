@@ -19,7 +19,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 		loginUser({ variables: userInfo })
 			.then(async (response) => {
 				if (response.data) {
-					history.push('/editor');
+					history.push(`/projects/${response.data.signIn._id}`);
 				}
 			})
 			.catch((e) => {

@@ -20,7 +20,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 		signUpUser({ variables: userInfo })
 			.then(async (response) => {
 				if (response.data) {
-					history.push('/editor');
+					history.push(`/projects/${response.data.signUp._id}`);
 				}
 			})
 			.catch((e) => {
