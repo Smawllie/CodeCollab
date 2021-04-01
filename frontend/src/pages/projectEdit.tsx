@@ -15,12 +15,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import ErrorBox from "../components/Error";
 
 function ProjectEditPage() {
-    const [code, setCode] = useState({
-        //rename xml to html while sending
-        javascript: "",
-        xml: "",
-        css: "",
-    });
+    
 
     const params: any = useParams();
     const projectId = params.projectId;
@@ -36,7 +31,20 @@ function ProjectEditPage() {
         }
     );
 
-    if (loading) console.log("loading...");
+    const initState = data ? {
+        //rename xml to html while sending
+        javascript: data.getProjectById.js,
+        xml: data.getProjectById.html,
+        css: data.getProjectById.css,
+    }: {
+        //rename xml to html while sending
+        javascript: "",
+        xml: "",
+        css: "",
+    }
+    const [code, setCode] = useState(initState);
+
+    
 
     if (error) {
         setErrorBox(
@@ -45,11 +53,14 @@ function ProjectEditPage() {
         setVisible(true);
     }
 
-    if (data) {
-        code.javascript = data.getProjectById.js;
-        code.xml = data.getProjectById.html;
-        code.css = data.getProjectById.css;
-    }
+    // if (data) {
+    //     setCode({
+    //         javascript :data.getProjectById.js,
+    //     xml : data.getProjectById.html,
+    //     css : data.getProjectById.css
+    //     })
+        
+    // }
 
     const srcDoc = `
        <!DOCTYPE html>
@@ -73,15 +84,16 @@ function ProjectEditPage() {
        </html>`;
 
     const targetRef = useRef<any>(null);
-    const [width, setWidth] = useState<number>(0);
+    const [width, setWidth] = useState<number>(300);
 
     useLayoutEffect(() => {
         if (targetRef.current) {
             setWidth(targetRef.current!.offsetWidth);
         }
-    }, []);
-
+    }, [code]);
+    
     const [selected, setSelected] = useState<Language>(Languages[0]);
+    if (loading) return (<LoadingScreen/>);
     return (
         <div className="bg-blue-50">
             <Navbar />
