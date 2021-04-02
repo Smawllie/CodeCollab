@@ -28,25 +28,16 @@ const main = async () => {
         credentials: true,
     };
 
-    // const sessionParser = Session({
-    //     // TODO: Move secret to env or something
-    //     secret: "Change this secret later",
-    //     resave: false,
-    //     saveUninitialized: true,
-    //     // TODO: Add helmet and look at cors package
-    //     // cookie: { httpOnly: true, secure: true, sameSite: true },
-    // })
+    const sessionMiddleware = Session({
+        // TODO: Move secret to env or something
+        secret: "Change this secret later",
+        resave: false,
+        saveUninitialized: true,
+        // TODO: Add helmet and look at cors package
+        // cookie: { httpOnly: true, secure: true, sameSite: true },
+    });
 
-    app.use(
-        Session({
-            // TODO: Move secret to env or something
-            secret: "Change this secret later",
-            resave: false,
-            saveUninitialized: true,
-            // TODO: Add helmet and look at cors package
-            // cookie: { httpOnly: true, secure: true, sameSite: true },
-        })
-    );
+    app.use(sessionMiddleware);
 
     // app.use(cors());
     // const schema = await buildSchema({ resolvers });
@@ -58,7 +49,14 @@ const main = async () => {
             path: "/subscriptions",
             onConnect: (connectionParams, webSocket: any, context) => {
                 // console.log(connectionParams);
-                console.log(webSocket.upgradeReq.headers.cookie);
+                const res = ({} as any) as Express.Response;
+                console.log("Before", webSocket.upgradeReq.headers.cookie);
+                console.log("Before", Object.keys(webSocket.upgradeReq));
+                sessionMiddleware(webSocket.upgradeReq, res, () => {
+                    console.log(Object.keys(webSocket.upgradeReq));
+                    console.log(webSocket.upgradeReq.session);
+                    console.log(webSocket.upgradeReq.sessionID);
+                });
                 console.log("Client connected test");
             },
             onDisconnect: (_webSocket, _context) => {
