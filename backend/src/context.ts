@@ -6,7 +6,6 @@ export const context = ({ req, res, connection }: any) => {
         const token = connection.context.authorization || "";
         return { token };
     } else {
-
         return { req };
     }
 };

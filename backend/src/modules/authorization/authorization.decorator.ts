@@ -5,6 +5,7 @@ import { Context } from "../../context";
 // person can write to a file or project (just for future reference)
 export const customAuthChecker: AuthChecker<Context> = ({ context }) => {
     // return true;
+    // console.log("customAuthChecker", context, context.req);
     if (context.req.session.userId) return true;
     return false;
 };

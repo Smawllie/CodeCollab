@@ -1,5 +1,7 @@
+import { Context } from "./../../context";
 import {
     Arg,
+    Authorized,
     Subscription,
     Resolver,
     Query,
@@ -8,6 +10,7 @@ import {
     Root,
     ResolverFilterData,
     Publisher,
+    Ctx,
 } from "type-graphql";
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { SubscribeProjectInput } from "./input/subscribeProject.input";
@@ -26,17 +29,15 @@ export class GetProjectResolver {
     @Subscription(() => Project, {
         topics: "PROJECTS",
         filter: ({ payload, args }: any) => {
-            console.log(args);
-            console.log("in filter func", args.projectId);
-            return true;
-            // return payload.projectId === args.projectId;
+            return payload._id == args._id;
         },
     })
-    subscriptionWithTheFilter(
-        @Root() { _id, name, owner, html, css, js, collaborators }: Project,
-        @Arg("test") projectId: String
+    // @Authorized()
+    subscribeProjectById(
+        @Root() project: Project,
+        @Arg("_id") projectId: String
+        // @Ctx() context: Context
     ) {
-        // console.log("filter", name);
-        return { _id };
+        return project;
     }
 }

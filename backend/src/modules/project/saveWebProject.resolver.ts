@@ -18,7 +18,7 @@ export class SaveWebProjectResolver {
     @Mutation(() => Project)
     @Authorized()
     async saveWebProject(
-        // @PubSub() pubSub: PubSubEngine,
+        @PubSub() pubSub: PubSubEngine,
         @Arg("project") { projectId, html, css, js }: SaveWebProjectInput,
         @Ctx() context: Context
     ) {
@@ -43,6 +43,9 @@ export class SaveWebProjectResolver {
         project.css = css;
         project.js = js;
         await project.save();
+
+        const payload: Project = project._doc;
+        await pubSub.publish("PROJECTS", payload);
 
         return project;
     }

@@ -28,6 +28,15 @@ const main = async () => {
         credentials: true,
     };
 
+    // const sessionParser = Session({
+    //     // TODO: Move secret to env or something
+    //     secret: "Change this secret later",
+    //     resave: false,
+    //     saveUninitialized: true,
+    //     // TODO: Add helmet and look at cors package
+    //     // cookie: { httpOnly: true, secure: true, sameSite: true },
+    // })
+
     app.use(
         Session({
             // TODO: Move secret to env or something
@@ -47,9 +56,9 @@ const main = async () => {
         context,
         subscriptions: {
             path: "/subscriptions",
-            onConnect: (connectionParams, webSocket, context) => {
+            onConnect: (connectionParams, webSocket: any, context) => {
                 // console.log(connectionParams);
-                // console.log(webSocket);
+                console.log(webSocket.upgradeReq.headers.cookie);
                 console.log("Client connected test");
             },
             onDisconnect: (_webSocket, _context) => {

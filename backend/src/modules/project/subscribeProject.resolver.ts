@@ -55,7 +55,7 @@ export class SubscribeProjectResolver {
         },
     })
     subscriptionWithFilter(
-        @Root() { projectId, html, css, js }: NotificationPayload,
+    @Root() { projectId, html, css, js }: NotificationPayload,
         @Arg("test") args: MyArgs
     ) {
         console.log("filter", args);
