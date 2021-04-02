@@ -71,7 +71,7 @@ const main = async () => {
     apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     const server = createServer(app);
-    // apolloServer.installSubscriptionHandlers(server);
+    apolloServer.installSubscriptionHandlers(server);
 
     server.listen(PORT, function () {
         console.log(`

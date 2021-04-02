@@ -5,7 +5,6 @@ export const context = ({ req, res, connection }: any) => {
         // Subscription
         // console.log("context connection", req.session, connection);
         // const token = connection.context.authorization || "";
-        console.log("nothing gets here");
         return;
     } else {
         // console.log("context", req.session);

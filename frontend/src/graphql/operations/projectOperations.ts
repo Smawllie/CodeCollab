@@ -33,17 +33,17 @@ const projectOperations = {
             }
         }
     `,
-    // subscribeProjectById: gql`
-    //     subscription subscribeProjectById(id: String!) {
-    //         subscribeProjectById(id: $id) {
-    //             _id
-    //             name
-    //             html
-    //             css
-    //             js
-    //         }
-    //     }
-    // `,
+    subscribeProjectById: gql`
+        subscription subscribeProjectById($id: String!) {
+            subscribeProjectById(id: $id) {
+                _id
+                name
+                html
+                css
+                js
+            }
+        }
+    `,
 };
 
 export default projectOperations;

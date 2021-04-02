@@ -26,9 +26,7 @@ const wsLink = new WebSocketLink({
 // Code snippet from: https://www.apollographql.com/docs/react/data/subscriptions/
 const splitLink = split(
     ({ query }) => {
-        console.log("split", query);
         const definition = getMainDefinition(query);
-        console.log("split definition", definition);
         return (
             definition.kind === "OperationDefinition" &&
             definition.operation === "subscription"
@@ -39,7 +37,6 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-    // uri: process.env.REACT_APP_APOLLO_SERVER_URI,
     link: splitLink,
     cache: new InMemoryCache(),
     headers: {
