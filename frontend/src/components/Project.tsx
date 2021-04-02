@@ -14,6 +14,7 @@ interface ProjectProps {
     setCode?: any;
     errorBox: any;
     visible: boolean;
+    isReadOnly?: boolean;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -21,6 +22,7 @@ const Project: React.FC<ProjectProps> = ({
     setCode,
     errorBox,
     visible,
+    isReadOnly,
 }) => {
     const srcDoc = `
        <!DOCTYPE html>
@@ -51,8 +53,8 @@ const Project: React.FC<ProjectProps> = ({
             setWidth(targetRef.current!.offsetWidth);
         }
     }, [code]);
-    const [selected, setSelected] = useState<Language>(Languages[0]);
 
+    const [selected, setSelected] = useState<Language>(Languages[0]);
     return (
         <div className="bg-blue-50">
             <Navbar />
@@ -87,6 +89,7 @@ const Project: React.FC<ProjectProps> = ({
                         displayName={selected.option}
                         onChange={setCode}
                         code={code}
+                        readOnly={isReadOnly ? isReadOnly : false}
                     />
                 </ResizableBox>
                 <ResizableBox
