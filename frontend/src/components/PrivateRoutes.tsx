@@ -1,12 +1,13 @@
+import {useQuery} from '@apollo/client';
 import {Route,Redirect} from 'react-router-dom';
 import React from 'react';
-import {useAuthState} from '../context/index';
+import AuthOperations from '../graphql/operations/authOperations';
+import LoadingScreen from './LoadingScreen';
 
 interface Props {
-  component : React.FC<{logout:Function}>;
+  component : React.FC<{}>;
   path: string;
 };
-
 
 
 function PrivateRoute({
@@ -14,16 +15,24 @@ function PrivateRoute({
   path:path,
   ...rest
 }:Props) {
+
+  const {data,error,loading} = useQuery(AuthOperations.checkUser);
+   if (loading) return (<LoadingScreen/>);
    
-    const userDetails = useAuthState();
-    const auth = userDetails!==undefined && userDetails.id !== "" ; //use context
+   if (error) {
+    console.log(error);
+    return (<div>{error.message}</div>);}
+
+   const userId = data.getCurrentUser._id;
+   let auth = !(userId===null || userId === undefined ) ;
+
     return (
       <Route
         path={path}
         {...rest}
         render={() =>
           auth ? (
-              <Component logout={()=>{}}/>
+              <Component/>
           ) : (
             <Redirect
               to={{

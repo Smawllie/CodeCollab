@@ -1,39 +1,32 @@
 import React from 'react';
-import { RouteComponentProps, withRouter, Link,Route,Redirect } from 'react-router-dom';
-import User from '../@types/user';
-import {useMutation} from '@apollo/client';
+import { RouteComponentProps, withRouter, Link, useHistory } from 'react-router-dom';
+import { UserForm } from '../@types/user';
+import { useMutation } from '@apollo/client';
 import AuthOperations from '../graphql/operations/authOperations';
 import ErrorBox from '../components/Error';
-import {StoreSession,useAuthDispatch} from '../context/index';
-
-
 
 const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
-	
-	
-	const [userInfo,setUserInfo] = React.useState<User>({email:"",password:""}); //userinfo for form submission
+	const [ userInfo, setUserInfo ] = React.useState<UserForm>({ email: '', password: '' }); //userinfo for form submission
 
-// authentication status
+	// authentication status
 
-	const [loginUser] = useMutation(AuthOperations.SignIn);
-	const dispatch = useAuthDispatch();
-	const [error,setError ]= React.useState<any>(null);
-	const [visible,setVisible] = React.useState(false);
-	
+	const [ loginUser ] = useMutation(AuthOperations.SignIn);
+	const [ error, setError ] = React.useState<any>(null);
+	const [ visible, setVisible ] = React.useState(false);
+	let history = useHistory();
 	const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		loginUser({variables:userInfo}).
-		then(async response => {
-			if(response.data){
-				let success = await StoreSession(dispatch,response.data.signIn);
-				if(success && success._id!=="") props.history.push('/editor');
-			}
-		}).
-		catch(e => {
-			console.log(error);
-			setError(<ErrorBox message={e.message} setVisible={setVisible} />);
-			setVisible(true);
-		});
+		loginUser({ variables: userInfo })
+			.then(async (response) => {
+				if (response.data) {
+					history.push(`/projects/${response.data.signIn._id}`);
+				}
+			})
+			.catch((e) => {
+				console.log(error);
+				setError(<ErrorBox message={e.message} setVisible={setVisible} />);
+				setVisible(true);
+			});
 	};
 
 	return (
@@ -57,7 +50,9 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 								<label className="text-lg text-light text-gray-500"> Email </label>
 								<input
 									name="email"
-									onChange={(e)=>{setUserInfo({...userInfo,email:e.target.value})}}
+									onChange={(e) => {
+										setUserInfo({ ...userInfo, email: e.target.value });
+									}}
 									type="email"
 									className="shadow-sm appearance-none rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-4 focus:outline-none focus:ring-blue-600 focus:ring-opacity-50"
 								/>
@@ -66,7 +61,9 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 								<label className="text-lg text-light text-gray-500">Password</label>
 								<input
 									name="password"
-									onChange={(e)=>{setUserInfo({...userInfo,password:e.target.value})}}
+									onChange={(e) => {
+										setUserInfo({ ...userInfo, password: e.target.value });
+									}}
 									type="password"
 									className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-4 focus:outline-none focus:ring-blue-600 focus:ring-opacity-50"
 								/>

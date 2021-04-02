@@ -24,7 +24,18 @@ mutation signIn($email: String!, $password: String!) {
                _id
            }
    }
-
+`,
+    checkUser: gql`
+query CheckUser{
+    getCurrentUser{
+        _id
+    }
+}
+`,
+logout : gql `
+   mutation SignOut{
+    signOut
+}
 
 `
 }

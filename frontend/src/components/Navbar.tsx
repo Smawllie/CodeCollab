@@ -1,28 +1,39 @@
-import { useAuthDispatch, useAuthState,DeleteSession } from "../context";
+import {useMutation} from '@apollo/client';
+import { useHistory,Link } from "react-router-dom";
+import AuthOperations from '../graphql/operations/authOperations';
 
+export default function Navbar(){
 
-export default function Navbar(props:any){
-    const dispatch = useAuthDispatch();
-	const userDetails = useAuthState();
+    let history = useHistory();
+    const [logout] = useMutation(AuthOperations.logout);
+
     function handleLogout(){
-
-        // DeleteSession(dispatch);
-		// props.history.push('/login');
+        logout().then(({data})=>{
+            if(data.signOut) history.push('/');
+            else throw new Error("Cannot log out");
+        }).catch(error=>{
+            console.log(error);
+        });
+  
     };
 
-    return(
-        <header>
-            <a href="/" className="text-6xl text-blue-500">
+   return (
+        <header className="justify-between px-3">
+            <Link to="/" className="text-6xl text-blue-500 px-3">
                 CodeCollab
-            </a>
-            <nav>
-                {/* <ul className="flex space-x-4 justify-space-between">
-                    <li>About</li>
-                    <li>Contact</li> 
-                    <li><a href="/login">Sign In</a></li> 
-                    <li><a href="/signup">Sign Up</a></li> 
-                </ul> */}
-                <button className="outline-none " onClick={handleLogout} >Logout</button>
+            </Link>
+            <nav className="float-right px-5 py-2">
+            <button
+				className="outline-none p-1 flex flex-no-wrap items-between hover:ring-3 hover:bg-blue-100 font-bold py-2 px-4 rounded"
+				onClick={handleLogout}
+			>
+				<span className="text-blue-500 py-3">Logout</span>
+				<img
+					className="w-full h-full py-1/2"
+					src="/media/logout.svg"
+					style={{ height: '40px', width: '55px' }}
+				/>
+			</button>
             </nav>
         </header>
         );

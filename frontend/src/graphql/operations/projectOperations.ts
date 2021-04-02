@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 
 const projectOperations = {
     getUserProjects: gql`
-        query getUserProjects($id: String!) {
-            getUserById(id: $id) {
+        query getUserProjects {
+            getCurrentUser {
                 sharedProjects {
                     _id
                     name
@@ -19,6 +19,17 @@ const projectOperations = {
         mutation createProject($name: String!) {
             createProject(project: { name: $name }) {
                 _id
+            }
+        }
+    `,
+    getProjectById: gql`
+        query getProjectById($id: String!) {
+            getProjectById(id: $id) {
+                _id
+                name
+                html
+                css
+                js
             }
         }
     `,

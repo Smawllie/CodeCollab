@@ -13,6 +13,13 @@ export const Languages: Language[] = [
         selected: false,
         key: "langauge",
     },
+    {
+        option:"CSS",
+        language:"css",
+        selected: false,
+        key: "langauge",
+        
+    }
 ];
 
 

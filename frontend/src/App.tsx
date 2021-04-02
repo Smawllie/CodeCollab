@@ -5,14 +5,11 @@ import { BrowserRouter, Route, Switch, RouteComponentProps} from 'react-router-d
 import Routes from './config/routes';
 import client from './apolloClient';
 import PrivateRoute from './components/PrivateRoutes';
-import {AuthProvider} from './context/index';
 
 
 const App: React.FunctionComponent<{}> = () => {
-
 return (<>
         <ApolloProvider client={client}>
-         <AuthProvider>
             <BrowserRouter>
             <Switch>
                 {Routes.map((route,index)=>{ 
@@ -39,7 +36,6 @@ return (<>
             }
             </Switch>
         </BrowserRouter>
-        </AuthProvider>
         </ApolloProvider>
 
     </>);

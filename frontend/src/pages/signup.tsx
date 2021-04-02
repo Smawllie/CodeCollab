@@ -1,41 +1,35 @@
 import React, { FormEvent } from 'react';
-import { RouteComponentProps, withRouter, Link } from 'react-router-dom';
-import User from '../@types/user';
-import {useMutation} from '@apollo/client';
+import { RouteComponentProps, withRouter, Link, useHistory } from 'react-router-dom';
+import { UserForm } from '../@types/user';
+import { useMutation } from '@apollo/client';
 import AuthOperations from '../graphql/operations/authOperations';
 import ErrorBox from '../components/Error';
-import { StoreSession, useAuthDispatch } from '../context';
-
 
 const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) => {
-	
-	const [userInfo,setUserInfo ] = React.useState<User>({
-		email:'',
-		password:''
+	const [ userInfo, setUserInfo ] = React.useState<UserForm>({
+		email: '',
+		password: ''
 	});
-	const dispatch = useAuthDispatch();
-	const [error,setError ]= React.useState<any>(null);
-	const [visible,setVisible] = React.useState(false);
+	const [ error, setError ] = React.useState<any>(null);
+	const [ visible, setVisible ] = React.useState(false);
 
-	const [signUpUser] = useMutation(AuthOperations.SignUp);
-
+	const [ signUpUser ] = useMutation(AuthOperations.SignUp);
+	let history = useHistory();
 	function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		signUpUser({variables:userInfo}).
-		then(async response => {
-			if(response.data){
-				let success = await StoreSession(dispatch,response.data.signUp);
-				if(success && success._id!=="") props.history.push('/editor');
-			}
-		}).
-		catch(e => {
-			console.log(error);
-			setError(<ErrorBox message={e.message} setVisible={setVisible} />);
-			setVisible(true);
-		});
+		signUpUser({ variables: userInfo })
+			.then(async (response) => {
+				if (response.data) {
+					history.push(`/projects/${response.data.signUp._id}`);
+				}
+			})
+			.catch((e) => {
+				console.log(error);
+				setError(<ErrorBox message={e.message} setVisible={setVisible} />);
+				setVisible(true);
+			});
 	}
 	//set context and redirect user to editor
-
 
 	return (
 		<div className="bg-blue-100 h-screen ">
@@ -58,7 +52,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 								<label className="text-lg text-light text-gray-500">Email</label>
 								<input
 									onChange={(e) => {
-										setUserInfo({...userInfo,email:e.target.value});
+										setUserInfo({ ...userInfo, email: e.target.value });
 									}}
 									name="email"
 									type="email"
@@ -69,7 +63,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 								<label className="text-lg text-light text-gray-500">Password</label>
 								<input
 									onChange={(e) => {
-										setUserInfo({...userInfo,password:e.target.value});;
+										setUserInfo({ ...userInfo, password: e.target.value });
 									}}
 									name="password"
 									type="password"
