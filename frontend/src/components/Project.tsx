@@ -1,60 +1,62 @@
-import React from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { ResizableBox } from "react-resizable";
+
+import Language from "../@types/language";
+import CodeRender from "../components/CodeRender";
+import Dropdown from "../components/Dropdown";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
-import Dropdown from "../components/Dropdown";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
-import { withRouter } from "react-router-dom";
-import Language from "../@types/language";
-import { ResizableBox } from "react-resizable";
-import CodeRender from "../components/CodeRender";
 
-function EditorPage() {
-    const [code, setCode] = React.useState({ //rename xml to html while sending
-        javascript: "",
-        xml: "",
-        css: "",
-    });
+interface ProjectProps {
+    code: any;
+    setCode?: any;
+    errorBox: any;
+    visible: boolean;
+}
 
+const Project: React.FC<ProjectProps> = ({
+    code,
+    setCode,
+    errorBox,
+    visible,
+}) => {
     const srcDoc = `
-    <!doctype html>
+       <!DOCTYPE html>
+       <html lang="en">
+           <head>
+               <meta charset="utf-8" />
+               <title>The HTML5 Herald</title>
+               <meta name="description" content="The HTML5 Herald" />
+               <meta name="author" content="SitePoint" />
+               <style>
+                   ${code.css}
+               </style>
+           </head>
 
-    <html lang="en">
-    <head>
-      <meta charset="utf-8">
-    
-      <title>The HTML5 Herald</title>
-      <meta name="description" content="The HTML5 Herald">
-      <meta name="author" content="SitePoint">
-    
-     <style> ${code.css} </style>
-    
-    </head>
+           <body>
+               ${code.xml}
+               <script>
+                   ${code.javascript}
+               </script>
+           </body>
+       </html>`;
 
-    
-    <body>
-    ${code.xml}
-      <script>
-        ${code.javascript}
-      </script>
-    </body>
-    </html>
-    
-    `;
+    const targetRef = useRef<any>(null);
+    const [width, setWidth] = useState<number>(300);
 
-    const targetRef = React.useRef<any>(null);
-    const [width, setWidth] = React.useState<number>(0);
-
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (targetRef.current) {
             setWidth(targetRef.current!.offsetWidth);
         }
-    }, []);
+    }, [code]);
+    const [selected, setSelected] = useState<Language>(Languages[0]);
 
-    const [selected, setSelected] = React.useState<Language>(Languages[0]);
     return (
         <div className="bg-blue-50">
             <Navbar />
+            {visible && errorBox}
             <ButtonOCR />
             <Dropdown
                 title="Select Langauge"
@@ -100,6 +102,6 @@ function EditorPage() {
             </div>
         </div>
     );
-}
+};
 
-export default withRouter(EditorPage);
+export default Project;
