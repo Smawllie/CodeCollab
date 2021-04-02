@@ -23,7 +23,13 @@ export class SignInResolver {
         if (!valid) throw new AuthenticationError("Access Denied");
 
         // Set session cookie and cookie for frontend
+        console.log("signin resolver");
         context.req.session.userId = user._id.toString();
+        console.log(
+            "signin context.req.session.userId",
+            context.req.session.userId
+        );
+        context.req.session.userId = "test";
 
         return user;
     }

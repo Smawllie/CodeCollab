@@ -3,9 +3,12 @@ import { Request } from "express";
 export const context = ({ req, res, connection }: any) => {
     if (connection) {
         // Subscription
-        const token = connection.context.authorization || "";
-        return { token };
+        // console.log("context connection", req.session, connection);
+        // const token = connection.context.authorization || "";
+        console.log("nothing gets here");
+        return;
     } else {
+        // console.log("context", req.session);
         return { req };
     }
 };

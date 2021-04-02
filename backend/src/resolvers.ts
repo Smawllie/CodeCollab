@@ -1,4 +1,3 @@
-import { SubscribeProjectResolver } from "./modules/project/subscribeProject.resolver";
 import { NonEmptyArray } from "type-graphql";
 
 // Authentication Resolvers
@@ -31,7 +30,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     SignInResolver,
     SignOutResolver,
 
-
     // Project Resolvers
     CreateProjectResolver,
     ProjectFieldResolver,
@@ -51,7 +49,4 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     WriteFileResolver,
     GetFileResolver,
     DeleteFileResolver,
-
-    // Subsribe Resolvers
-    SubscribeProjectResolver,
 ];

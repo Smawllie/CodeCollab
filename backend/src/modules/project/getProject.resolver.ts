@@ -29,14 +29,14 @@ export class GetProjectResolver {
     @Subscription(() => Project, {
         topics: "PROJECTS",
         filter: ({ payload, args }: any) => {
-            return payload._id == args._id;
+            return payload._id == args.id;
         },
     })
     // @Authorized()
     subscribeProjectById(
         @Root() project: Project,
-        @Arg("_id") projectId: String
-        // @Ctx() context: Context
+        @Arg("id") projectId: String,
+        @Ctx() context: Context
     ) {
         return project;
     }
