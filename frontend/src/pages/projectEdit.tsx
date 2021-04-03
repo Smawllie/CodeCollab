@@ -12,6 +12,7 @@ import { Languages } from '../config/languages';
 import projectOperations from '../graphql/operations/projectOperations';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorBox from '../components/Error';
+import Project from "../components/Project";
 
 function ProjectEditPage() {
 
@@ -150,6 +151,6 @@ function ProjectEditPage() {
 			</div>
 		</div>
 	);
-}
 
+}
 export default withRouter(ProjectEditPage);

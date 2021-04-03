@@ -30,7 +30,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     SignInResolver,
     SignOutResolver,
 
-
     // Project Resolvers
     CreateProjectResolver,
     ProjectFieldResolver,

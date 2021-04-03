@@ -10,7 +10,7 @@ import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
-const MongoDBStore = require('connect-mongodb-session')(Session);
+const MongoDBStore = require("connect-mongodb-session")(Session);
 // TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
@@ -23,9 +23,9 @@ const main = async () => {
 
     const sessionStore = new MongoDBStore({
         uri: MONGO_DB_URL,
-        collection: 'sessions'
+        collection: "sessions",
     });
-    sessionStore.on("error",function(error: Error){
+    sessionStore.on("error", function (error: Error) {
         console.log(error);
     });
 
@@ -43,22 +43,44 @@ const main = async () => {
             secret: "Change this secret later",
             resave: false,
             saveUninitialized: true,
-            store:sessionStore,
-            unset:'destroy'
+            store: sessionStore,
+            unset: "destroy",
             // TODO: Add helmet and look at cors package
             // cookie: { httpOnly: true, secure: true, sameSite: true },
         })
     );
 
     const schema = await buildSchema({ resolvers, authChecker });
-    const apolloServer = new ApolloServer({ schema, context });
+    const apolloServer = new ApolloServer({
+        schema,
+        context,
+        subscriptions: {
+            path: "/subscriptions",
+            onConnect: (connectionParams, webSocket: any, context) => {
+                // console.log(connectionParams);
+                console.log("Client connected");
+                return context;
+            },
+            onDisconnect: (_webSocket, _context) => {
+                console.log("Client disconnected");
+                return _context;
+            },
+        },
+    });
+
     apolloServer.applyMiddleware({ app, cors: corsOptions });
 
-    createServer(app).listen(PORT, function () {
+    const server = createServer(app);
+    apolloServer.installSubscriptionHandlers(server);
+
+    server.listen(PORT, function () {
         console.log(`
             HTTP GraphQL server on http://localhost:${PORT}/graphql/
             Run queries at https://studio.apollographql.com/dev/
         `);
+        console.log(
+            `🚀 Subscriptions ready at ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
+        );
     });
 };
 

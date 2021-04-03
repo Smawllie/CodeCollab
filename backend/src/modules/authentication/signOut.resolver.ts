@@ -7,6 +7,7 @@ export class SignOutResolver {
     @Mutation(() => Boolean)
     @Authorized()
     async signOut(@Ctx() context: Context): Promise<Boolean> {
+        console.log("signout");
         return new Promise((resolve, reject) =>
             context.req.session.destroy((err) => {
                 if (err) reject(err);
