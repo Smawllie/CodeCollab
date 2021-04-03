@@ -9,6 +9,7 @@ import { buildSchema } from "type-graphql";
 import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
+import { setupSocketIO } from "./setupSocketIO";
 
 const MongoDBStore = require("connect-mongodb-session")(Session);
 // TODO: Maybe this should be in an env file or something
@@ -70,8 +71,10 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app, cors: corsOptions });
 
-    const server = createServer(app);
-    apolloServer.installSubscriptionHandlers(server);
+    let server = createServer(app);
+
+    // Setup socket.io
+    setupSocketIO(server);
 
     server.listen(PORT, function () {
         console.log(`
