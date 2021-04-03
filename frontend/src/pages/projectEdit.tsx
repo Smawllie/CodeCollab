@@ -1,7 +1,8 @@
-import { useQuery } from "@apollo/client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ResizableBox } from "react-resizable";
 import { useParams, withRouter } from "react-router";
+import io from "socket.io-client";
+import { Socket } from "socket.io-client";
 
 import Language from "../@types/language";
 import CodeRender from "../components/CodeRender";
@@ -10,57 +11,38 @@ import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
-import projectOperations from "../graphql/operations/projectOperations";
-import LoadingScreen from "../components/LoadingScreen";
-import ErrorBox from "../components/Error";
 
 function ProjectEditPage() {
-    
-
     const params: any = useParams();
     const projectId = params.projectId;
-    const [errorBox, setErrorBox] = useState<any>(null);
-    const [visible, setVisible] = useState(false);
+    let socket: typeof Socket | null = null;
 
-    const { loading, error, data } = useQuery(
-        projectOperations.getProjectById,
-        {
-            variables: {
-                id: projectId,
-            },
-        }
-    );
+    useEffect(() => {
+        socket = io("http://localhost:4000/");
 
-    const initState = data ? {
-        //rename xml to html while sending
-        javascript: data.getProjectById.js,
-        xml: data.getProjectById.html,
-        css: data.getProjectById.css,
-    }: {
+        socket.on("connect", function () {
+            socket!.emit("openProject", projectId);
+        });
+
+        socket.on("disconnect", function () {
+            socket!.removeAllListeners();
+        });
+
+        socket.on("hostSendData", function () {
+            socket!.emit("updateProjectData", {
+                html: code.xml,
+                css: code.css,
+                js: code.javascript,
+            });
+        });
+    }, []);
+
+    const [code, setCode] = useState({
         //rename xml to html while sending
         javascript: "",
         xml: "",
         css: "",
-    }
-    const [code, setCode] = useState(initState);
-
-    
-
-    if (error) {
-        setErrorBox(
-            <ErrorBox message={error.message} setVisible={setVisible} />
-        );
-        setVisible(true);
-    }
-
-    // if (data) {
-    //     setCode({
-    //         javascript :data.getProjectById.js,
-    //     xml : data.getProjectById.html,
-    //     css : data.getProjectById.css
-    //     })
-        
-    // }
+    });
 
     const srcDoc = `
        <!DOCTYPE html>
@@ -91,13 +73,11 @@ function ProjectEditPage() {
             setWidth(targetRef.current!.offsetWidth);
         }
     }, [code]);
-    
+
     const [selected, setSelected] = useState<Language>(Languages[0]);
-    if (loading) return (<LoadingScreen/>);
     return (
         <div className="bg-blue-50">
             <Navbar />
-            {visible && errorBox}
             <ButtonOCR />
             <Dropdown
                 title="Select Langauge"
