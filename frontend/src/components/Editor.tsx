@@ -22,11 +22,12 @@ function Editor({displayName,language,code,onChange}:EditorProps) {
             onChange({...code,[language]:value});
     };
     return (
-        <div className="bg-blue-50 w-full h-full" >
+        <div className="w-full h-full" >
             <div className="bg-gray-700 flex justify-between py-2 px-3 text-white">
             {displayName}
             </div>
           <ControlledEditor
+            className="h-full w-full"
             onBeforeChange={handleChange}
             value={code[language]}
             options={{
