@@ -44,18 +44,16 @@ function EditorPage() {
     
     `;
 
-  const targetRef = React.useRef<any>(null);
-  const [width,setWidth] = React.useState<number>(0);
+  const [width, setWidth] = React.useState(window.innerWidth);
 
-  React.useLayoutEffect(() => {
-    if (targetRef.current) {
-		setWidth(targetRef.current!.offsetWidth);
-    }
-  }, []);
+  React.useEffect(() => {
+    window.addEventListener("resize", ()=>{setWidth(window.innerWidth);});
+    return () => window.removeEventListener("resize", ()=>{setWidth(window.innerWidth);});
+});
 
 	const [ selected, setSelected ] = React.useState<Language>(Languages[0]);
 	return (
-		<div className="bg-blue-50">
+		<div className="bg-blue-700 h-full w-full">
 			<Navbar />
 			<ButtonOCR />
 			<Dropdown
@@ -64,12 +62,12 @@ function EditorPage() {
 				setSelected={setSelected}
 				className="py-2 px-5 w-1/5 shadow-xs"
 			/>
-			<div className="h-full w-full m-0 flex" ref={targetRef}>
+			<div className="h-full w-full m-0 flex">
 				<ResizableBox
 					className="relative flex justify-items-center m-1 shadow-xs"
 					height={500}
 					width={width/2}
-					maxConstraints={[ 800, 500 ]}
+					maxConstraints={[ width/2, 500 ]}
 					minConstraints={[ 300, 500 ]}
 					axis="x"
 					handle={
@@ -88,12 +86,19 @@ function EditorPage() {
 					/>
 				</ResizableBox>
 				<ResizableBox
-					className="relative px-2 flex justify-items-center m-1 shadow-xs"
+					className="relative px-2 flex justify-items-center m-1 shadow-md"
 					height={500}
 					width={width/2}
-					maxConstraints={[ 800, 500 ]}
+					maxConstraints={[ 1000, 500 ]}
 					minConstraints={[ 300, 500 ]}
 					axis="x"
+					handle={
+						<div
+							className="absolute right-0 w-30 bg-no-repeat shadow-md bg-center bg-gray-500 cursor-pointer"
+							style={{ backgroundImage: `url(/media/horizontal-resize.svg)` }}
+						/>
+					}
+					handleSize={[ 10, 15 ]}
 				>
                     <CodeRender srcDoc={srcDoc}/>
 				</ResizableBox>
