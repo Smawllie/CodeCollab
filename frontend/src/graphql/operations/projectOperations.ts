@@ -33,6 +33,15 @@ const projectOperations = {
             }
         }
     `,
+    saveWebProject : gql`
+     mutation saveWebProject($projectId:String!,$html:String!,$css:String!,$js:String!){
+         saveWebProject(project:{projectId:$projectId,html:$html,css:$css,js:$js}){
+            _id
+         }
+      
+     }
+    
+    `
 };
 
 export default projectOperations;

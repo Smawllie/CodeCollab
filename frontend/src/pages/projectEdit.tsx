@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client';
-import { useRef, useState, useEffect } from 'react';
+import { useQuery,useMutation } from '@apollo/client';
+import { useState, useEffect } from 'react';
 import { ResizableBox } from 'react-resizable';
 import { useParams, withRouter } from 'react-router';
-
 import Language from '../@types/language';
 import CodeRender from '../components/CodeRender';
 import Dropdown from '../components/Dropdown';
@@ -15,12 +14,13 @@ import LoadingScreen from '../components/LoadingScreen';
 import ErrorBox from '../components/Error';
 
 function ProjectEditPage() {
+
 	const params: any = useParams();
 	const projectId = params.projectId;
 	const [ errorBox, setErrorBox ] = useState<any>(null);
 	const [ visible, setVisible ] = useState(false);
 
-	const { loading, error, data } = useQuery(projectOperations.getProjectById, {
+	const  {loading, error, data } = useQuery(projectOperations.getProjectById,{
 		variables: {
 			id: projectId
 		}
@@ -46,14 +46,6 @@ function ProjectEditPage() {
 		setVisible(true);
 	}
 
-	// if (data) {
-	//     setCode({
-	//         javascript :data.getProjectById.js,
-	//     xml : data.getProjectById.html,
-	//     css : data.getProjectById.css
-	//     })
-
-	// }
 
 	const srcDoc = `
        <!DOCTYPE html>
@@ -77,18 +69,31 @@ function ProjectEditPage() {
        </html>`;
 
 	const [ width, setWidth ] = useState<number>(window.innerWidth);
+	const [pushProject] = useMutation(projectOperations.saveWebProject);
 
 	useEffect(() => {
+		const timeout = setTimeout(() => {
+			let project = {html:code.xml,css:code.css,js:code.javascript,projectId};
+			pushProject({variables:project}).catch(err=>{
+				console.log(err);
+			});
+		  }, 5000);
+
 		window.addEventListener('resize', () => {
 			setWidth(window.innerWidth);
 		});
-		return () =>
+
+		return () =>{
+			clearTimeout(timeout);
 			window.removeEventListener('resize', () => {
 				setWidth(window.innerWidth);
 			});
-	});
+		};
+			
+	},[code]);
 
 	const [ selected, setSelected ] = useState<Language>(Languages[0]);
+
 	if (loading) return <LoadingScreen />;
 	return (
 		<div className="h-full">
@@ -106,8 +111,8 @@ function ProjectEditPage() {
 						className="relative flex justify-items-center"
 						height={window.innerHeight*0.50}
 						width={width / 2}
-						maxConstraints={[ width *3 / 2, 800 ]}
-						minConstraints={[ width/3, 800 ]}
+						maxConstraints={[ width *5 / 2, window.innerHeight*0.50]}
+						minConstraints={[ width/2, window.innerHeight*0.50]}
 						axis="x"
 						handle={
 							<div
@@ -133,8 +138,8 @@ function ProjectEditPage() {
 						className="relative px-1 flex justify-items-center shadow-lg"
 						height={window.innerHeight*0.50}
 						width={width/2}
-						maxConstraints={[ width/ 2, 800 ]}
-						minConstraints={[ width/4, 800 ]}
+						maxConstraints={[ width/ 2, window.innerHeight*0.50]}
+						minConstraints={[ width/4, window.innerHeight*0.50]}
 						axis="x"
 					>
 						<div className="h-full w-full">
