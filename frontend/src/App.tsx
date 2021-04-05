@@ -1,19 +1,20 @@
 
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
-import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import routes from './config/route';
+import { BrowserRouter, Route, Switch, RouteComponentProps} from 'react-router-dom';
+import Routes from './config/routes';
 import client from './apolloClient';
-import Page404 from './pages/404';
+import PrivateRoute from './components/PrivateRoutes';
 
 
 const App: React.FunctionComponent<{}> = () => {
-	return (<>
+return (<>
         <ApolloProvider client={client}>
-        <BrowserRouter>
+            <BrowserRouter>
             <Switch>
-                {routes.map((route,index)=>{
-                  return (
+                {Routes.map((route,index)=>{ 
+                    
+                 return (!route.protected) ? (
                     <Route
                         key={index}
                         path={route.path}
@@ -25,9 +26,14 @@ const App: React.FunctionComponent<{}> = () => {
                             {...route.props}/>
                         )}
                     />
-                  );
-                })}
-                <Route component={Page404}/>
+                  ): 
+                  (
+                       (
+                          <PrivateRoute key={index} component={route.component} path={route.path}/>
+                      )
+                  )
+            })
+            }
             </Switch>
         </BrowserRouter>
         </ApolloProvider>
@@ -35,5 +41,7 @@ const App: React.FunctionComponent<{}> = () => {
     </>);
 
 };
+
+
 
 export default App;

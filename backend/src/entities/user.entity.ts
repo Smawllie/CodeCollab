@@ -20,8 +20,8 @@ export class User {
     @Property({ required: true, unique: true })
     email: string;
 
-    @Field()
-    @Property({ required: true, unique: true })
+    @Field({ nullable: true })
+    @Property({ unique: true })
     username: string;
 
     @Property({ required: true })

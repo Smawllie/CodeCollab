@@ -10,6 +10,7 @@ import { context } from "./context";
 import { resolvers } from "./resolvers";
 import { customAuthChecker as authChecker } from "./modules/authorization/authorization.decorator";
 
+const MongoDBStore = require('connect-mongodb-session')(Session);
 // TODO: Maybe this should be in an env file or something
 const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
@@ -20,7 +21,21 @@ const main = async () => {
         useUnifiedTopology: true,
     });
 
+    const sessionStore = new MongoDBStore({
+        uri: MONGO_DB_URL,
+        collection: 'sessions'
+    });
+    sessionStore.on("error",function(error: Error){
+        console.log(error);
+    });
+
     const app = Express();
+
+    let corsOptions = {
+        // TODO: Point this to the actual front end domain
+        origin: "http://localhost:3000",
+        credentials: true,
+    };
 
     app.use(
         Session({
@@ -28,6 +43,8 @@ const main = async () => {
             secret: "Change this secret later",
             resave: false,
             saveUninitialized: true,
+            store:sessionStore,
+            unset:'destroy'
             // TODO: Add helmet and look at cors package
             // cookie: { httpOnly: true, secure: true, sameSite: true },
         })
@@ -35,7 +52,7 @@ const main = async () => {
 
     const schema = await buildSchema({ resolvers, authChecker });
     const apolloServer = new ApolloServer({ schema, context });
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     createServer(app).listen(PORT, function () {
         console.log(`
