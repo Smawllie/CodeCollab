@@ -15,12 +15,10 @@ const wsLink = new WebSocketLink({
     uri: process.env.REACT_APP_APOLLO_SERVER_SUBSCRIPTION!,
     options: {
         reconnect: true,
+        connectionParams: {
+            sid: document.cookie.split("connect.sid"),
+        },
     },
-    // look into react-cookie package
-    // document.cookie.split("username=")[1];
-    // connectionParams: {
-    //     session.id
-    // }
 });
 
 // The split function takes three parameters:

@@ -32,7 +32,7 @@ export class GetProjectResolver {
             return payload._id == args.id;
         },
     })
-    // @Authorized()
+    @Authorized()
     subscribeProjectById(
         @Root() project: Project,
         @Arg("id") projectId: String,

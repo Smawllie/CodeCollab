@@ -56,10 +56,10 @@ const main = async () => {
         context,
         subscriptions: {
             path: "/subscriptions",
-            onConnect: (connectionParams, webSocket: any, context) => {
-                // console.log(connectionParams);
+            onConnect: (connectionParams: any, webSocket: any, context) => {
+                // console.log("connectionParams", connectionParams);
                 console.log("Client connected");
-                return context;
+                return { context, connectionParams };
             },
             onDisconnect: (_webSocket, _context) => {
                 console.log("Client disconnected");
