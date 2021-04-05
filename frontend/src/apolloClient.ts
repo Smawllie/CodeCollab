@@ -16,6 +16,11 @@ const wsLink = new WebSocketLink({
     options: {
         reconnect: true,
     },
+    // look into react-cookie package
+    // document.cookie.split("username=")[1];
+    // connectionParams: {
+    //     session.id
+    // }
 });
 
 // The split function takes three parameters:
