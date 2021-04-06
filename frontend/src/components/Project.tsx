@@ -8,6 +8,10 @@ import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
+import { useQuery } from "@apollo/client";
+import projectOperations from "../graphql/operations/projectOperations";
+import LoadingScreen from "../components/LoadingScreen";
+import { useParams } from "react-router-dom";
 
 interface ProjectProps {
     code: any;
@@ -24,6 +28,19 @@ const Project: React.FC<ProjectProps> = ({
     visible,
     isReadOnly,
 }) => {
+    // Get project ID from route
+    const params: any = useParams();
+    const projectId = params.projectId;
+    // Get Project
+    const { data, loading, error } = useQuery(
+        projectOperations.getProjectById,
+        {
+            variables: {
+                id: projectId,
+            },
+        }
+    );
+
     const srcDoc = `
        <!DOCTYPE html>
        <html lang="en">
@@ -55,11 +72,14 @@ const Project: React.FC<ProjectProps> = ({
     }, [code]);
 
     const [selected, setSelected] = useState<Language>(Languages[0]);
+
+    if (loading) return <LoadingScreen />;
     return (
         <div className="bg-blue-50">
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
+            <div>Project: {data.getProjectById.name}</div>
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
