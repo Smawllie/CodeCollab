@@ -22,14 +22,18 @@ function PrivateRoute({
 
     // Get Project
     const projectId = location.pathname.split("/")[2];
-    const { data: dataProject } = useQuery(projectOperations.getProjectById, {
-        variables: {
-            id: projectId,
-        },
-    });
+    const { data: dataProject, loading: loadingProject } = useQuery(
+        projectOperations.getProjectById,
+        {
+            variables: {
+                id: projectId,
+            },
+        }
+    );
 
     // Authenticate user
     const { data: data, error, loading } = useQuery(AuthOperations.checkUser);
+    if (loadingProject) return <LoadingScreen />;
     if (loading) return <LoadingScreen />;
 
     if (error) {
@@ -45,7 +49,6 @@ function PrivateRoute({
         (path == "/project/:projectId/edit" ||
             path == "/project/:projectId/view")
     ) {
-        // Get project ID from route
         const ownerId = dataProject.getProjectById.owner._id;
         // Only owners can edit, everyone else can view
         let redirectPath;
