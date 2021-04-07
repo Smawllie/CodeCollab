@@ -22,6 +22,10 @@ const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
 const PORT = 4000;
 
 ShareDB.types.map["json0"].registerSubtype(otText.type);
+const shareDBMongo = require("sharedb-mongo")(MONGO_DB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+});
 
 const main = async () => {
     connect(MONGO_DB_URL, {
@@ -92,7 +96,7 @@ const main = async () => {
     });
 
     // Setup ShareDB
-    const shareDB = new ShareDB();
+    const shareDB = new ShareDB({ db: shareDBMongo });
     const webSocketServer = new Server({ server });
 
     webSocketServer.on('connection', function (socket) {

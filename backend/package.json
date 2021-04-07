@@ -23,6 +23,7 @@
         "ot-text": "^1.0.2",
         "reflect-metadata": "^0.1.13",
         "sharedb": "^1.8.1",
+        "sharedb-mongo": "^1.0.0-beta.17",
         "type-graphql": "^1.1.1",
         "websocket-json-stream": "0.0.3",
         "ws": "^7.4.4"

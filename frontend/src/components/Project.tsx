@@ -13,6 +13,12 @@ import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
 
+import ShareDB from "sharedb/lib/client";
+import { Socket } from "sharedb/lib/sharedb";
+const otText = require("ot-text");
+const ShareDBCodeMirror = require("sharedb-codemirror");
+ShareDB.types.map["json0"].registerSubtype(otText.type);
+
 interface ProjectProps {
     code: any;
     setCode?: any;
@@ -40,6 +46,47 @@ const Project: React.FC<ProjectProps> = ({
             },
         }
     );
+
+    const socket = new WebSocket("ws://localhost:4000/");
+    const shareConnection = new ShareDB.Connection(socket as Socket);
+    const [editor, setEditor] = useState<any>(null);
+    const [shareDBCM, setShareDBCM] = useState<any>(null);
+
+    function setupShareDB(editor: any) {
+        setEditor(editor);
+        let doc = shareConnection.get("files", data.getProjectById.html);
+        setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            key: 'content',
+            verbose: true
+        }));
+    }
+
+    /* IDEA: Try using three editors lol and just hide them when not being used */
+    function changeLanguage(item: any) {
+        shareDBCM.stop();
+        setSelected(item);
+        if (item.option === "HTML") {
+            let doc = shareConnection.get("files", data.getProjectById.html);
+            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+                key: 'content',
+                verbose: true
+            }));
+        }
+        else if (item.option === "CSS") {
+            let doc = shareConnection.get("files", data.getProjectById.css);
+            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+                key: 'content',
+                verbose: true
+            }));
+        }
+        else if (item.option === "JS") {
+            let doc = shareConnection.get("files", data.getProjectById.js);
+            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+                key: 'content',
+                verbose: true
+            }));
+        }
+    }
 
     const srcDoc = `
        <!DOCTYPE html>
@@ -83,7 +130,7 @@ const Project: React.FC<ProjectProps> = ({
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
-                setSelected={setSelected}
+                setSelected={changeLanguage}
                 className="py-2 px-5 w-1/5 shadow-xs"
             />
             <div className="h-full w-full m-0 flex" ref={targetRef}>
@@ -109,6 +156,7 @@ const Project: React.FC<ProjectProps> = ({
                         displayName={selected.option}
                         onChange={setCode}
                         code={code}
+                    setupShareDB={setupShareDB}
                         readOnly={isReadOnly ? isReadOnly : false}
                     />
                 </ResizableBox>
