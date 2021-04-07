@@ -50,7 +50,7 @@ function PrivateRoute({
             path == "/project/:projectId/view")
     ) {
         const ownerId = dataProject.getProjectById.owner._id;
-        // Only owners can edit, everyone else can view
+        // Only owners  can edit, everyone else can view
         let redirectPath;
         if (userId == ownerId) {
             redirectPath = `/project/${projectId}/edit`;
