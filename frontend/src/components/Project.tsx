@@ -98,7 +98,10 @@ const Project: React.FC<ProjectProps> = ({
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
-            <div>Project: {data.getProjectById.name}</div>
+            <div>
+                Project: {data.getProjectById.name} (Owner:{" "}
+                {data.getProjectById.owner.email})
+            </div>
             <div className="border-2" onClick={handleCopy}>
                 {window.location.href}
                 <FileCopyIcon className="ml-1" />
