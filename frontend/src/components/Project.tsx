@@ -6,12 +6,14 @@ import CodeRender from "../components/CodeRender";
 import Dropdown from "../components/Dropdown";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
+import CopyPopup from "../components/CopyPopup";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
 import { useQuery } from "@apollo/client";
 import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 
 interface ProjectProps {
     code: any;
@@ -73,6 +75,23 @@ const Project: React.FC<ProjectProps> = ({
 
     const [selected, setSelected] = useState<Language>(Languages[0]);
 
+    // Boolean open/close copy popup
+    const [openCopyPopup, setOpenCopyPopup] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setOpenCopyPopup(true);
+    };
+
+    // Called when copy popup is closed
+    const handleCloseCopyPopup = (event: object, reason: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpenCopyPopup(false);
+    };
+
     if (loading) return <LoadingScreen />;
     return (
         <div className="bg-blue-50">
@@ -80,6 +99,10 @@ const Project: React.FC<ProjectProps> = ({
             {visible && errorBox}
             <ButtonOCR />
             <div>Project: {data.getProjectById.name}</div>
+            <div className="border-2" onClick={handleCopy}>
+                {window.location.href}
+                <FileCopyIcon className="ml-1" />
+            </div>
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
@@ -122,6 +145,10 @@ const Project: React.FC<ProjectProps> = ({
                 >
                     <CodeRender srcDoc={srcDoc} />
                 </ResizableBox>
+                <CopyPopup
+                    openCopyPopup={openCopyPopup}
+                    handleCloseCopyPopup={handleCloseCopyPopup}
+                />
             </div>
         </div>
     );
