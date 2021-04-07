@@ -23,14 +23,7 @@ function ProjectEditPage() {
     );
 
     // Initialize code from project
-    const initState = data
-        ? {
-              //rename xml to html while sending
-              javascript: data.getProjectById.js,
-              xml: data.getProjectById.html,
-              css: data.getProjectById.css,
-          }
-        : {
+    const initState = {
               //rename xml to html while sending
               javascript: "",
               xml: "",

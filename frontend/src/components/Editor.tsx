@@ -6,6 +6,13 @@ import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/css/css";
 import { Controlled as ControlledEditor } from "react-codemirror2";
 
+import ShareDB from "sharedb/lib/client";
+import { Socket } from "sharedb/lib/sharedb";
+const otText = require("ot-text");
+const ShareDBCodeMirror = require("sharedb-codemirror");
+
+ShareDB.types.map["json0"].registerSubtype(otText.type);
+
 interface EditorProps {
     displayName: String;
     language: string;
@@ -22,6 +29,17 @@ function Editor({
     readOnly,
 }: EditorProps) {
     let isReadOnly = readOnly ? readOnly : false;
+
+    function setupShareDB(editor: any) {
+        const socket = new WebSocket("ws://localhost:4000/");
+        const shareConnection = new ShareDB.Connection(socket as Socket);
+        const doc = shareConnection.get("test", "doc");
+        ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            key: 'content',
+            verbose: true
+        });
+    }
+
     function handleChange(editor: any, data: String, value: string) {
         onChange({ ...code, [language]: value });
     }
@@ -33,6 +51,7 @@ function Editor({
             <ControlledEditor
                 onBeforeChange={handleChange}
                 value={code[language]}
+            editorDidMount={editor => setupShareDB(editor) }
                 options={{
                     lint: true,
                     mode: language,
