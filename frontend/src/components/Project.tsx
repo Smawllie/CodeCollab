@@ -51,10 +51,15 @@ const Project: React.FC<ProjectProps> = ({
     const shareConnection = new ShareDB.Connection(socket as Socket);
     const [editor, setEditor] = useState<any>(null);
     const [shareDBCM, setShareDBCM] = useState<any>(null);
+    const [html, setHtml] = useState("");
+    const [htmlVisible, setHtmlVisible] = useState(true);
+    const [css, setCss] = useState("");
+    const [cssVisible, setCssVisible] = useState(false);
+    const [js, setJs] = useState("");
+    const [jsVisible, setJsVisible] = useState(false);
 
-    function setupShareDB(editor: any) {
-        setEditor(editor);
-        let doc = shareConnection.get("files", data.getProjectById.html);
+    function setupShareDB(editor: any, lang: any) {
+        let doc = shareConnection.get("files", data.getProjectById[lang]);
         setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
             key: 'content',
             verbose: true
@@ -63,28 +68,37 @@ const Project: React.FC<ProjectProps> = ({
 
     /* IDEA: Try using three editors lol and just hide them when not being used */
     function changeLanguage(item: any) {
-        shareDBCM.stop();
         setSelected(item);
+        // shareDBCM.stop();
         if (item.option === "HTML") {
-            let doc = shareConnection.get("files", data.getProjectById.html);
-            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-                key: 'content',
-                verbose: true
-            }));
+            setJsVisible(false);
+            setCssVisible(false);
+            setHtmlVisible(true);
+            // let doc = shareConnection.get("files", data.getProjectById.html);
+            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            //     key: 'content',
+            //     verbose: true
+            // }));
         }
         else if (item.option === "CSS") {
-            let doc = shareConnection.get("files", data.getProjectById.css);
-            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-                key: 'content',
-                verbose: true
-            }));
+            setHtmlVisible(false);
+            setJsVisible(false);
+            setCssVisible(true);
+            // let doc = shareConnection.get("files", data.getProjectById.css);
+            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            //     key: 'content',
+            //     verbose: true
+            // }));
         }
         else if (item.option === "JS") {
-            let doc = shareConnection.get("files", data.getProjectById.js);
-            setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-                key: 'content',
-                verbose: true
-            }));
+            setHtmlVisible(false);
+            setCssVisible(false);
+            setJsVisible(true);
+            // let doc = shareConnection.get("files", data.getProjectById.js);
+            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            //     key: 'content',
+            //     verbose: true
+            // }));
         }
     }
 
@@ -97,14 +111,14 @@ const Project: React.FC<ProjectProps> = ({
                <meta name="description" content="The HTML5 Herald" />
                <meta name="author" content="SitePoint" />
                <style>
-                   ${code.css}
+                   ${css}
                </style>
            </head>
 
            <body>
-               ${code.xml}
+               ${html}
                <script>
-                   ${code.javascript}
+                   ${js}
                </script>
            </body>
        </html>`;
@@ -151,14 +165,48 @@ const Project: React.FC<ProjectProps> = ({
                     }
                     handleSize={[20, 20]}
                 >
-                    <Editor
+                    {/* <Editor
                         language={selected.language.toString()}
                         displayName={selected.option}
                         onChange={setCode}
                         code={code}
                     setupShareDB={setupShareDB}
                         readOnly={isReadOnly ? isReadOnly : false}
-                    />
+                    /> */}
+                    <div>
+                        <Editor
+                            language={"xml"}
+                            displayName={"HTML"}
+                            onChange={setHtml}
+                            code={html}
+                            setupShareDB={setupShareDB}
+                            readOnly={isReadOnly ? isReadOnly : false}
+                        visible={htmlVisible}
+                        />
+                    </div>
+                    <div>
+                        <Editor
+                            language={"css"}
+                            displayName={"CSS"}
+                            onChange={setCss}
+                            code={css}
+                            setupShareDB={setupShareDB}
+                            readOnly={isReadOnly ? isReadOnly : false}
+                        visible={cssVisible}
+                        />
+                    </div>
+                    <div>
+                        <Editor
+                            language={"javascript"}
+                            displayName={"JS"}
+                            onChange={setJs}
+                            code={js}
+                            setupShareDB={setupShareDB}
+                            readOnly={isReadOnly ? isReadOnly : false}
+                        visible={jsVisible}
+                        />
+                    </div>
+
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"

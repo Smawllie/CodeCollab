@@ -13,6 +13,7 @@ interface EditorProps {
     onChange: any;
     readOnly?: boolean;
     setupShareDB: any;
+    visible: boolean;
 }
 
 function Editor({
@@ -22,20 +23,21 @@ function Editor({
     onChange,
     readOnly,
     setupShareDB,
+    visible,
 }: EditorProps) {
     let isReadOnly = readOnly ? readOnly : false;
     function handleChange(editor: any, data: String, value: string) {
-        onChange({ ...code, [language]: value });
+        onChange(value);
     }
     return (
-        <div className="bg-blue-50 w-full h-full">
+        <div className="bg-blue-50 w-full h-full" style={visible ? {} : {display: "none"}}>
             <div className="bg-gray-700 flex justify-between py-2 px-3 text-white">
                 {displayName}
             </div>
             <ControlledEditor
                 onBeforeChange={handleChange}
-                value={code[language]}
-            editorDidMount={editor => setupShareDB(editor) }
+                value={code}
+                editorDidMount={editor => setupShareDB(editor, displayName.toLowerCase())}
                 options={{
                     lint: true,
                     mode: language,
