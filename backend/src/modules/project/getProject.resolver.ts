@@ -1,6 +1,19 @@
-import { Arg, Query, Resolver } from "type-graphql";
-
+// import { Context } from "./../../context";
+import {
+    Arg,
+    // Authorized,
+    // Subscription,
+    Resolver,
+    Query,
+    // Mutation,
+    // PubSub,
+    // Root,
+    // ResolverFilterData,
+    // Publisher,
+    // Ctx,
+} from "type-graphql";
 import { Project, ProjectModel } from "../../entities/project.entity";
+// import { SubscribeProjectInput } from "./input/subscribeProject.input";
 
 @Resolver()
 export class GetProjectResolver {
@@ -12,4 +25,19 @@ export class GetProjectResolver {
 
         return project;
     }
+
+    // @Subscription(() => Project, {
+    //     topics: "PROJECTS",
+    //     filter: ({ payload, args }: any) => {
+    //         return payload._id == args.id;
+    //     },
+    // })
+    // @Authorized()
+    // subscribeProjectById(
+    //     @Root() project: Project,
+    //     @Arg("id") projectId: String,
+    //     @Ctx() context: Context
+    // ) {
+    //     return project;
+    // }
 }

@@ -5,6 +5,7 @@ import { Context } from "../../context";
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { CreateProjectInput } from "./input/createProject.input";
 import { UserModel } from "../../entities/user.entity";
+import { Types } from "mongoose";
 
 @Resolver()
 export class CreateProjectResolver {
@@ -39,9 +40,9 @@ export class CreateProjectResolver {
         let project = new ProjectModel({
             name,
             owner: user,
-            html: "",
-            css: "",
-            js: "",
+            html: Types.ObjectId(),
+            css: Types.ObjectId(),
+            js: Types.ObjectId(),
         });
 
         // Add the newly created project to the user

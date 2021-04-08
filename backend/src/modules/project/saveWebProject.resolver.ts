@@ -1,4 +1,12 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import {
+    Arg,
+    Authorized,
+    Ctx,
+    Mutation,
+    PubSub,
+    PubSubEngine,
+    Resolver,
+} from "type-graphql";
 
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { SaveWebProjectInput } from "./input/saveWebProject.input";
@@ -10,6 +18,7 @@ export class SaveWebProjectResolver {
     @Mutation(() => Project)
     @Authorized()
     async saveWebProject(
+        @PubSub() pubSub: PubSubEngine,
         @Arg("project") { projectId, html, css, js }: SaveWebProjectInput,
         @Ctx() context: Context
     ) {
@@ -34,6 +43,9 @@ export class SaveWebProjectResolver {
         project.css = css;
         project.js = js;
         await project.save();
+
+        const payload: Project = project._doc;
+        await pubSub.publish("PROJECTS", payload);
 
         return project;
     }

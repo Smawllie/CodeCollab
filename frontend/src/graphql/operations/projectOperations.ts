@@ -15,6 +15,14 @@ const projectOperations = {
             }
         }
     `,
+    getCurrentUser: gql`
+        query getCurrentUser {
+            getCurrentUser {
+                _id
+                email
+            }
+        }
+    `,
     createProject: gql`
         mutation createProject($name: String!) {
             createProject(project: { name: $name }) {
@@ -25,6 +33,21 @@ const projectOperations = {
     getProjectById: gql`
         query getProjectById($id: String!) {
             getProjectById(id: $id) {
+                _id
+                name
+                html
+                css
+                js
+                owner {
+                    _id
+                    email
+                }
+            }
+        }
+    `,
+    subscribeProjectById: gql`
+        subscription subscribeProjectById($id: String!) {
+            subscribeProjectById(id: $id) {
                 _id
                 name
                 html

@@ -30,16 +30,16 @@ export class Project {
     files: Ref<File>[];
 
     @Field(() => String)
-    @Property({ default: "" })
-    html: string;
+    @Property({ required: true })
+    html: Types.ObjectId;
 
     @Field(() => String)
-    @Property({ default: "" })
-    css: string;
+    @Property({ required: true })
+    css: Types.ObjectId;
 
     @Field(() => String)
-    @Property({ default: "" })
-    js: string;
+    @Property({ required: true })
+    js: Types.ObjectId;
 
     @Field(() => [User])
     @Property({ ref: "User", required: true, default: [] })
