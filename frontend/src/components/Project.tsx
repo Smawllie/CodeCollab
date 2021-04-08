@@ -47,7 +47,7 @@ const Project: React.FC<ProjectProps> = ({
         }
     );
 
-    const socket = new WebSocket("ws://localhost:4000/");
+    const socket = new WebSocket(process.env.REACT_APP_WEB_SOCKET!);
     const shareConnection = new ShareDB.Connection(socket as Socket);
     const [editor, setEditor] = useState<any>(null);
     const [shareDBCM, setShareDBCM] = useState<any>(null);
@@ -60,10 +60,12 @@ const Project: React.FC<ProjectProps> = ({
 
     function setupShareDB(editor: any, lang: any) {
         let doc = shareConnection.get("files", data.getProjectById[lang]);
-        setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-            key: 'content',
-            verbose: true
-        }));
+        setShareDBCM(
+            ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+                key: "content",
+                verbose: true,
+            })
+        );
     }
 
     /* IDEA: Try using three editors lol and just hide them when not being used */
@@ -79,8 +81,7 @@ const Project: React.FC<ProjectProps> = ({
             //     key: 'content',
             //     verbose: true
             // }));
-        }
-        else if (item.option === "CSS") {
+        } else if (item.option === "CSS") {
             setHtmlVisible(false);
             setJsVisible(false);
             setCssVisible(true);
@@ -89,8 +90,7 @@ const Project: React.FC<ProjectProps> = ({
             //     key: 'content',
             //     verbose: true
             // }));
-        }
-        else if (item.option === "JS") {
+        } else if (item.option === "JS") {
             setHtmlVisible(false);
             setCssVisible(false);
             setJsVisible(true);
@@ -181,7 +181,7 @@ const Project: React.FC<ProjectProps> = ({
                             code={html}
                             setupShareDB={setupShareDB}
                             readOnly={isReadOnly ? isReadOnly : false}
-                        visible={htmlVisible}
+                            visible={htmlVisible}
                         />
                     </div>
                     <div>
@@ -192,7 +192,7 @@ const Project: React.FC<ProjectProps> = ({
                             code={css}
                             setupShareDB={setupShareDB}
                             readOnly={isReadOnly ? isReadOnly : false}
-                        visible={cssVisible}
+                            visible={cssVisible}
                         />
                     </div>
                     <div>
@@ -203,10 +203,9 @@ const Project: React.FC<ProjectProps> = ({
                             code={js}
                             setupShareDB={setupShareDB}
                             readOnly={isReadOnly ? isReadOnly : false}
-                        visible={jsVisible}
+                            visible={jsVisible}
                         />
                     </div>
-
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"

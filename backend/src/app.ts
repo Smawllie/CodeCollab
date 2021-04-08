@@ -23,8 +23,8 @@ const PORT = 4000;
 
 ShareDB.types.map["json0"].registerSubtype(otText.type);
 const shareDBMongo = require("sharedb-mongo")(MONGO_DB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 const main = async () => {
@@ -45,7 +45,7 @@ const main = async () => {
 
     let corsOptions = {
         // TODO: Point this to the actual front end domain
-        origin: "http://localhost:3000",
+        origin: "https://codecollab.me",
         credentials: true,
     };
 
@@ -99,7 +99,7 @@ const main = async () => {
     const shareDB = new ShareDB({ db: shareDBMongo });
     const webSocketServer = new Server({ server });
 
-    webSocketServer.on('connection', function (socket) {
+    webSocketServer.on("connection", function (socket) {
         var stream = new WebSocketJSONStream(socket);
         shareDB.listen(stream);
     });
