@@ -1,6 +1,7 @@
 import React from "react";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
+import "codemirror/theme/monokai.css";
 import "codemirror/mode/xml/xml";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/css/css";
@@ -21,7 +22,9 @@ function Editor({
     onChange,
     readOnly,
 }: EditorProps) {
+
     let isReadOnly = readOnly ? readOnly : false;
+    
     function handleChange(editor: any, data: String, value: string) {
         onChange({ ...code, [language]: value });
     }
@@ -39,9 +42,13 @@ function Editor({
                 mode:language,
                 lineWrapping:true,
                 lineNumbers: true,
-                theme:'material'
+                theme:'monokai',
+                foldGutter:true,
+                maxHighlightLength:Infinity,
+                autocorrect:true
             }}
-
+            editorDidMount={e => {e.setSize(null, '100%')
+        }}
           
           />
         </div>

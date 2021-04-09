@@ -37,7 +37,6 @@ return (<>
             </Switch>
         </BrowserRouter>
         </ApolloProvider>
-
     </>);
 
 };

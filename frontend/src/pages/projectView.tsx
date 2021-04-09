@@ -46,6 +46,7 @@ function ProjectViewPage() {
 
     return (
         <Project
+            
             code={code}
             isReadOnly={true}
             errorBox={errorBox}

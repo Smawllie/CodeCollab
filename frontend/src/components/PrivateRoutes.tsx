@@ -16,17 +16,29 @@ function PrivateRoute({
   ...rest
 }:Props) {
 
+  const [authenticated,setAuthentication]= React.useState(false);
   const {data,error,loading} = useQuery(AuthOperations.checkUser);
+
+  React.useEffect(()=>{
+    if(data){
+      console.log(data.getCurrentUser._id,data);
+    }
+    if(data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined)){
+      setAuthentication(true);
+     }
+     
+
+  },[data]);
+  
    if (loading) return (<LoadingScreen/>);
    
    if (error) {
     console.log(error);
     return (<div>{error.message}</div>);}
 
-   const userId = data.getCurrentUser._id;
-   let auth = !(userId===null || userId === undefined ) ;
-
-    return (
+    let auth = data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined) ;
+    
+   return (
       <Route
         path={path}
         {...rest}

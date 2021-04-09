@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ResizableBox } from "react-resizable";
 
 import Language from "../@types/language";
@@ -15,6 +15,7 @@ interface ProjectProps {
     errorBox: any;
     visible: boolean;
     isReadOnly?: boolean;
+    subscribeToNewData?:Function;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -23,6 +24,7 @@ const Project: React.FC<ProjectProps> = ({
     errorBox,
     visible,
     isReadOnly,
+    subscribeToNewData
 }) => {
     const srcDoc = `
        <!DOCTYPE html>
@@ -45,18 +47,29 @@ const Project: React.FC<ProjectProps> = ({
            </body>
        </html>`;
 
-    const targetRef = useRef<any>(null);
-    const [width, setWidth] = useState<number>(300);
+    const [width, setWidth] = useState<number>(window.innerWidth);
 
-    useLayoutEffect(() => {
-        if (targetRef.current) {
-            setWidth(targetRef.current!.offsetWidth);
-        }
-    }, [code]);
 
     const [selected, setSelected] = useState<Language>(Languages[0]);
+
+    useEffect(()=>{
+
+        if(subscribeToNewData!==undefined) subscribeToNewData();
+
+		window.addEventListener('resize', () => {
+			setWidth(window.innerWidth);
+		});
+        return ()=>{
+            window.removeEventListener('resize',()=>{
+                setWidth(window.innerWidth);
+            });
+        };
+        
+    },[code]);
+
+
     return (
-        <div className="bg-blue-50">
+        <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
@@ -66,13 +79,13 @@ const Project: React.FC<ProjectProps> = ({
                 setSelected={setSelected}
                 className="py-2 px-5 w-1/5 shadow-xs"
             />
-            <div className="h-full w-full m-0 flex" ref={targetRef}>
+            <div className="h-full w-full m-0 flex">
                 <ResizableBox
                     className="relative flex justify-items-center m-1 shadow-xs"
-                    height={500}
+                    height={window.innerHeight*1}
                     width={width / 2}
-                    maxConstraints={[800, 500]}
-                    minConstraints={[300, 500]}
+                    maxConstraints={[width *5 / 2, window.innerHeight*0.75]}
+                    minConstraints={[width / 2, window.innerHeight*0.75]}
                     axis="x"
                     handle={
                         <div
@@ -94,10 +107,10 @@ const Project: React.FC<ProjectProps> = ({
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"
-                    height={500}
+                    height={window.innerHeight*1}
                     width={width / 2}
-                    maxConstraints={[800, 500]}
-                    minConstraints={[300, 500]}
+                    maxConstraints={[width *5 / 2,  window.innerHeight*0.75]}
+                    minConstraints={[width/ 2,  window.innerHeight*0.75]}
                     axis="x"
                 >
                     <CodeRender srcDoc={srcDoc} />

@@ -18,13 +18,13 @@ export default function Navbar(){
     };
 
    return (
-        <header className="justify-between px-3">
+        <header className="justify-between px-3 py-3">
             <Link to="/" className="text-6xl text-blue-500 px-3">
                 CodeCollab
             </Link>
             <nav className="float-right px-5 py-2">
             <button
-				className="outline-none p-1 flex flex-no-wrap items-between hover:ring-3 hover:bg-blue-100 font-bold py-2 px-4 rounded"
+				className="outline-none flex flex-no-wrap items-between hover:ring-3 hover:bg-blue-100 font-bold px-4 rounded"
 				onClick={handleLogout}
 			>
 				<span className="text-blue-500 py-3">Logout</span>
