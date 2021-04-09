@@ -11,34 +11,43 @@ import {
 
 import { Project, ProjectModel } from "./project.entity";
 
-@ObjectType()
+@ObjectType({ description: "Users created on signup" })
 export class User {
-    @Field(() => ID)
+    @Field(() => ID, { description: "id of user" })
     _id: Types.ObjectId;
 
-    @Field()
+    @Field({ description: "email of user" })
     @Property({ required: true, unique: true })
     email: string;
 
-    @Field({ nullable: true })
+    @Field({
+        nullable: true,
+        description: "username of user (currently unused)",
+    })
     username: string;
 
-    @Property({ required: true })
+    @Property({ required: true, description: "password of user" })
     passwordHash: string;
 
-    @Field({ nullable: true })
+    @Field({
+        nullable: true,
+        description: "first name of user (currently unused)",
+    })
     @Property()
     firstName: string;
 
-    @Field({ nullable: true })
+    @Field({
+        nullable: true,
+        description: "last name of user (currently unused)",
+    })
     @Property()
     lastName: string;
 
-    @Field(() => [Project])
+    @Field(() => [Project], { description: "projects owned by user" })
     @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
 
-    @Field(() => [Project])
+    @Field(() => [Project], { description: "projects shared with user" })
     @Property({ ref: "Project", default: [] })
     sharedProjects: Ref<Project>[];
 
