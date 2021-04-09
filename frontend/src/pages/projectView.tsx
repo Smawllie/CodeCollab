@@ -1,5 +1,5 @@
 import { useSubscription } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, withRouter } from "react-router";
 
 import projectOperations from "../graphql/operations/projectOperations";
@@ -37,12 +37,15 @@ function ProjectViewPage() {
     // Error handling
     const [errorBox, setErrorBox] = useState<any>(null);
     const [visible, setVisible] = useState(false);
-    if (error) {
-        setErrorBox(
-            <ErrorBox message={error.message} setVisible={setVisible} />
-        );
-        setVisible(true);
-    }
+    useEffect(() => {
+        if (error) {
+            console.log(error);
+            setErrorBox(
+                <ErrorBox message={error.message} setVisible={setVisible} />
+            );
+            setVisible(true);
+        }
+    }, [error]);
 
     return (
         <Project

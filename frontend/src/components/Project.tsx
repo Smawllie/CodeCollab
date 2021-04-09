@@ -6,8 +6,14 @@ import CodeRender from "../components/CodeRender";
 import Dropdown from "../components/Dropdown";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
+import CopyPopup from "../components/CopyPopup";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
+import { useQuery } from "@apollo/client";
+import projectOperations from "../graphql/operations/projectOperations";
+import LoadingScreen from "../components/LoadingScreen";
+import { useParams } from "react-router-dom";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 
 interface ProjectProps {
     code: any;
@@ -26,6 +32,19 @@ const Project: React.FC<ProjectProps> = ({
     isReadOnly,
     subscribeToNewData
 }) => {
+    // Get project ID from route
+    const params: any = useParams();
+    const projectId = params.projectId;
+    // Get Project
+    const { data, loading, error } = useQuery(
+        projectOperations.getProjectById,
+        {
+            variables: {
+                id: projectId,
+            },
+        }
+    );
+
     const srcDoc = `
        <!DOCTYPE html>
        <html lang="en">
@@ -68,11 +87,37 @@ const Project: React.FC<ProjectProps> = ({
     },[code]);
 
 
+    // Boolean open/close copy popup
+    const [openCopyPopup, setOpenCopyPopup] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setOpenCopyPopup(true);
+    };
+
+    // Called when copy popup is closed
+    const handleCloseCopyPopup = (event: object, reason: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpenCopyPopup(false);
+    };
+
+    if (loading) return <LoadingScreen />;
     return (
         <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
+            <div>
+                Project: {data.getProjectById.name} (Owner:{" "}
+                {data.getProjectById.owner.email})
+            </div>
+            <div className="border-2" onClick={handleCopy}>
+                {window.location.href}
+                <FileCopyIcon className="ml-1" />
+            </div>
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
@@ -115,6 +160,10 @@ const Project: React.FC<ProjectProps> = ({
                 >
                     <CodeRender srcDoc={srcDoc} />
                 </ResizableBox>
+                <CopyPopup
+                    openCopyPopup={openCopyPopup}
+                    handleCloseCopyPopup={handleCloseCopyPopup}
+                />
             </div>
         </div>
     );
