@@ -1,13 +1,13 @@
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for adding files" })
 export class AddFileInput {
-    @Field()
+    @Field({ description: "name of file" })
     name: string;
 
-    @Field()
+    @Field({ description: "id of file" })
     projectId: string;
 
-    @Field()
+    @Field({ description: "content of file" })
     content: string;
 }

@@ -17,9 +17,9 @@ import { Project, ProjectModel } from "../../entities/project.entity";
 
 @Resolver()
 export class GetProjectResolver {
-    @Query(() => Project, { description: "The query model" })
+    @Query(() => Project, { description: "Query for getting project" })
     async getProjectById(
-        @Arg("id", { description: "The recipe model" }) id: String
+        @Arg("id", { description: "id of project" }) id: String
     ) {
         let project = await ProjectModel.findById(id).exec();
 

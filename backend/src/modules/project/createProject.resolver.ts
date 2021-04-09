@@ -9,10 +9,15 @@ import { Types } from "mongoose";
 
 @Resolver()
 export class CreateProjectResolver {
-    @Mutation(() => Project)
+    @Mutation(() => Project, {
+        description: "mutation for creating project",
+    })
     @Authorized()
     async createProject(
-        @Arg("project") { name }: CreateProjectInput,
+        @Arg("project", {
+            description: "contains name of project",
+        })
+        { name }: CreateProjectInput,
         @Ctx() context: Context
     ): Promise<Project> {
         // Check if user exists

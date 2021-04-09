@@ -5,9 +5,14 @@ import { Context } from "../../context";
 
 @Resolver(() => User)
 export class GetUserResolver {
-    @Query(() => User)
+    @Query(() => User, {
+        description: "query to get user by id",
+    })
     @Authorized()
-    async getUserById(@Arg("id") id: String) {
+    async getUserById(
+        @Arg("id", { description: "id of user" })
+        id: String
+    ) {
         let user = await UserModel.findById(id).exec();
 
         if (!user) throw new Error(`User with id: ${id} does not exist`);
@@ -15,7 +20,9 @@ export class GetUserResolver {
         return user;
     }
 
-    @Query(() => User)
+    @Query(() => User, {
+        description: "query to get current user",
+    })
     @Authorized()
     async getCurrentUser(@Ctx() context: Context) {
         let id = context.req.session.userId;

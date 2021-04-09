@@ -8,10 +8,14 @@ import { WriteFileInput } from "./input/writeFile.input";
 
 @Resolver()
 export class WriteFileResolver {
-    @Mutation(() => File)
+    @Mutation(() => File, {
+        description:
+            "unused currently but can be used for extending to other languages",
+    })
     @Authorized()
     async writeFile(
-        @Arg("file") { fileId, content }: WriteFileInput,
+        @Arg("file", { description: "file id and content" })
+        { fileId, content }: WriteFileInput,
         @Ctx() context: Context
     ) {
         let file = await FileModel.findById(fileId)

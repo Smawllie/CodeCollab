@@ -7,16 +7,15 @@ import { Context } from "../../context";
 
 @Resolver()
 export class SignUpResolver {
-    @Mutation(() => User)
+    @Mutation(() => User, { description: "Mutation used for sign up" })
     async signUp(
-        @Arg("user")
-        { email , password}: SignUpInput,
+        @Arg("user", { description: "email and password for signup" })
+        { email, password }: SignUpInput,
         @Ctx() context: Context
     ): Promise<User> {
         let user = await UserModel.findOne({ email }).exec();
 
         if (user) throw new Error(`User with email: ${email} exists already`);
-
 
         let passwordHash = await hash(password, 10);
 

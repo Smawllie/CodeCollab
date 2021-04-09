@@ -8,8 +8,14 @@ import { Context } from "../../context";
 
 @Resolver()
 export class DeleteFileResolver {
-    @Mutation(() => Boolean)
-    async deleteFile(@Arg("id") id: String, @Ctx() context: Context) {
+    @Mutation(() => Boolean, {
+        description:
+            "unused currently but can be used for extending to other languages",
+    })
+    async deleteFile(
+        @Arg("id", { description: "file id" }) id: String,
+        @Ctx() context: Context
+    ) {
         let file = await FileModel.findById(id)
             .populate({ path: "project", model: "Project" })
             .exec();

@@ -1,12 +1,12 @@
 import { IsEmail } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for signin" })
 export class SignInInput {
-    @Field()
+    @Field({ description: "email of user" })
     @IsEmail()
     email: string;
 
-    @Field()
+    @Field({ description: "password of user" })
     password: string;
 }
