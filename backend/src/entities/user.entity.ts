@@ -20,21 +20,12 @@ export class User {
     @Property({ required: true, unique: true })
     email: string;
 
-    @Field({ nullable: true })
-    @Property({ unique: true })
-    username: string;
+  
 
     @Property({ required: true })
     passwordHash: string;
 
-    @Field({ nullable: true })
-    @Property()
-    firstName: string;
-
-    @Field({ nullable: true })
-    @Property()
-    lastName: string;
-
+    
     @Field(() => [Project])
     @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
