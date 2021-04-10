@@ -66,7 +66,6 @@ function ProjectEditPage() {
 					updateQuery: (prev, { subscriptionData }) => {
 						if (!subscriptionData.data) return prev;
 						const { html, css, js } = subscriptionData.data.subscribeProjectById;
-						console.log(subscriptionData);
 						return setCode({ xml: html, css: css, javascript: js });
 					}
 				});

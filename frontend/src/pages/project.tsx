@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Button,Typography } from "@material-ui/core";
 import { useState } from "react";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import CreateProjectDialog from "../components/createProjectDialog";
 import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Navbar";
@@ -29,10 +29,6 @@ const useStyles = makeStyles({
 function ProjectsPage(props: RouteComponentProps<any>) {
     const styles = useStyles();
 
-    // function goToProjectOnList(event: any) {
-    //     /* TODO route to actual project page */
-    //     props.history.push(`/project/${event.target.dataset.id}/edit`);
-    // }
 
     function goToProjectOnCreate(id: String) {
         /* TODO route to actual project page */

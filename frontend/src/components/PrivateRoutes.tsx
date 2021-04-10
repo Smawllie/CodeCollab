@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { Route, Redirect, useParams } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import AuthOperations from "../graphql/operations/authOperations";
 import LoadingScreen from "./LoadingScreen";
 import projectOperations from "../graphql/operations/projectOperations";
-import routes from "../config/routes";
+import {RedirectContext} from '../UserContext';
+
 
 interface Props {
     component: React.FC<{}>;
@@ -12,54 +13,27 @@ interface Props {
     location: any;
 }
 
+
+
 function PrivateRoute({
     component: Component,
     path: path,
     location: location,
     ...rest
 }: Props) {
-    let comp = <Component />;
 
-<<<<<<< HEAD
-  const [authenticated,setAuthentication]= React.useState(false);
-  const {data,error,loading} = useQuery(AuthOperations.checkUser);
-
-  React.useEffect(()=>{
-    if(data){
-      console.log(data.getCurrentUser._id,data);
-    }
-    if(data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined)){
-      setAuthentication(true);
-     }
-     
-
-  },[data]);
-  
-   if (loading) return (<LoadingScreen/>);
-   
-   if (error) {
-    console.log(error);
-    return (<div>{error.message}</div>);}
-
-    let auth = data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined) ;
     
-   return (
-      <Route
-        path={path}
-        {...rest}
-        render={() =>
-          auth ? (
-              <Component/>
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/",
-              }}
-            />
-          )
-=======
-    // Get Project
+
+   const {setHome} = React.useContext(RedirectContext);
+
     const projectId = location.pathname.split("/")[2];
+    let comp = (
+
+            <Component />
+
+        );
+
+    const {data,error,loading} = useQuery(AuthOperations.checkUser);
     const { data: dataProject, loading: loadingProject } = useQuery(
         projectOperations.getProjectById,
         {
@@ -69,17 +43,20 @@ function PrivateRoute({
         }
     );
 
-    // Authenticate user
-    const { data: data, error, loading } = useQuery(AuthOperations.checkUser);
-    if (loadingProject) return <LoadingScreen />;
-    if (loading) return <LoadingScreen />;
+  
+   
+   if (error) return (<Redirect to='/'/>);
 
-    if (error) {
-        console.log(error);
-        return <div>{error.message}</div>;
-    }
+    let auth = data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined) ;
+    if(auth) setHome('/projects');
+    // Get Project
+    
+   
+
+    // Authenticate user
+    if (loadingProject || loading) return <LoadingScreen />;
+
     const userId = data.getCurrentUser._id;
-    let auth = !(userId === null || userId === undefined);
 
     // Redirect edit and view based on if user is project owner
     if (
@@ -94,7 +71,7 @@ function PrivateRoute({
             redirectPath = `/project/${projectId}/edit`;
         } else {
             redirectPath = `/project/${projectId}/view`;
->>>>>>> cddfd2bc26a71551473a36ef64f74fd05c57ba24
+
         }
         // If path name changed then redirect
         if (location.pathname != redirectPath)

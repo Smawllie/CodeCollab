@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext} from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory, Link } from "react-router-dom";
 import AuthOperations from "../graphql/operations/authOperations";
@@ -8,12 +8,13 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import LoadingScreen from "./LoadingScreen";
+import {RedirectContext} from '../UserContext';
 
 export default function Navbar() {
     let history = useHistory();
     const [logout] = useMutation(AuthOperations.logout);
     const { data, loading } = useQuery(ProjectOperations.getCurrentUser);
-
+    const {home} = useContext(RedirectContext);
     // Logout
     function handleLogout() {
         logout()
@@ -41,7 +42,7 @@ export default function Navbar() {
    return (
 
         <header className="justify-between px-3 py-3">
-            <Link to="/" className="text-6xl text-blue-500 px-3">
+            <Link to={home} className="text-6xl text-blue-500 px-3">
                 CodeCollab
             </Link>
             <nav className="flex flex-row-reverse float-right px-5 py-2">

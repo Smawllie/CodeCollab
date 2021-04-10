@@ -10,6 +10,11 @@ const httpLink = new HttpLink({
     credentials: "include",
 });
 
+const errorLink = onError(({graphQLErrors,networkError})=>{
+    console.log(networkError);
+    console.log(graphQLErrors);
+});
+
 const wsLink = new WebSocketLink({
     // uri: "ws://localhost:4000/subscriptions",
     uri: process.env.REACT_APP_APOLLO_SERVER_SUBSCRIPTION!,
@@ -40,7 +45,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-    link: splitLink,
+    link: splitLink.concat(errorLink),
     cache: new InMemoryCache(),
     headers: {
         "client-name": "code-collab",

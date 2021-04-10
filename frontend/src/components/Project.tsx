@@ -13,7 +13,8 @@ import { useQuery } from "@apollo/client";
 import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
+
+import OwnerCard from './OwnerCard';
 
 interface ProjectProps {
     code: any;
@@ -90,17 +91,13 @@ const Project: React.FC<ProjectProps> = ({
     // Boolean open/close copy popup
     const [openCopyPopup, setOpenCopyPopup] = useState(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(window.location.href);
-        setOpenCopyPopup(true);
-    };
+    
 
     // Called when copy popup is closed
     const handleCloseCopyPopup = (event: object, reason: string) => {
         if (reason === "clickaway") {
             return;
         }
-
         setOpenCopyPopup(false);
     };
 
@@ -110,14 +107,11 @@ const Project: React.FC<ProjectProps> = ({
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
-            <div>
-                Project: {data.getProjectById.name} (Owner:{" "}
-                {data.getProjectById.owner.email})
-            </div>
-            <div className="border-2" onClick={handleCopy}>
-                {window.location.href}
-                <FileCopyIcon className="ml-1" />
-            </div>
+            <OwnerCard
+                name={data.getProjectById.name}
+                email={data.getProjectById.owner.email}
+                setOpenCopyPopup={setOpenCopyPopup}
+            />
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
