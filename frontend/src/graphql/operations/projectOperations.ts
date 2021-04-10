@@ -45,36 +45,6 @@ const projectOperations = {
             }
         }
     `,
-    saveWebProject: gql`
-        mutation saveWebProject(
-            $projectId: String!
-            $html: String!
-            $css: String!
-            $js: String!
-        ) {
-            saveWebProject(
-                project: {
-                    projectId: $projectId
-                    html: $html
-                    css: $css
-                    js: $js
-                }
-            ) {
-                _id
-            }
-        }
-    `,
-    subscribeProjectById: gql`
-        subscription subscribeProjectById($id: String!) {
-            subscribeProjectById(id: $id) {
-                _id
-                name
-                html
-                css
-                js
-            }
-        }
-    `,
     addCollaborator: gql`
         mutation addCollaborator($email: String!, $projectId: String!) {
             addCollaborator(
