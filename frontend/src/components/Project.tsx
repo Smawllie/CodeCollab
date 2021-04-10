@@ -13,8 +13,7 @@ import { useQuery } from "@apollo/client";
 import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
-import {EditorThemes} from '../config/editorThemes';
-import OwnerCard from './OwnerCard';
+import OwnerCard from "./OwnerCard";
 import DropBoxOptions from "../@types/dropBoxOptions";
 
 import ShareDB from "sharedb/lib/client";
@@ -46,10 +45,6 @@ const Project: React.FC<ProjectProps> = ({
     const projectId = params.projectId;
     const [openCopyPopup, setOpenCopyPopup] = useState(false);
 
-    const setTheme = (theme:DropBoxOptions)=>{
-        document.querySelector('.CodeMirror')!.className=`CodeMirror cm-s-${theme.option} CodeMirror-wrap`; 
-    };
-
     // Get Project
     const { data, loading, error } = useQuery(
         projectOperations.getProjectById,
@@ -62,7 +57,7 @@ const Project: React.FC<ProjectProps> = ({
 
     const socket = new WebSocket(process.env.REACT_APP_WEB_SOCKET!);
     const shareConnection = new ShareDB.Connection(socket as Socket);
-    const isReadOnly = !(isOwner || isCollaborator)
+    const isReadOnly = !(isOwner || isCollaborator);
     const [editor, setEditor] = useState<any>(null);
     const [shareDBCM, setShareDBCM] = useState<any>(null);
     const [html, setHtml] = useState("");
@@ -139,25 +134,20 @@ const Project: React.FC<ProjectProps> = ({
 
     const [width, setWidth] = useState<number>(window.innerWidth);
 
-
     const [selected, setSelected] = useState<Language>(Languages[0]);
 
-    useEffect(()=>{
-		window.addEventListener('resize', () => {
-			setWidth(window.innerWidth);
-		});
-        return ()=>{
-            window.removeEventListener('resize',()=>{
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            setWidth(window.innerWidth);
+        });
+        return () => {
+            window.removeEventListener("resize", () => {
                 setWidth(window.innerWidth);
             });
         };
-        
     }, []);
 
-
     // Boolean open/close copy popup
-
-    
 
     // Called when copy popup is closed
     const handleCloseCopyPopup = (event: object, reason: string) => {
@@ -179,29 +169,26 @@ const Project: React.FC<ProjectProps> = ({
                 setOpenCopyPopup={setOpenCopyPopup}
             />
             <div className="flex justify-evenly">
-            <Dropdown
-                title="Select Langauge"
-                list={Languages}
-                setSelected={changeLanguage}
-                className="py-2 px-5 w-1/5 shadow-xs"
-            />
-            <Dropdown 
-            title="Themes"
-            list={EditorThemes}
-            setSelected={setTheme}
-            className="py-2 px-5 w-1/5 shadow-xs"
-            />
-            <ButtonOCR />
-            <AddCollaboratorButton projectId={projectId} />
+                <Dropdown
+                    title="Select Langauge"
+                    list={Languages}
+                    setSelected={changeLanguage}
+                    className="py-2 px-5 w-1/5 shadow-xs"
+                />
+                <ButtonOCR />
+                <AddCollaboratorButton projectId={projectId} />
             </div>
-           
+
             <div className="h-full w-full m-0 flex">
                 <ResizableBox
                     className="relative flex justify-items-center m-1 shadow-xs"
-                    height={window.innerHeight*1}
+                    height={window.innerHeight * 1}
                     width={width / 2}
-                    maxConstraints={[width *5 / 2, window.innerHeight*0.75]}
-                    minConstraints={[width / 2, window.innerHeight*0.75]}
+                    maxConstraints={[
+                        (width * 5) / 2,
+                        window.innerHeight * 0.75,
+                    ]}
+                    minConstraints={[width / 2, window.innerHeight * 0.75]}
                     axis="x"
                     handle={
                         <div
@@ -243,10 +230,13 @@ const Project: React.FC<ProjectProps> = ({
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"
-                    height={window.innerHeight*1}
+                    height={window.innerHeight * 1}
                     width={width / 2}
-                    maxConstraints={[width *5 / 2,  window.innerHeight*0.75]}
-                    minConstraints={[width/ 2,  window.innerHeight*0.75]}
+                    maxConstraints={[
+                        (width * 5) / 2,
+                        window.innerHeight * 0.75,
+                    ]}
+                    minConstraints={[width / 2, window.innerHeight * 0.75]}
                     axis="x"
                 >
                     <CodeRender srcDoc={srcDoc} />
