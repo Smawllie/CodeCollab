@@ -15,7 +15,7 @@ export class AddCollaboratorResolver {
         @Arg("project", {
             description: "contains collaborator and project id",
         })
-        { collaboratorId, projectId }: AddCollaboratorInput,
+        { collaboratorEmail, projectId }: AddCollaboratorInput,
         @Ctx() context: Context
     ) {
         let project = await ProjectModel.findById(projectId).exec();
@@ -25,6 +25,14 @@ export class AddCollaboratorResolver {
 
         let userId = context.req.session.userId;
         let isOwner = project.owner!.toString() === userId;
+        let collaborator = await UserModel.findOne({
+            email: collaboratorEmail,
+        }).exec();
+
+        if (!collaborator)
+            throw new Error(
+                `User with email: ${collaboratorEmail} does not exist`
+            );
 
         if (!isOwner)
             throw new Error(
@@ -33,18 +41,14 @@ export class AddCollaboratorResolver {
 
         let collaboratorExists =
             project.collaborators.some(
-                (userId: any) => userId.toString() === collaboratorId
-            ) || project!.owner!.toString() === collaboratorId;
+                (userId: any) =>
+                    userId.toString() === collaborator!._id.toString()
+            ) || project!.owner!.toString() === collaborator!._id.toString();
 
         if (collaboratorExists)
             throw new Error(
-                `The user with id: ${collaboratorId} already is a collaborator or is the owner`
+                `The user with email: ${collaboratorEmail} already is a collaborator or is the owner`
             );
-
-        let collaborator = await UserModel.findById(collaboratorId).exec();
-
-        if (!collaborator)
-            throw new Error(`User with id: ${collaboratorId} does not exist`);
 
         collaborator.sharedProjects.push(project._id);
         project.collaborators.push(collaborator._id);

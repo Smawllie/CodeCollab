@@ -56,6 +56,16 @@ const projectOperations = {
             }
         }
     `,
+    addCollaborator: gql`
+        mutation addCollaborator($email: String!, $projectId: String!) {
+            addCollaborator(
+                project: { collaboratorEmail: $email, projectId: $projectId }
+            ) {
+                _id
+                name
+            }
+        }
+    `,
 };
 
 export default projectOperations;

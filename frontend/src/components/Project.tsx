@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 
 import ShareDB from "sharedb/lib/client";
 import { Socket } from "sharedb/lib/sharedb";
+import AddCollaboratorButton from "./addCollaborator/addCollaboratorButton";
 const otText = require("ot-text");
 const ShareDBCodeMirror = require("sharedb-codemirror");
 ShareDB.types.map["json0"].registerSubtype(otText.type);
@@ -140,6 +141,7 @@ const Project: React.FC<ProjectProps> = ({
             <Navbar />
             {visible && errorBox}
             <ButtonOCR />
+            <AddCollaboratorButton projectId={projectId} />
             <div>Project: {data.getProjectById.name}</div>
             <Dropdown
                 title="Select Langauge"
