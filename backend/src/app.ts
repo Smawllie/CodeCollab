@@ -5,6 +5,7 @@ import Session from "express-session";
 import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
+import Helmet from "helmet";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -33,6 +34,8 @@ const main = async () => {
 
     const app = Express();
 
+    app.use(Helmet());
+
     let corsOptions = {
         origin: process.env.CORS_ORIGIN,
         credentials: true,
@@ -45,8 +48,7 @@ const main = async () => {
             saveUninitialized: true,
             store: sessionStore,
             unset: "destroy",
-            // TODO: Add helmet and look at cors package
-            // cookie: { httpOnly: true, secure: true, sameSite: true },
+            cookie: { httpOnly: true, secure: true },
         })
     );
 
