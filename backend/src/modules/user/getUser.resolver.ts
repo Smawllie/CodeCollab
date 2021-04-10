@@ -1,4 +1,5 @@
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
+import { Types } from "mongoose";
 
 import { User, UserModel } from "../../entities/user.entity";
 import { Context } from "../../context";
@@ -13,6 +14,9 @@ export class GetUserResolver {
         @Arg("id", { description: "ID of user" })
         id: String
     ) {
+        if (!Types.ObjectId.isValid(id as string))
+            throw new Error(`${id} is not a valid ID`);
+
         let user = await UserModel.findById(id).exec();
 
         if (!user) throw new Error(`User with id: ${id} does not exist`);
