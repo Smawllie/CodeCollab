@@ -21,7 +21,7 @@ function Dropdown({ title, list, setSelected,className }: DropdownProps) {
 			{open && (
 				<div id="dd-list" className="py-2.5 px-0 bg-blue-50">
                        {list.map((item:DropBoxOptions,index)=>{ return( 
-					   <div key={index} className="shadow-sm px-0 py-3 bg-gray-700 border-b-2 border-white">
+					   <div key={index} className="shadow-xs px-0 py-3 bg-gray-700 border-b-2 border-white">
                                 <button className="focus:outline-none w-full" onClick={()=>{setSelected(item)}}>
                                    <span className="text-white font-serif text-base text-center px-4 py-2">{item.option}</span>
                                </button>

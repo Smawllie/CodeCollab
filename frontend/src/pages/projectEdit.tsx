@@ -1,11 +1,10 @@
-import { useQuery } from "@apollo/client";
-import { useParams, withRouter } from "react-router";
-
-import projectOperations from "../graphql/operations/projectOperations";
-import LoadingScreen from "../components/LoadingScreen";
-import ErrorBox from "../components/Error";
-import Project from "../components/Project";
-import { useState } from "react";
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+import { useParams, withRouter } from 'react-router';
+import projectOperations from '../graphql/operations/projectOperations';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorBox from '../components/Error';
+import Project from '../components/Project';
 
 function ProjectEditPage() {
     // Get project ID from route

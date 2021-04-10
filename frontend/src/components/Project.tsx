@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ResizableBox } from "react-resizable";
 
 import Language from "../@types/language";
@@ -6,12 +6,16 @@ import CodeRender from "../components/CodeRender";
 import Dropdown from "../components/Dropdown";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
+import CopyPopup from "../components/CopyPopup";
 import ButtonOCR from "../components/OCR/ButtonOCR";
 import { Languages } from "../config/languages";
 import { useQuery } from "@apollo/client";
 import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
+import {EditorThemes} from '../config/editorThemes';
+import OwnerCard from './OwnerCard';
+import DropBoxOptions from "../@types/dropBoxOptions";
 
 import ShareDB from "sharedb/lib/client";
 import { Socket } from "sharedb/lib/sharedb";
@@ -26,6 +30,7 @@ interface ProjectProps {
     errorBox: any;
     visible: boolean;
     isReadOnly?: boolean;
+    subscribeToNewData?:Function;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -34,10 +39,17 @@ const Project: React.FC<ProjectProps> = ({
     errorBox,
     visible,
     isReadOnly,
+    subscribeToNewData
 }) => {
     // Get project ID from route
     const params: any = useParams();
     const projectId = params.projectId;
+    const [openCopyPopup, setOpenCopyPopup] = useState(false);
+
+    const setTheme = (theme:DropBoxOptions)=>{
+        document.querySelector('.CodeMirror')!.className=`CodeMirror cm-s-${theme.option} CodeMirror-wrap`; 
+    };
+
     // Get Project
     const { data, loading, error } = useQuery(
         projectOperations.getProjectById,
@@ -124,38 +136,73 @@ const Project: React.FC<ProjectProps> = ({
            </body>
        </html>`;
 
-    const targetRef = useRef<any>(null);
-    const [width, setWidth] = useState<number>(300);
+    const [width, setWidth] = useState<number>(window.innerWidth);
 
-    useLayoutEffect(() => {
-        if (targetRef.current) {
-            setWidth(targetRef.current!.offsetWidth);
-        }
-    }, [code]);
 
     const [selected, setSelected] = useState<Language>(Languages[0]);
 
+    useEffect(()=>{
+
+        if(subscribeToNewData!==undefined) subscribeToNewData();
+
+		window.addEventListener('resize', () => {
+			setWidth(window.innerWidth);
+		});
+        return ()=>{
+            window.removeEventListener('resize',()=>{
+                setWidth(window.innerWidth);
+            });
+        };
+        
+    },[code]);
+
+
+    // Boolean open/close copy popup
+
+    
+
+    // Called when copy popup is closed
+    const handleCloseCopyPopup = (event: object, reason: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenCopyPopup(false);
+    };
+
     if (loading) return <LoadingScreen />;
     return (
-        <div className="bg-blue-50">
+        <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
-            <ButtonOCR />
-            <AddCollaboratorButton projectId={projectId} />
-            <div>Project: {data.getProjectById.name}</div>
+            <OwnerCard
+                name={data.getProjectById.name}
+                email={data.getProjectById.owner.email}
+                setOpenCopyPopup={setOpenCopyPopup}
+            />
+            <div className="flex justify-evenly">
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
                 setSelected={changeLanguage}
                 className="py-2 px-5 w-1/5 shadow-xs"
             />
-            <div className="h-full w-full m-0 flex" ref={targetRef}>
+            <Dropdown 
+            title="Themes"
+            list={EditorThemes}
+            setSelected={setTheme}
+            className="py-2 px-5 w-1/5 shadow-xs"
+            />
+            <ButtonOCR />
+            <AddCollaboratorButton projectId={projectId} />
+            </div>
+           
+            <div className="h-full w-full m-0 flex">
                 <ResizableBox
                     className="relative flex justify-items-center m-1 shadow-xs"
-                    height={500}
+                    height={window.innerHeight*1}
                     width={width / 2}
-                    maxConstraints={[800, 500]}
-                    minConstraints={[300, 500]}
+                    maxConstraints={[width *5 / 2, window.innerHeight*0.75]}
+                    minConstraints={[width / 2, window.innerHeight*0.75]}
                     axis="x"
                     handle={
                         <div
@@ -197,14 +244,18 @@ const Project: React.FC<ProjectProps> = ({
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"
-                    height={500}
+                    height={window.innerHeight*1}
                     width={width / 2}
-                    maxConstraints={[800, 500]}
-                    minConstraints={[300, 500]}
+                    maxConstraints={[width *5 / 2,  window.innerHeight*0.75]}
+                    minConstraints={[width/ 2,  window.innerHeight*0.75]}
                     axis="x"
                 >
                     <CodeRender srcDoc={srcDoc} />
                 </ResizableBox>
+                <CopyPopup
+                    openCopyPopup={openCopyPopup}
+                    handleCloseCopyPopup={handleCloseCopyPopup}
+                />
             </div>
         </div>
     );

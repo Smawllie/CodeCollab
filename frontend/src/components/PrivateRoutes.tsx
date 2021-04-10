@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { Route, Redirect, useParams } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import AuthOperations from "../graphql/operations/authOperations";
 import LoadingScreen from "./LoadingScreen";
 import projectOperations from "../graphql/operations/projectOperations";
-import routes from "../config/routes";
+import {RedirectContext} from '../UserContext';
+
 
 interface Props {
     component: React.FC<{}>;
@@ -12,16 +13,27 @@ interface Props {
     location: any;
 }
 
+
+
 function PrivateRoute({
     component: Component,
-    path: path,
-    location: location,
+    path,
+    location,
     ...rest
 }: Props) {
-    let comp = <Component />;
 
-    // Get Project
+    
+
+   const {setHome} = React.useContext(RedirectContext);
+
     const projectId = location.pathname.split("/")[2];
+    let comp = (
+
+            <Component />
+
+        );
+
+    const {data,error,loading} = useQuery(AuthOperations.checkUser);
     const { data: dataProject, loading: loadingProject } = useQuery(
         projectOperations.getProjectById,
         {
@@ -31,34 +43,38 @@ function PrivateRoute({
         }
     );
 
-    // Authenticate user
-    const { data: data, error, loading } = useQuery(AuthOperations.checkUser);
-    if (loadingProject) return <LoadingScreen />;
-    if (loading) return <LoadingScreen />;
+  
+   
+   if (error) return (<Redirect to='/'/>);
 
-    if (error) {
-        console.log(error);
-        return <div>{error.message}</div>;
-    }
+    let auth = data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined) ;
+    if(auth) setHome('/projects');
+    // Get Project
+    
+   
+
+    // Authenticate user
+    if (loadingProject || loading) return <LoadingScreen />;
+
     const userId = data.getCurrentUser._id;
-    let auth = !(userId === null || userId === undefined);
 
     // Redirect edit and view based on if user is project owner
     if (
         auth &&
-        (path == "/project/:projectId/edit" ||
-            path == "/project/:projectId/view")
+        (path === "/project/:projectId/edit" ||
+            path === "/project/:projectId/view")
     ) {
         const ownerId = dataProject.getProjectById.owner._id;
-        // Only owners can edit, everyone else can view
+        // Only owners  can edit, everyone else can view
         let redirectPath;
-        if (userId == ownerId) {
+        if (userId === ownerId) {
             redirectPath = `/project/${projectId}/edit`;
         } else {
             redirectPath = `/project/${projectId}/view`;
+
         }
         // If path name changed then redirect
-        if (location.pathname != redirectPath)
+        if (location.pathname !== redirectPath)
             comp = (
                 <Redirect
                     to={{

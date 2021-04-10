@@ -5,6 +5,7 @@ import { useParams, withRouter } from "react-router";
 import projectOperations from "../graphql/operations/projectOperations";
 import ErrorBox from "../components/Error";
 import Project from "../components/Project";
+import LoadingScreen from "../components/LoadingScreen";
 
 function ProjectViewPage() {
     // Get project ID from route
@@ -37,18 +38,21 @@ function ProjectViewPage() {
     // Error handling
     const [errorBox, setErrorBox] = useState<any>(null);
     const [visible, setVisible] = useState(false);
+
     useEffect(() => {
         if (error) {
-            console.log(error);
             setErrorBox(
                 <ErrorBox message={error.message} setVisible={setVisible} />
             );
             setVisible(true);
         }
-    }, [error]);
+    }, []);
+
+    if(loading) return (<LoadingScreen />);
 
     return (
         <Project
+            
             code={code}
             isReadOnly={true}
             errorBox={errorBox}

@@ -28,10 +28,10 @@ const DragnDrop: React.FC<DragnDropProps> = ({
         var reader = new FileReader();
         reader.onload = function (event) {
             const imgSrc: string = event.target!.result as string;
-            setDropHTML(<img src={imgSrc} className="max-w-full h-auto" />);
+            setDropHTML(<img src={imgSrc} className="max-w-full h-auto"/>);
         };
         reader.readAsDataURL(item);
-    }, []);
+    }, [setDropHTML,setFile]);
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
     return (

@@ -32,7 +32,7 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 	//set context and redirect user to editor
 
 	return (
-		<div className="bg-blue-100 h-screen ">
+		<div className="bg-blue-100 h-screen overflow-auto">
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
 					<Link to="/" className="bg-blue-700 text-white font-bold text-xl p-4">
@@ -42,12 +42,12 @@ const Signup: React.FunctionComponent<any & RouteComponentProps<any>> = (props) 
 				{visible && error}
 				<div className="flex flex-col items-center md:justify-start my-auto pt-8 md:px-24 lg:px-32">
 					<p className="text-4xl text-blue-700 text-center w-full">Sign Up</p>
-					<div className="bg-white shadow-lg flex w-3/5 flex-1 mt-4">
+					<div className="bg-white shadow-lg flex w-3/5 mt-4">
 						<div
 							className="bg-fixed bg-cover w-2/5"
 							style={{ backgroundImage: `url(/media/form_bg.jpg)` }}
 						/>
-						<form className="flex flex-col flex-auto pt-3 w-3/5 md:pt-8 m-2 p-4" onSubmit={handleSubmit}>
+						<form className="flex flex-col flex-auto pt-3 w-3/5 h-full md:pt-8 p-10" onSubmit={handleSubmit}>
 							<div className="flex flex-col pt-4">
 								<label className="text-lg text-light text-gray-500">Email</label>
 								<input

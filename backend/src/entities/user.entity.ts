@@ -20,30 +20,13 @@ export class User {
     @Property({ required: true, unique: true })
     email: string;
 
-    @Field({
-        nullable: true,
-        description: "username of user (currently unused)",
-    })
-    username: string;
+  
 
     @Property({ required: true, description: "password of user" })
     passwordHash: string;
 
-    @Field({
-        nullable: true,
-        description: "first name of user (currently unused)",
-    })
-    @Property()
-    firstName: string;
-
-    @Field({
-        nullable: true,
-        description: "last name of user (currently unused)",
-    })
-    @Property()
-    lastName: string;
-
-    @Field(() => [Project], { description: "projects owned by user" })
+    
+    @Field(() => [Project])
     @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
 

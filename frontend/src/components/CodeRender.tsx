@@ -1,7 +1,7 @@
 function CodeRender(props: any) {
     const { srcDoc } = props;
     return (
-        <div className="bg-blue-50 w-full h-full">
+        <div className="bg-white w-full h-full">
             <div className="bg-gray-700 w-full flex justify-between py-2 px-3 text-white">
                 Preview
             </div>

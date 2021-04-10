@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext} from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory, Link } from "react-router-dom";
 import AuthOperations from "../graphql/operations/authOperations";
@@ -8,12 +8,23 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import LoadingScreen from "./LoadingScreen";
+import {RedirectContext} from '../UserContext';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    largeIcon:{
+        width:"2.5rem",
+        height:"2.5rem"
+    }
+
+});
 
 export default function Navbar() {
     let history = useHistory();
+    const styles = useStyles();
     const [logout] = useMutation(AuthOperations.logout);
     const { data, loading } = useQuery(ProjectOperations.getCurrentUser);
-
+    const {home} = useContext(RedirectContext);
     // Logout
     function handleLogout() {
         logout()
@@ -37,9 +48,11 @@ export default function Navbar() {
     };
 
     if (loading) return <LoadingScreen />;
-    return (
-        <header className="justify-between px-3">
-            <Link to="/" className="text-6xl text-blue-500 px-3">
+
+   return (
+
+        <header className="justify-between px-3 py-3">
+            <Link to={home} className="text-6xl text-blue-500 px-3">
                 CodeCollab
             </Link>
             <nav className="flex flex-row-reverse float-right px-5 py-2">
@@ -52,6 +65,7 @@ export default function Navbar() {
                         className="w-full h-full py-1/2"
                         src="/media/logout.svg"
                         style={{ height: "40px", width: "55px" }}
+                        alt="logout icon"
                     />
                 </button>
                 <IconButton
@@ -60,9 +74,10 @@ export default function Navbar() {
                     aria-controls={"primary-search-account-menu"}
                     aria-haspopup="true"
                     onClick={handleOpen}
-                    color="inherit"
+                    color="primary"
+                    size="medium"
                 >
-                    <AccountCircle />
+                    <AccountCircle className={styles.largeIcon} />
                 </IconButton>
                 <Menu
                     id="menu-appbar"
