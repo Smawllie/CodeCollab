@@ -1,4 +1,6 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import { Types } from "mongoose";
+import Validator from "validator";
 
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { AddCollaboratorInput } from "./input/addCollaborator.input";
@@ -18,6 +20,13 @@ export class AddCollaboratorResolver {
         { collaboratorEmail, projectId }: AddCollaboratorInput,
         @Ctx() context: Context
     ) {
+        if (!Types.ObjectId.isValid(projectId as string))
+            throw new Error(`${projectId} is not a valid ID`);
+
+        // Sanitize the email input
+        collaboratorEmail = Validator.trim(collaboratorEmail);
+        collaboratorEmail = Validator.escape(collaboratorEmail);
+
         let project = await ProjectModel.findById(projectId).exec();
 
         if (!project)

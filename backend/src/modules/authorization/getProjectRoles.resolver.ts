@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 
 import { Context } from "../../context";
@@ -12,6 +13,9 @@ export class GetProjectRoles {
         @Arg("projectId") projectId: String,
         @Ctx() context: Context
     ) {
+        if (!Types.ObjectId.isValid(projectId as string))
+            throw new Error(`${projectId} is not a valid ID`);
+
         let project = await ProjectModel.findById(projectId).exec();
 
         if (!project)
