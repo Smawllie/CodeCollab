@@ -4,9 +4,10 @@ interface Props {
     name: String;
     email: String;
     setOpenCopyPopup: Function;
+    isReadOnly: boolean;
 }
 
-const OwnerCard = ({ name, email, setOpenCopyPopup }: Props) => {
+const OwnerCard = ({ name, email, setOpenCopyPopup, isReadOnly }: Props) => {
     const handleCopy = () => {
         navigator.clipboard.writeText(window.location.href);
         setOpenCopyPopup(true);
@@ -23,6 +24,9 @@ const OwnerCard = ({ name, email, setOpenCopyPopup }: Props) => {
                     <span className="w-full text-lg font-bold mx-4">Owner</span>
                     <span className="w-full text-lg">{email}</span>
                 </div>
+                <span className="w-full text-lg font-bold mx-4">
+                    {isReadOnly && <h1>Viewing only</h1>}
+                </span>
             </div>
             <div className="bg-none mx-4 flex flex-col justify-center">
                 <button

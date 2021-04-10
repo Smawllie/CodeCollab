@@ -162,11 +162,12 @@ const Project: React.FC<ProjectProps> = ({
         <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
-            {isReadOnly && <h1>Viewing only</h1>}
+
             <OwnerCard
                 name={data.getProjectById.name}
                 email={data.getProjectById.owner.email}
                 setOpenCopyPopup={setOpenCopyPopup}
+                isReadOnly={isReadOnly}
             />
             <div className="flex justify-evenly">
                 <Dropdown
