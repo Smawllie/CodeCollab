@@ -7,15 +7,6 @@ export class SignUpInput {
     @IsEmail()
     email: string;
 
-    @Field({ nullable: true, description: "username of user" })
-    username: string;
-
-    @Field({ description: "password of user" })
+    @Field()
     password: string;
-
-    @Field({ nullable: true, description: "first name of user" })
-    firstName: string;
-
-    @Field({ nullable: true, description: "last name of user" })
-    lastName: string;
 }

@@ -4,16 +4,20 @@ import {
     BrowserRouter,
     Route,
     Switch,
-    RouteComponentProps,
+    RouteComponentProps
 } from "react-router-dom";
-import Routes from "./config/routes";
+import Routes from './config/routes';
 import client from "./apolloClient";
 import PrivateRoute from "./components/PrivateRoutes";
+import UserContext from './UserContext';
+
+
 
 const App: React.FunctionComponent<{}> = () => {
     return (
         <>
             <ApolloProvider client={client}>
+                <UserContext>
                 <BrowserRouter>
                     <Switch>
                         {Routes.map((route, index) => {
@@ -43,6 +47,7 @@ const App: React.FunctionComponent<{}> = () => {
                         })}
                     </Switch>
                 </BrowserRouter>
+                </UserContext>
             </ApolloProvider>
         </>
     );

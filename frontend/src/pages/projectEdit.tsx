@@ -1,23 +1,22 @@
-import { useQuery } from "@apollo/client";
-import { useParams, withRouter } from "react-router";
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+import { useParams, withRouter } from 'react-router';
+import projectOperations from '../graphql/operations/projectOperations';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorBox from '../components/Error';
+import Project from '../components/Project';
 
-import projectOperations from "../graphql/operations/projectOperations";
-import LoadingScreen from "../components/LoadingScreen";
-import ErrorBox from "../components/Error";
-import Project from "../components/Project";
-import { useState } from "react";
-
-function ProjectEditPage() {
+function ProjectPage() {
     // Get project ID from route
     const params: any = useParams();
     const projectId = params.projectId;
 
     // Get Project
     const { loading, error, data } = useQuery(
-        projectOperations.getProjectById,
+        projectOperations.getProjectRoles,
         {
             variables: {
-                id: projectId,
+                projectId: projectId,
             },
         }
     );
@@ -34,6 +33,7 @@ function ProjectEditPage() {
     // Error handling
     const [errorBox, setErrorBox] = useState<any>(null);
     const [visible, setVisible] = useState(false);
+
     if (error) {
         setErrorBox(
             <ErrorBox message={error.message} setVisible={setVisible} />
@@ -48,8 +48,10 @@ function ProjectEditPage() {
             setCode={setCode}
             errorBox={errorBox}
             visible={visible}
+            isOwner={data.getProjectRoles.isOwner}
+            isCollaborator={data.getProjectRoles.isCollaborator}
         />
     );
 }
 
-export default withRouter(ProjectEditPage);
+export default withRouter(ProjectPage);

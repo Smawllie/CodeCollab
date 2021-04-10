@@ -30,7 +30,7 @@ const Login: React.FunctionComponent<any & RouteComponentProps<any>> = (props) =
 	};
 
 	return (
-		<div className="bg-blue-100 h-screen">
+		<div className="bg-blue-100 h-screen overflow-auto">
 			<div className="flex flex-col">
 				<header className="flex justify-center pt-12">
 					<Link to="/" className="bg-blue-700 text-white font-bold text-xl p-4">
