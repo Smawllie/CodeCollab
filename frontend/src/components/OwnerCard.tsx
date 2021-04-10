@@ -1,59 +1,53 @@
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+
 
 interface Props {
-	name: String;
-	email: String;
-	setOpenCopyPopup: Function;
+    name: String;
+    email: String;
+    setOpenCopyPopup: Function;
 }
 
-const useStyles = makeStyles({
-	root: {
-        width:"100%",
-		margin: '1rem',
-        maxHeight:'15%',
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-        backgroundColor:""
-	},
-});
 
-const OwnerCard = ({ name, email, setOpenCopyPopup}: Props) => {
+const OwnerCard = ({ name, email, setOpenCopyPopup }: Props) => {
 
     const username = email.split('@', 1)[0];
     const handleCopy = () => {
-        console.log(window.location.href);
         navigator.clipboard.writeText(window.location.href);
         setOpenCopyPopup(true);
     };
     
-	const styles = useStyles();
-	return (
-		<Card className={styles.root}>
-					<CardContent>
-						<Typography gutterBottom variant="h4" component="span" >
-							{name}
-						</Typography>
-						<Typography variant="h5" color="textSecondary" component="p">
-							{username}
-						</Typography>
-					</CardContent>
-                    <CardActions>
-                        <Typography>
-                            Share this project
-                        </Typography>
-                        <IconButton onClick={()=>handleCopy()} className="outline-none">
-                            <FileCopyIcon/>
-                        </IconButton>
-                    </CardActions>
-		</Card>
-	);
+    return (
+        <div className="shadow-xs flex justify-between w-full bg-blue-500 text-white">
+            <div className="flex flex-col mx-3 p-2">
+                <div>
+                    <span className="text-2xl font-bold mx-4">
+                        Project
+                    </span>
+                    <span className="text-xl">
+                        {name}
+                    </span>
+                </div>
+                <div>
+                    <span className="w-full text-lg font-bold mx-4">
+                        User
+                    </span>
+                    <span className="w-full text-lg">
+                        {username}
+                    </span>
+                </div>
+
+            </div>
+            <div className="bg-none mx-4 flex flex-col justify-center">
+                <button onClick={handleCopy} className="outline-none w-full p-3">
+                    <span className="mr-2">
+                        Share This Project
+                    </span>
+                    <FileCopyIcon />
+                </button>
+            </div>
+
+        </div>
+    );
 };
 
 export default OwnerCard;

@@ -17,8 +17,8 @@ interface Props {
 
 function PrivateRoute({
     component: Component,
-    path: path,
-    location: location,
+    path,
+    location,
     ...rest
 }: Props) {
 
@@ -61,20 +61,20 @@ function PrivateRoute({
     // Redirect edit and view based on if user is project owner
     if (
         auth &&
-        (path == "/project/:projectId/edit" ||
-            path == "/project/:projectId/view")
+        (path === "/project/:projectId/edit" ||
+            path === "/project/:projectId/view")
     ) {
         const ownerId = dataProject.getProjectById.owner._id;
         // Only owners  can edit, everyone else can view
         let redirectPath;
-        if (userId == ownerId) {
+        if (userId === ownerId) {
             redirectPath = `/project/${projectId}/edit`;
         } else {
             redirectPath = `/project/${projectId}/view`;
 
         }
         // If path name changed then redirect
-        if (location.pathname != redirectPath)
+        if (location.pathname !== redirectPath)
             comp = (
                 <Redirect
                     to={{

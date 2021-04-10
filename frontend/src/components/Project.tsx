@@ -13,8 +13,9 @@ import { useQuery } from "@apollo/client";
 import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
-
+import {EditorThemes} from '../config/editorThemes';
 import OwnerCard from './OwnerCard';
+import DropBoxOptions from "../@types/dropBoxOptions";
 
 interface ProjectProps {
     code: any;
@@ -36,6 +37,12 @@ const Project: React.FC<ProjectProps> = ({
     // Get project ID from route
     const params: any = useParams();
     const projectId = params.projectId;
+    const [openCopyPopup, setOpenCopyPopup] = useState(false);
+
+    const setTheme = (theme:DropBoxOptions)=>{
+        document.querySelector('.CodeMirror')!.className=`CodeMirror cm-s-${theme.option} CodeMirror-wrap`; 
+    };
+
     // Get Project
     const { data, loading, error } = useQuery(
         projectOperations.getProjectById,
@@ -89,7 +96,6 @@ const Project: React.FC<ProjectProps> = ({
 
 
     // Boolean open/close copy popup
-    const [openCopyPopup, setOpenCopyPopup] = useState(false);
 
     
 
@@ -106,18 +112,27 @@ const Project: React.FC<ProjectProps> = ({
         <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
-            <ButtonOCR />
             <OwnerCard
                 name={data.getProjectById.name}
                 email={data.getProjectById.owner.email}
                 setOpenCopyPopup={setOpenCopyPopup}
             />
+            <div className="flex justify-evenly">
             <Dropdown
                 title="Select Langauge"
                 list={Languages}
                 setSelected={setSelected}
                 className="py-2 px-5 w-1/5 shadow-xs"
             />
+            <Dropdown 
+            title="Themes"
+            list={EditorThemes}
+            setSelected={setTheme}
+            className="py-2 px-5 w-1/5 shadow-xs"
+            />
+            <ButtonOCR />
+            </div>
+           
             <div className="h-full w-full m-0 flex">
                 <ResizableBox
                     className="relative flex justify-items-center m-1 shadow-xs"

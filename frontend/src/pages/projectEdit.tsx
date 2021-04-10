@@ -9,8 +9,8 @@ import Project from '../components/Project';
 function ProjectEditPage() {
 	const params: any = useParams();
 	const projectId = params.projectId;
-	const [ errorBox, setErrorBox ] = useState<any>(null);
-	const [ visible, setVisible ] = useState(false);
+	const [errorBox, setErrorBox] = useState<any>(null);
+	const [visible, setVisible] = useState(false);
 
 	const { subscribeToMore, loading, error, data } = useQuery(projectOperations.getProjectById, {
 		variables: {
@@ -18,21 +18,25 @@ function ProjectEditPage() {
 		}
 	});
 
-	const initState = {
+	const initState = data ? {
+		javascript: data.getProjectById.javascript,
+		css: data.getProjectById.css,
+		xml: data.getProjectById.html
+	} : {
 		//rename xml to html while sending
 		javascript: "",
 		xml: "",
 		css: ""
 	};
 
-	const [ code, setCode ] = useState(initState);
+	const [code, setCode] = useState(initState);
 
 	if (error) {
 		setErrorBox(<ErrorBox message={error.message} setVisible={setVisible} />);
 		setVisible(true);
 	}
 
-	const [ pushProject ] = useMutation(projectOperations.saveWebProject);
+	const [pushProject] = useMutation(projectOperations.saveWebProject);
 
 	useEffect(
 		() => {
@@ -47,7 +51,7 @@ function ProjectEditPage() {
 				clearTimeout(push);
 			};
 		},
-		[ code ]
+		[code, projectId]
 	);
 
 	if (loading) return <LoadingScreen />;
