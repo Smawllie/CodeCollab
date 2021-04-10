@@ -1,5 +1,6 @@
 import { hash } from "bcrypt";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import Validator from "validator";
 
 import { User, UserModel } from "../../entities/user.entity";
 import { SignUpInput } from "./input/signUp.input";
@@ -13,6 +14,10 @@ export class SignUpResolver {
         { email, password }: SignUpInput,
         @Ctx() context: Context
     ): Promise<User> {
+        // Sanitize the email input
+        email = Validator.trim(email);
+        email = Validator.escape(email);
+
         let user = await UserModel.findOne({ email }).exec();
 
         if (user) throw new Error(`User with email: ${email} exists already`);
