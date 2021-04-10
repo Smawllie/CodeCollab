@@ -49,40 +49,9 @@ function PrivateRoute({
 
     let auth = data && (data.getCurrentUser._id!==null || data.getCurrentUser._id!==undefined) ;
     if(auth) setHome('/projects');
-    // Get Project
-    
-   
 
     // Authenticate user
     if (loadingProject || loading) return <LoadingScreen />;
-
-    const userId = data.getCurrentUser._id;
-
-    // Redirect edit and view based on if user is project owner
-    if (
-        auth &&
-        (path === "/project/:projectId/edit" ||
-            path === "/project/:projectId/view")
-    ) {
-        const ownerId = dataProject.getProjectById.owner._id;
-        // Only owners  can edit, everyone else can view
-        let redirectPath;
-        if (userId === ownerId) {
-            redirectPath = `/project/${projectId}/edit`;
-        } else {
-            redirectPath = `/project/${projectId}/view`;
-
-        }
-        // If path name changed then redirect
-        if (location.pathname !== redirectPath)
-            comp = (
-                <Redirect
-                    to={{
-                        pathname: redirectPath,
-                    }}
-                />
-            );
-    }
 
     return (
         <Route
