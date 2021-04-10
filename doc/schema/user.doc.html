@@ -75,11 +75,6 @@
 <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
     <h4 class="slds-text-title--caps slds-p-around--medium">Objects</h4>
     <ul>
-        <li  title="File">
-            <a href="file.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                File
-            </a>
-        </li>
         <li  title="GetProjectRolesOutput">
             <a href="getprojectrolesoutput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 GetProjectRolesOutput
@@ -135,11 +130,6 @@
                 AddCollaboratorInput
             </a>
         </li>
-        <li  title="AddFileInput">
-            <a href="addfileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                AddFileInput
-            </a>
-        </li>
         <li  title="CreateProjectInput">
             <a href="createprojectinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 CreateProjectInput
@@ -153,11 +143,6 @@
         <li  title="SignUpInput">
             <a href="signupinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 SignUpInput
-            </a>
-        </li>
-        <li  title="WriteFileInput">
-            <a href="writefileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                WriteFileInput
             </a>
         </li>
     </ul>
@@ -202,7 +187,7 @@
     <div class="container">
         <p class="slds-text-title--caps slds-text-color--weak">OBJECT</p>
         <h1 class="slds-text-heading--large">User</h1>
-        <div class="slds-text-body--regular"><p>Users created on signup</p>
+        <div class="slds-text-body--regular"><p>User account created on sign up</p>
 </div>
     </div>
 </section>
@@ -214,7 +199,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">User</span> {</li><li></li><li><span class="tab"><span class="comment line">#   id of user</span></span></li><li><span class="tab"><span class="meta">_id</span>: <a class="support type" href="id.doc.html">ID</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   email of user</span></span></li><li><span class="tab"><span class="meta">email</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="meta">createdProjects</span>: [<a class="support type" href="project.doc.html">Project</a>!]! </span></li><li></li><li><span class="tab"><span class="comment line">#   projects shared with user</span></span></li><li><span class="tab"><span class="meta">sharedProjects</span>: [<a class="support type" href="project.doc.html">Project</a>!]! </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">User</span> {</li><li></li><li><span class="tab"><span class="comment line">#   ID of user</span></span></li><li><span class="tab"><span class="meta">_id</span>: <a class="support type" href="id.doc.html">ID</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Email of user</span></span></li><li><span class="tab"><span class="meta">email</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Projects the user has created</span></span></li><li><span class="tab"><span class="meta">createdProjects</span>: [<a class="support type" href="project.doc.html">Project</a>!]! </span></li><li></li><li><span class="tab"><span class="comment line">#   Projects shared with the user</span></span></li><li><span class="tab"><span class="meta">sharedProjects</span>: [<a class="support type" href="project.doc.html">Project</a>!]! </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
@@ -225,7 +210,7 @@
             </a>
             Require by
         </h2>
-        <ul class="require-by"><li><a href="mutation.doc.html" title="Mutation - ">Mutation<em>null</em></a><li><li><a href="project.doc.html" title="Project - Each project contains html, css, and js">Project<em>Each project contains html, css, and js</em></a><li><li><a href="query.doc.html" title="Query - ">Query<em>null</em></a><li></ul>
+        <ul class="require-by"><li><a href="mutation.doc.html" title="Mutation - ">Mutation<em>null</em></a><li><li><a href="project.doc.html" title="Project - A single page web project containing HTML, CSS and JS">Project<em>A single page web project containing HTML, CSS and JS</em></a><li><li><a href="query.doc.html" title="Query - ">Query<em>null</em></a><li></ul>
     </div>
 </section>
 <footer>

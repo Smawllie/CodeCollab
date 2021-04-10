@@ -75,11 +75,6 @@
 <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
     <h4 class="slds-text-title--caps slds-p-around--medium">Objects</h4>
     <ul>
-        <li  title="File">
-            <a href="file.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                File
-            </a>
-        </li>
         <li  title="GetProjectRolesOutput">
             <a href="getprojectrolesoutput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 GetProjectRolesOutput
@@ -135,11 +130,6 @@
                 AddCollaboratorInput
             </a>
         </li>
-        <li  title="AddFileInput">
-            <a href="addfileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                AddFileInput
-            </a>
-        </li>
         <li  title="CreateProjectInput">
             <a href="createprojectinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 CreateProjectInput
@@ -153,11 +143,6 @@
         <li  title="SignUpInput">
             <a href="signupinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 SignUpInput
-            </a>
-        </li>
-        <li  title="WriteFileInput">
-            <a href="writefileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                WriteFileInput
             </a>
         </li>
     </ul>
@@ -213,7 +198,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Query</span> {</li><li></li><li><span class="tab"><span class="comment line">#   Query for getting project</span></span></li><li><span class="tab"><span class="comment line"># </span></span></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>id</strong>: id of project</span></span></li><li><span class="tab"><span class="meta">getProjectById</span>(<span class="meta">id</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="project.doc.html">Project</a>! </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>projectId</strong>: [<strong>Not documented</strong>]</span></span></li><li><span class="tab"><span class="meta">getProjectRoles</span>(<span class="meta">projectId</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="getprojectrolesoutput.doc.html">GetProjectRolesOutput</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   query to get user by id</span></span></li><li><span class="tab"><span class="comment line"># </span></span></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>id</strong>: id of user</span></span></li><li><span class="tab"><span class="meta">getUserById</span>(<span class="meta">id</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="user.doc.html">User</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   query to get current user</span></span></li><li><span class="tab"><span class="meta">getCurrentUser</span>: <a class="support type" href="user.doc.html">User</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   unused currently but can be used for extending to other languages</span></span></li><li><span class="tab"><span class="comment line"># </span></span></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>id</strong>: file id</span></span></li><li><span class="tab"><span class="meta">getFileById</span>(<span class="meta">id</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="file.doc.html">File</a>! </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Query</span> {</li><li></li><li><span class="tab"><span class="comment line">#   Query to get project by its ID</span></span></li><li><span class="tab"><span class="comment line"># </span></span></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>id</strong>: ID of project</span></span></li><li><span class="tab"><span class="meta">getProjectById</span>(<span class="meta">id</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="project.doc.html">Project</a>! </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>projectId</strong>: [<strong>Not documented</strong>]</span></span></li><li><span class="tab"><span class="meta">getProjectRoles</span>(<span class="meta">projectId</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="getprojectrolesoutput.doc.html">GetProjectRolesOutput</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Query to get user by id</span></span></li><li><span class="tab"><span class="comment line"># </span></span></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>id</strong>: ID of user</span></span></li><li><span class="tab"><span class="meta">getUserById</span>(<span class="meta">id</span>: <a class="support type" href="string.doc.html">String</a>!): <a class="support type" href="user.doc.html">User</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Query to get current logged in user</span></span></li><li><span class="tab"><span class="meta">getCurrentUser</span>: <a class="support type" href="user.doc.html">User</a>! </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>

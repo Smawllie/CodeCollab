@@ -75,11 +75,6 @@
 <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
     <h4 class="slds-text-title--caps slds-p-around--medium">Objects</h4>
     <ul>
-        <li  title="File">
-            <a href="file.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                File
-            </a>
-        </li>
         <li  title="GetProjectRolesOutput">
             <a href="getprojectrolesoutput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 GetProjectRolesOutput
@@ -135,11 +130,6 @@
                 AddCollaboratorInput
             </a>
         </li>
-        <li  title="AddFileInput">
-            <a href="addfileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                AddFileInput
-            </a>
-        </li>
         <li  title="CreateProjectInput">
             <a href="createprojectinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 CreateProjectInput
@@ -153,11 +143,6 @@
         <li  title="SignUpInput">
             <a href="signupinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 SignUpInput
-            </a>
-        </li>
-        <li  title="WriteFileInput">
-            <a href="writefileinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
-                WriteFileInput
             </a>
         </li>
     </ul>
@@ -202,7 +187,7 @@
     <div class="container">
         <p class="slds-text-title--caps slds-text-color--weak">OBJECT</p>
         <h1 class="slds-text-heading--large">Project</h1>
-        <div class="slds-text-body--regular"><p>Each project contains html, css, and js</p>
+        <div class="slds-text-body--regular"><p>A single page web project containing HTML, CSS and JS</p>
 </div>
     </div>
 </section>
@@ -214,7 +199,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Project</span> {</li><li></li><li><span class="tab"><span class="comment line">#   id of project</span></span></li><li><span class="tab"><span class="meta">_id</span>: <a class="support type" href="id.doc.html">ID</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   name of project</span></span></li><li><span class="tab"><span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   owner of project</span></span></li><li><span class="tab"><span class="meta">owner</span>: <a class="support type" href="user.doc.html">User</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   files in project (currently unused but helpful for extension)</span></span></li><li><span class="tab"><span class="meta">files</span>: [<a class="support type" href="file.doc.html">File</a>!]! </span></li><li></li><li><span class="tab"><span class="comment line">#   html file of project</span></span></li><li><span class="tab"><span class="meta">html</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   css file of project</span></span></li><li><span class="tab"><span class="meta">css</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   js file of project</span></span></li><li><span class="tab"><span class="meta">js</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   list of collaborators of project</span></span></li><li><span class="tab"><span class="meta">collaborators</span>: [<a class="support type" href="user.doc.html">User</a>!]! </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Project</span> {</li><li></li><li><span class="tab"><span class="comment line">#   ID of project</span></span></li><li><span class="tab"><span class="meta">_id</span>: <a class="support type" href="id.doc.html">ID</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Name of project</span></span></li><li><span class="tab"><span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   Owner of project</span></span></li><li><span class="tab"><span class="meta">owner</span>: <a class="support type" href="user.doc.html">User</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   ID for HTML file of project</span></span></li><li><span class="tab"><span class="meta">html</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   ID for CSS file of project</span></span></li><li><span class="tab"><span class="meta">css</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   ID for JS file of project</span></span></li><li><span class="tab"><span class="meta">js</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="comment line">#   List of collaborators for the project</span></span></li><li><span class="tab"><span class="meta">collaborators</span>: [<a class="support type" href="user.doc.html">User</a>!]! </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
@@ -225,7 +210,7 @@
             </a>
             Require by
         </h2>
-        <ul class="require-by"><li><a href="file.doc.html" title="File - Currently not used but can be used for extending to other programming languages">File<em>Currently not used but can be used for extending to other programming languages</em></a><li><li><a href="mutation.doc.html" title="Mutation - ">Mutation<em>null</em></a><li><li><a href="query.doc.html" title="Query - ">Query<em>null</em></a><li><li><a href="user.doc.html" title="User - Users created on signup">User<em>Users created on signup</em></a><li></ul>
+        <ul class="require-by"><li><a href="mutation.doc.html" title="Mutation - ">Mutation<em>null</em></a><li><li><a href="query.doc.html" title="Query - ">Query<em>null</em></a><li><li><a href="user.doc.html" title="User - User account created on sign up">User<em>User account created on sign up</em></a><li></ul>
     </div>
 </section>
 <footer>
