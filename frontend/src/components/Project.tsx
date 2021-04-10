@@ -14,7 +14,6 @@ import projectOperations from "../graphql/operations/projectOperations";
 import LoadingScreen from "../components/LoadingScreen";
 import { useParams } from "react-router-dom";
 import OwnerCard from "./OwnerCard";
-import DropBoxOptions from "../@types/dropBoxOptions";
 
 import ShareDB from "sharedb/lib/client";
 import { Socket } from "sharedb/lib/sharedb";
@@ -72,42 +71,25 @@ const Project: React.FC<ProjectProps> = ({
         setShareDBCM(
             ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
                 key: "content",
-                verbose: true,
+                verbose: false,
             })
         );
     }
 
-    /* IDEA: Try using three editors lol and just hide them when not being used */
     function changeLanguage(item: any) {
         setSelected(item);
-        // shareDBCM.stop();
         if (item.option === "HTML") {
             setJsVisible(false);
             setCssVisible(false);
             setHtmlVisible(true);
-            // let doc = shareConnection.get("files", data.getProjectById.html);
-            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-            //     key: 'content',
-            //     verbose: true
-            // }));
         } else if (item.option === "CSS") {
             setHtmlVisible(false);
             setJsVisible(false);
             setCssVisible(true);
-            // let doc = shareConnection.get("files", data.getProjectById.css);
-            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-            //     key: 'content',
-            //     verbose: true
-            // }));
         } else if (item.option === "JS") {
             setHtmlVisible(false);
             setCssVisible(false);
             setJsVisible(true);
-            // let doc = shareConnection.get("files", data.getProjectById.js);
-            // setShareDBCM(ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-            //     key: 'content',
-            //     verbose: true
-            // }));
         }
     }
 
@@ -146,8 +128,6 @@ const Project: React.FC<ProjectProps> = ({
             });
         };
     }, []);
-
-    // Boolean open/close copy popup
 
     // Called when copy popup is closed
     const handleCloseCopyPopup = (event: object, reason: string) => {
