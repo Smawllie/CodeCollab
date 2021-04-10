@@ -1,5 +1,5 @@
 import { AuthenticationError } from "apollo-server-errors";
-import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { Context } from "../../context";
 import { ProjectModel } from "../../entities/project.entity";
@@ -10,6 +10,7 @@ export class DeleteProjectResolver {
     @Mutation(() => Boolean, {
         description: "Mutation for deleting project",
     })
+    @Authorized()
     async deleteProject(
         @Arg("id", {
             description: "ID of project",
