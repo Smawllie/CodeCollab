@@ -1,16 +1,16 @@
 import { AuthenticationError } from "apollo-server-errors";
 import { compare } from "bcrypt";
-import { Context } from "../../context";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 
+import { Context } from "../../context";
 import { User, UserModel } from "../../entities/user.entity";
-import { SignInInput } from "./input/signIn.input"
+import { SignInInput } from "./input/signIn.input";
 
 @Resolver()
 export class SignInResolver {
-    @Mutation(() => User)
+    @Mutation(() => User, { description: "Mutation used to sign in" })
     async signIn(
-        @Arg("user")
+        @Arg("user", { description: "Email and password of user" })
         { email, password }: SignInInput,
         @Ctx() context: Context
     ): Promise<User> {
@@ -22,7 +22,8 @@ export class SignInResolver {
 
         if (!valid) throw new AuthenticationError("Access Denied");
 
-        context.req.session.user = user;
+        // Set session
+        context.req.session.userId = user._id.toString();
 
         return user;
     }

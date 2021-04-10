@@ -1,21 +1,12 @@
 import { IsEmail } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Input type for signup" })
 export class SignUpInput {
-    @Field()
+    @Field({ description: "Email of user" })
     @IsEmail()
     email: string;
 
-    @Field()
-    username: string;
-
-    @Field()
+    @Field({ description: "Password of user" })
     password: string;
-
-    @Field({ nullable: true })
-    firstName: string;
-
-    @Field({ nullable: true })
-    lastName: string;
 }
