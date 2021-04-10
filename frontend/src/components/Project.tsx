@@ -171,7 +171,7 @@ const Project: React.FC<ProjectProps> = ({
             />
             <div className="flex justify-evenly">
                 <Dropdown
-                    title="Select Langauge"
+                    title="Select Language"
                     list={Languages}
                     setSelected={changeLanguage}
                     className="py-2 px-5 w-1/5 shadow-xs"
