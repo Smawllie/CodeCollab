@@ -45,14 +45,24 @@ const projectOperations = {
             }
         }
     `,
-    saveWebProject : gql`
-     mutation saveWebProject($projectId:String!,$html:String!,$css:String!,$js:String!){
-         saveWebProject(project:{projectId:$projectId,html:$html,css:$css,js:$js}){
-            _id
-         }
-      
-     }
-    
+    saveWebProject: gql`
+        mutation saveWebProject(
+            $projectId: String!
+            $html: String!
+            $css: String!
+            $js: String!
+        ) {
+            saveWebProject(
+                project: {
+                    projectId: $projectId
+                    html: $html
+                    css: $css
+                    js: $js
+                }
+            ) {
+                _id
+            }
+        }
     `,
     subscribeProjectById: gql`
         subscription subscribeProjectById($id: String!) {
@@ -72,6 +82,14 @@ const projectOperations = {
             ) {
                 _id
                 name
+            }
+        }
+    `,
+    getProjectRoles: gql`
+        query getProjectRoles($projectId: String!) {
+            getProjectRoles(projectId: $projectId) {
+                isOwner
+                isCollaborator
             }
         }
     `,

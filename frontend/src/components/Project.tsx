@@ -29,8 +29,8 @@ interface ProjectProps {
     setCode?: any;
     errorBox: any;
     visible: boolean;
-    isReadOnly?: boolean;
-    subscribeToNewData?:Function;
+    isOwner: boolean;
+    isCollaborator: boolean;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -38,8 +38,8 @@ const Project: React.FC<ProjectProps> = ({
     setCode,
     errorBox,
     visible,
-    isReadOnly,
-    subscribeToNewData
+    isOwner,
+    isCollaborator,
 }) => {
     // Get project ID from route
     const params: any = useParams();
@@ -62,6 +62,7 @@ const Project: React.FC<ProjectProps> = ({
 
     const socket = new WebSocket(process.env.REACT_APP_WEB_SOCKET!);
     const shareConnection = new ShareDB.Connection(socket as Socket);
+    const isReadOnly = !(isOwner || isCollaborator)
     const [editor, setEditor] = useState<any>(null);
     const [shareDBCM, setShareDBCM] = useState<any>(null);
     const [html, setHtml] = useState("");
@@ -142,9 +143,6 @@ const Project: React.FC<ProjectProps> = ({
     const [selected, setSelected] = useState<Language>(Languages[0]);
 
     useEffect(()=>{
-
-        if(subscribeToNewData!==undefined) subscribeToNewData();
-
 		window.addEventListener('resize', () => {
 			setWidth(window.innerWidth);
 		});
@@ -154,7 +152,7 @@ const Project: React.FC<ProjectProps> = ({
             });
         };
         
-    },[code]);
+    }, []);
 
 
     // Boolean open/close copy popup
@@ -174,6 +172,7 @@ const Project: React.FC<ProjectProps> = ({
         <div className="bg-blue-100 h-full w-full overflow-auto">
             <Navbar />
             {visible && errorBox}
+            {isReadOnly && <h1>Viewing only</h1>}
             <OwnerCard
                 name={data.getProjectById.name}
                 email={data.getProjectById.owner.email}

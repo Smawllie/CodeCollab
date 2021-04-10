@@ -51,7 +51,7 @@ function Editor({
         foldGutter:true,
         maxHighlightLength:Infinity,
         autocorrect:true,
-        readOnly: isReadOnly,
+        readOnly: isReadOnly ? "nocursor" : isReadOnly,
         extraKeys: {
             "Enter": onEnter
         }

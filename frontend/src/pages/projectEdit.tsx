@@ -13,10 +13,10 @@ function ProjectPage() {
 
     // Get Project
     const { loading, error, data } = useQuery(
-        projectOperations.getProjectById,
+        projectOperations.getProjectRoles,
         {
             variables: {
-                id: projectId,
+                projectId: projectId,
             },
         }
     );
@@ -33,6 +33,7 @@ function ProjectPage() {
     // Error handling
     const [errorBox, setErrorBox] = useState<any>(null);
     const [visible, setVisible] = useState(false);
+
     if (error) {
         setErrorBox(
             <ErrorBox message={error.message} setVisible={setVisible} />
@@ -47,6 +48,8 @@ function ProjectPage() {
             setCode={setCode}
             errorBox={errorBox}
             visible={visible}
+            isOwner={data.getProjectRoles.isOwner}
+            isCollaborator={data.getProjectRoles.isCollaborator}
         />
     );
 }

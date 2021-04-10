@@ -32,7 +32,7 @@ function ProjectsPage(props: RouteComponentProps<any>) {
 
     function goToProjectOnCreate(id: String) {
         /* TODO route to actual project page */
-        props.history.push(`/project/${id}/edit`);
+        props.history.push(`/project/${id}`);
     }
 
     function handleClickOpen() {
