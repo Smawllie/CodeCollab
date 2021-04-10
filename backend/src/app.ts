@@ -34,7 +34,13 @@ const main = async () => {
 
     const app = Express();
 
-    app.use(Helmet());
+    // https://github.com/graphql/graphql-playground/issues/1283
+    app.use(
+        Helmet({
+            contentSecurityPolicy:
+                process.env.NODE_ENV === "production" ? undefined : false,
+        })
+    );
 
     let corsOptions = {
         origin: process.env.CORS_ORIGIN,
@@ -48,7 +54,10 @@ const main = async () => {
             saveUninitialized: true,
             store: sessionStore,
             unset: "destroy",
-            cookie: { httpOnly: true, secure: true },
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+            },
         })
     );
 

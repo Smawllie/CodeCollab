@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "ts-node-dev --respawn ./src/app.ts"
+        "prod": "cross-env NODE_ENV=production ts-node ./src/app.ts",
+        "dev": "cross-env NODE_ENV=development ts-node-dev --respawn ./src/app.ts"
     },
     "keywords": [],
     "author": "",
@@ -15,6 +16,7 @@
         "bcrypt": "^5.0.1",
         "class-validator": "^0.13.1",
         "connect-mongodb-session": "^2.4.1",
+        "cross-env": "^7.0.3",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
