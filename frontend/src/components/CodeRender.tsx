@@ -8,7 +8,7 @@ function CodeRender(props: any) {
             <div className="w-full h-full">
                 <iframe
                     srcDoc={srcDoc}
-                    className="w-full border-none absolute"
+                    className="w-full h-full border-none absolute"
                     sandbox="allow-popups allow-scripts allow-modals"
                 />
             </div>

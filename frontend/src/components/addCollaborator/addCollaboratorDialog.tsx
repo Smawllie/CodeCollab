@@ -12,7 +12,7 @@ interface AddCollaboratorDialogProps {
 const AddCollaboratorDialog: React.FC<AddCollaboratorDialogProps> = ({
     openDialog,
     setOpenDialog,
-    projectId
+    projectId,
 }) => {
     const [addCollaborator] = useMutation(projectOperations.addCollaborator);
 
@@ -31,32 +31,37 @@ const AddCollaboratorDialog: React.FC<AddCollaboratorDialogProps> = ({
                 email: collaboratorEmail,
                 projectId: projectId,
             },
-        }).then((response) => {
-            if (response.data) {
-                setOpenDialog(false);
-                setVisible(false);
-            }
-        }).catch((e) => {
-            setError(<h1>{e.message}</h1>);
-            setVisible(true);
-        });
+        })
+            .then((response) => {
+                if (response.data) {
+                    setOpenDialog(false);
+                    setVisible(false);
+                }
+            })
+            .catch((e) => {
+                setError(<h1>{e.message}</h1>);
+                setVisible(true);
+            });
     }
 
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+
     return (
-        <Dialog
-            open={openDialog}
-        >
-        {visible && error}
-        <DialogTitle>Add new collaborator</DialogTitle>
-        <form onSubmit={handleSubmit}>
-            <Input
-                type="text"
-                onChange={(e) => setCollaboratorEmail(e.target.value)}
-                required/>
-            <Input type="submit"/>
-        </form>
+        <Dialog open={openDialog} onClose={handleClose}>
+            {visible && error}
+            <DialogTitle>Add new collaborator</DialogTitle>
+            <form onSubmit={handleSubmit}>
+                <Input
+                    type="text"
+                    onChange={(e) => setCollaboratorEmail(e.target.value)}
+                    required
+                />
+                <Input type="submit" />
+            </form>
         </Dialog>
     );
-}
+};
 
 export default AddCollaboratorDialog;
