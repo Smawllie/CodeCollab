@@ -78,7 +78,7 @@ function Editor({
                 onBeforeChange={handleChange}
                 value={code}
                 editorDidMount={editor => {
-                           e.setSize(null, '100%');
+                           editor.setSize(null, '100%');
                            setupShareDB(editor, displayName.toLowerCase());
                            }}
                 options={editorOptions}

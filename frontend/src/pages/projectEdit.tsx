@@ -1,5 +1,5 @@
-import { useQuery, useMutation } from '@apollo/client';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
 import { useParams, withRouter } from 'react-router';
 import projectOperations from '../graphql/operations/projectOperations';
 import LoadingScreen from '../components/LoadingScreen';
@@ -51,45 +51,4 @@ function ProjectEditPage() {
     );
 }
 
-	const [pushProject] = useMutation(projectOperations.saveWebProject);
-
-	useEffect(
-		() => {
-			const push = setTimeout(() => {
-				let project = { html: code.xml, css: code.css, js: code.javascript, projectId };
-				pushProject({ variables: project }).catch((err) => {
-					console.log(err);
-				});
-			}, 5000);
-
-			return () => {
-				clearTimeout(push);
-			};
-		},
-		[code, projectId]
-	);
-
-	if (loading) return <LoadingScreen />;
-
-	return (
-		<Project
-			code={code}
-			setCode={setCode}
-			errorBox={errorBox}
-			visible={visible}
-			isReadOnly={false}
-			subscribeToNewData={() => {
-				return subscribeToMore({
-					document: projectOperations.subscribeProjectById,
-					variables: { id: projectId },
-					updateQuery: (prev, { subscriptionData }) => {
-						if (!subscriptionData.data) return prev;
-						const { html, css, js } = subscriptionData.data.subscribeProjectById;
-						return setCode({ xml: html, css: css, javascript: js });
-					}
-				});
-			}}
-		/>
-	);
-}
 export default withRouter(ProjectEditPage);
