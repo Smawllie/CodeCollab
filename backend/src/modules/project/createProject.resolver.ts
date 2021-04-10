@@ -1,21 +1,21 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import { isDocumentArray } from "@typegoose/typegoose";
+import { Types } from "mongoose";
 
 import { Context } from "../../context";
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { CreateProjectInput } from "./input/createProject.input";
 import { UserModel } from "../../entities/user.entity";
-import { Types } from "mongoose";
 
 @Resolver()
 export class CreateProjectResolver {
     @Mutation(() => Project, {
-        description: "mutation for creating project",
+        description: "Mutation for creating project",
     })
     @Authorized()
     async createProject(
         @Arg("project", {
-            description: "contains name of project",
+            description: "Name of new project",
         })
         { name }: CreateProjectInput,
         @Ctx() context: Context

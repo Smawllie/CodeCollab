@@ -1,12 +1,12 @@
 import { IsEmail } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
-@InputType({ description: "Schema for adding collaborators" })
+@InputType({ description: "Input type for adding collaborators" })
 export class AddCollaboratorInput {
-    @Field({ description: "email of collaborator" })
+    @Field({ description: "Email of collaborator" })
     @IsEmail()
     collaboratorEmail: string;
 
-    @Field({ description: "id of project" })
+    @Field({ description: "ID of project" })
     projectId: string;
 }
