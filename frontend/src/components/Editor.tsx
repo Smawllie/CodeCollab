@@ -38,7 +38,7 @@ function Editor({
 
 
     return (
-        <div className="bg-blue-50 w-full h-full" style={visible ? {} : {display: "none"}}>
+        <div className="bg-blue-50 w-full h-full absolute" style={visible ? {} : { display: "none" }}>
             <div className="bg-gray-700 flex justify-between py-2 px-3 text-white">
                 {displayName}
             </div>

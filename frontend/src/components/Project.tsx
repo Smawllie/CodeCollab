@@ -165,47 +165,33 @@ const Project: React.FC<ProjectProps> = ({
                     }
                     handleSize={[20, 20]}
                 >
-                    {/* <Editor
-                        language={selected.language.toString()}
-                        displayName={selected.option}
-                        onChange={setCode}
-                        code={code}
-                    setupShareDB={setupShareDB}
+                    <Editor
+                        language={"xml"}
+                        displayName={"HTML"}
+                        onChange={setHtml}
+                        code={html}
+                        setupShareDB={setupShareDB}
                         readOnly={isReadOnly ? isReadOnly : false}
-                    /> */}
-                    <div>
-                        <Editor
-                            language={"xml"}
-                            displayName={"HTML"}
-                            onChange={setHtml}
-                            code={html}
-                            setupShareDB={setupShareDB}
-                            readOnly={isReadOnly ? isReadOnly : false}
-                            visible={htmlVisible}
-                        />
-                    </div>
-                    <div>
-                        <Editor
-                            language={"css"}
-                            displayName={"CSS"}
-                            onChange={setCss}
-                            code={css}
-                            setupShareDB={setupShareDB}
-                            readOnly={isReadOnly ? isReadOnly : false}
-                            visible={cssVisible}
-                        />
-                    </div>
-                    <div>
-                        <Editor
-                            language={"javascript"}
-                            displayName={"JS"}
-                            onChange={setJs}
-                            code={js}
-                            setupShareDB={setupShareDB}
-                            readOnly={isReadOnly ? isReadOnly : false}
-                            visible={jsVisible}
-                        />
-                    </div>
+                        visible={htmlVisible}
+                    />
+                    <Editor
+                        language={"css"}
+                        displayName={"CSS"}
+                        onChange={setCss}
+                        code={css}
+                        setupShareDB={setupShareDB}
+                        readOnly={isReadOnly ? isReadOnly : false}
+                        visible={cssVisible}
+                    />
+                    <Editor
+                        language={"javascript"}
+                        displayName={"JS"}
+                        onChange={setJs}
+                        code={js}
+                        setupShareDB={setupShareDB}
+                        readOnly={isReadOnly ? isReadOnly : false}
+                        visible={jsVisible}
+                    />
                 </ResizableBox>
                 <ResizableBox
                     className="relative px-2 flex justify-items-center m-1 shadow-xs"
