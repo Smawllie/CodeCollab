@@ -15,23 +15,28 @@ const DragnDrop: React.FC<DragnDropProps> = ({
     setFile,
     ...props
 }) => {
-    const onDrop = useCallback((acceptedFiles) => {
-        let item;
-        for (let file of acceptedFiles) {
-            if (file.type.split("/")[0] === "image") {
-                item = file;
-                break;
+    const onDrop = useCallback(
+        (acceptedFiles) => {
+            let item;
+            for (let file of acceptedFiles) {
+                if (file.type.split("/")[0] === "image") {
+                    item = file;
+                    break;
+                }
             }
-        }
-        const blob = URL.createObjectURL(item);
-        setFile(blob);
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            const imgSrc: string = event.target!.result as string;
-            setDropHTML(<img src={imgSrc} className="max-w-full h-auto"/>);
-        };
-        reader.readAsDataURL(item);
-    }, [setDropHTML,setFile]);
+            const blob = URL.createObjectURL(item);
+            setFile(blob);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                const imgSrc: string = event.target!.result as string;
+                setDropHTML(
+                    <img src={imgSrc} alt="ocr" className="max-w-full h-auto" />
+                );
+            };
+            reader.readAsDataURL(item);
+        },
+        [setDropHTML, setFile]
+    );
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
     return (

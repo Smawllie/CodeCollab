@@ -1,7 +1,4 @@
-import { ApolloClient, InMemoryCache, split, HttpLink } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/client/link/ws";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 const httpLink = new HttpLink({
     uri: process.env.REACT_APP_APOLLO_SERVER_URI,

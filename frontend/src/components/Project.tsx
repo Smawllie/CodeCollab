@@ -45,20 +45,15 @@ const Project: React.FC<ProjectProps> = ({
     const [openCopyPopup, setOpenCopyPopup] = useState(false);
 
     // Get Project
-    const { data, loading, error } = useQuery(
-        projectOperations.getProjectById,
-        {
-            variables: {
-                id: projectId,
-            },
-        }
-    );
+    const { data, loading } = useQuery(projectOperations.getProjectById, {
+        variables: {
+            id: projectId,
+        },
+    });
 
     const socket = new WebSocket(process.env.REACT_APP_WEB_SOCKET!);
     const shareConnection = new ShareDB.Connection(socket as Socket);
     const isReadOnly = !(isOwner || isCollaborator);
-    const [editor, setEditor] = useState<any>(null);
-    const [shareDBCM, setShareDBCM] = useState<any>(null);
     const [html, setHtml] = useState("");
     const [htmlVisible, setHtmlVisible] = useState(true);
     const [css, setCss] = useState("");
@@ -68,12 +63,10 @@ const Project: React.FC<ProjectProps> = ({
 
     function setupShareDB(editor: any, lang: any) {
         let doc = shareConnection.get("files", data.getProjectById[lang]);
-        setShareDBCM(
-            ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
-                key: "content",
-                verbose: false,
-            })
-        );
+        ShareDBCodeMirror.attachDocToCodeMirror(doc, editor, {
+            key: "content",
+            verbose: false,
+        });
     }
 
     function changeLanguage(item: any) {

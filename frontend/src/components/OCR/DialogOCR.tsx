@@ -21,7 +21,7 @@ interface DialogOCRProps {
     dot: dotType;
     dotClass: string;
     setDotClass: (state: string) => void;
-    openDialog: boolean; 
+    openDialog: boolean;
     setOpenDialog: (state: boolean) => void;
     ocr: string;
     setFile: (state: string) => void;
@@ -70,7 +70,9 @@ const DialogOCR: React.FC<DialogOCRProps> = ({
             var reader = new FileReader();
             reader.onload = function (event) {
                 const imgSrc: string = event.target!.result as string;
-                setDropHTML(<img src={imgSrc} className="dragImage" />);
+                setDropHTML(
+                    <img src={imgSrc} alt="ocr" className="dragImage" />
+                );
             };
             reader.readAsDataURL(blob);
         }
