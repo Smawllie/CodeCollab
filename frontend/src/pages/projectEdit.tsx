@@ -6,7 +6,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import ErrorBox from '../components/Error';
 import Project from '../components/Project';
 
-function ProjectEditPage() {
+function ProjectPage() {
     // Get project ID from route
     const params: any = useParams();
     const projectId = params.projectId;
@@ -51,4 +51,4 @@ function ProjectEditPage() {
     );
 }
 
-export default withRouter(ProjectEditPage);
+export default withRouter(ProjectPage);

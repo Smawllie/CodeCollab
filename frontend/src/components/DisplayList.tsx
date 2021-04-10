@@ -13,7 +13,7 @@ function DisplayList({ data }: any) {
 				{data.map(function(project: any) {
 					return (
 						<Paper elevation={2} variant="outlined" key={project._id}>
-							<Link to={`/project/${project._id}/edit`}>
+							<Link to={`/project/${project._id}/`}>
 								<ListItem>
 									<ListItemIcon>
 										<FolderIcon />

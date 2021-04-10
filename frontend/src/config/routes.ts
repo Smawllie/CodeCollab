@@ -3,8 +3,7 @@ import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import Page404 from "../pages/404";
 import ProjectsPage from "../pages/project";
-import ProjectEditPage from "../pages/projectEdit";
-import ProjectViewPage from "../pages/projectView";
+import ProjectPage from "../pages/projectEdit";
 
 const routes: Routes[] = [
     {
@@ -29,19 +28,12 @@ const routes: Routes[] = [
         protected: true,
     },
     {
-        path: "/project/:projectId/edit",
+        path: "/project/:projectId/",
         exact: true,
-        name: "Project Editing Page",
-        component: ProjectEditPage,
+        name: "Project Page",
+        component: ProjectPage,
         protected: true,
     },
-    // {
-    //     path: "/project/:projectId/view",
-    //     exact: true,
-    //     name: "Project Viewing Page",
-    //     component: ProjectViewPage,
-    //     protected: true,
-    // },
     {
         path: "/*",
         name: "Not found",
