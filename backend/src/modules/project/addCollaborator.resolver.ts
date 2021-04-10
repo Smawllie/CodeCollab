@@ -8,12 +8,12 @@ import { UserModel } from "../../entities/user.entity";
 @Resolver()
 export class AddCollaboratorResolver {
     @Mutation(() => Project, {
-        description: "mutation for adding collaborators",
+        description: "Mutation for adding collaborators to a project",
     })
     @Authorized()
     async addCollaborator(
         @Arg("project", {
-            description: "contains collaborator and project id",
+            description: "Contains collaborator email and project ID",
         })
         { collaboratorEmail, projectId }: AddCollaboratorInput,
         @Ctx() context: Context

@@ -6,11 +6,11 @@ import { Context } from "../../context";
 @Resolver(() => User)
 export class GetUserResolver {
     @Query(() => User, {
-        description: "query to get user by id",
+        description: "Query to get user by id",
     })
     @Authorized()
     async getUserById(
-        @Arg("id", { description: "id of user" })
+        @Arg("id", { description: "ID of user" })
         id: String
     ) {
         let user = await UserModel.findById(id).exec();
@@ -21,7 +21,7 @@ export class GetUserResolver {
     }
 
     @Query(() => User, {
-        description: "query to get current user",
+        description: "Query to get current logged in user",
     })
     @Authorized()
     async getCurrentUser(@Ctx() context: Context) {

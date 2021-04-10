@@ -10,7 +10,7 @@ import { SignInInput } from "./input/signIn.input";
 export class SignInResolver {
     @Mutation(() => User, { description: "Mutation used to sign in" })
     async signIn(
-        @Arg("user", { description: "email and password of user" })
+        @Arg("user", { description: "Email and password of user" })
         { email, password }: SignInInput,
         @Ctx() context: Context
     ): Promise<User> {
@@ -22,7 +22,7 @@ export class SignInResolver {
 
         if (!valid) throw new AuthenticationError("Access Denied");
 
-        // Set session cookie and cookie for frontend
+        // Set session
         context.req.session.userId = user._id.toString();
 
         return user;

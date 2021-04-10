@@ -1,19 +1,19 @@
 import { AuthenticationError } from "apollo-server-errors";
-import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 
 import { Context } from "../../context";
 import { ProjectModel } from "../../entities/project.entity";
-import { FileModel } from "../../entities/file.entity";
 import { UserModel } from "../../entities/user.entity";
 
 @Resolver()
 export class DeleteProjectResolver {
     @Mutation(() => Boolean, {
-        description: "mutation for deleting project",
+        description: "Mutation for deleting project",
     })
+    @Authorized()
     async deleteProject(
         @Arg("id", {
-            description: "id of project",
+            description: "ID of project",
         })
         id: String,
         @Ctx() context: Context
@@ -57,11 +57,15 @@ export class DeleteProjectResolver {
         );
 
         // Delete all files associated with the project
-        let deleteProjectFiles = FileModel.deleteMany({
-            project: project._id,
-        }).exec();
+        // let deleteProjectFiles = FileModel.deleteMany({
+        //     project: project._id,
+        // }).exec();
 
-        await Promise.all([deleteProjectFiles, owner.save(), project.delete()]);
+        await Promise.all([
+            // deleteProjectFiles,
+            owner.save(),
+            project.delete(),
+        ]);
 
         return true;
     }

@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "ts-node-dev --respawn ./src/app.ts"
+        "prod": "cross-env NODE_ENV=production ts-node ./src/app.ts",
+        "dev": "cross-env NODE_ENV=development ts-node-dev --respawn ./src/app.ts"
     },
     "keywords": [],
     "author": "",
@@ -15,11 +16,13 @@
         "bcrypt": "^5.0.1",
         "class-validator": "^0.13.1",
         "connect-mongodb-session": "^2.4.1",
+        "cross-env": "^7.0.3",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "graphql": "^15.5.0",
         "graphql-upload": "^11.0.0",
+        "helmet": "^4.4.1",
         "mongoose": "^5.10.18",
         "ot-text": "^1.0.2",
         "reflect-metadata": "^0.1.13",
@@ -37,6 +40,7 @@
         "@types/express-session": "^1.17.3",
         "@types/graphql": "^14.5.0",
         "@types/graphql-upload": "^8.0.4",
+        "@types/helmet": "^4.0.0",
         "@types/mongoose": "^5.10.3",
         "@types/node": "^14.14.33",
         "@types/sharedb": "^1.0.14",

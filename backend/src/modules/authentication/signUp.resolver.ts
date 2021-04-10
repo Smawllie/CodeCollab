@@ -9,7 +9,7 @@ import { Context } from "../../context";
 export class SignUpResolver {
     @Mutation(() => User, { description: "Mutation used for sign up" })
     async signUp(
-        @Arg("user", { description: "email and password for signup" })
+        @Arg("user", { description: "Email and password for signup" })
         { email, password }: SignUpInput,
         @Ctx() context: Context
     ): Promise<User> {
@@ -26,7 +26,7 @@ export class SignUpResolver {
 
         await user.save();
 
-        // Set session cookie
+        // Set session
         context.req.session.userId = user._id.toString();
 
         return user;

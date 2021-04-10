@@ -9,42 +9,38 @@ import {
     Root,
 } from "type-graphql";
 
-import { File, FileModel } from "./file.entity";
 import { User, UserModel } from "./user.entity";
 
-@ObjectType({ description: "Each project contains html, css, and js" })
+@ObjectType({
+    description: "A single page web project containing HTML, CSS and JS",
+})
 export class Project {
-    @Field(() => ID, { description: "id of project" })
+    @Field(() => ID, { description: "ID of project" })
     _id: Types.ObjectId;
 
-    @Field({ description: "name of project" })
+    @Field({ description: "Name of project" })
     @Property({ required: true })
     name: string;
 
-    @Field(() => User, { description: "owner of project" })
+    @Field(() => User, { description: "Owner of project" })
     @Property({ ref: "User", required: true })
     owner: Ref<User>;
 
-    @Field(() => [File], {
-        description:
-            "files in project (currently unused but helpful for extension)",
-    })
-    @Property({ ref: "File", required: true })
-    files: Ref<File>[];
-
-    @Field(() => String, { description: "html file of project" })
+    @Field(() => String, { description: "ID for HTML file of project" })
     @Property({ required: true })
     html: Types.ObjectId;
 
-    @Field(() => String, { description: "css file of project" })
+    @Field(() => String, { description: "ID for CSS file of project" })
     @Property({ required: true })
     css: Types.ObjectId;
 
-    @Field(() => String, { description: "js file of project" })
+    @Field(() => String, { description: "ID for JS file of project" })
     @Property({ required: true })
     js: Types.ObjectId;
 
-    @Field(() => [User], { description: "list of collaborators of project" })
+    @Field(() => [User], {
+        description: "List of collaborators for the project",
+    })
     @Property({ ref: "User", required: true, default: [] })
     collaborators: Ref<User>[];
 
@@ -58,15 +54,6 @@ export class ProjectFieldResolver {
     @FieldResolver(() => User)
     async owner(@Root() project: Project) {
         return UserModel.findById(project._doc.owner).exec();
-    }
-
-    @FieldResolver(() => [File])
-    async files(@Root() project: Project) {
-        return Promise.all(
-            project._doc.files.map((fileId: any) =>
-                FileModel.findById(fileId).exec()
-            )
-        );
     }
 
     @FieldResolver(() => [User])
