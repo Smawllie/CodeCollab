@@ -6,6 +6,9 @@ import { createServer } from "http";
 import { connect } from "mongoose";
 import { buildSchema } from "type-graphql";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import ShareDB from "sharedb";
 import { Server } from "ws";
 
@@ -17,24 +20,21 @@ const otText = require("ot-text");
 const WebSocketJSONStream = require("websocket-json-stream");
 
 const MongoDBStore = require("connect-mongodb-session")(Session);
-// TODO: Maybe this should be in an env file or something
-const MONGO_DB_URL = "mongodb://localhost/codecollab-db";
-const PORT = 4000;
 
 ShareDB.types.map["json0"].registerSubtype(otText.type);
-const shareDBMongo = require("sharedb-mongo")(MONGO_DB_URL, {
+const shareDBMongo = require("sharedb-mongo")(process.env.MONGO_DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
 const main = async () => {
-    connect(MONGO_DB_URL, {
+    connect(process.env.MONGO_DB_URL!, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
 
     const sessionStore = new MongoDBStore({
-        uri: MONGO_DB_URL,
+        uri: process.env.MONGO_DB_URL,
         collection: "sessions",
     });
     sessionStore.on("error", function (error: Error) {
@@ -45,7 +45,7 @@ const main = async () => {
 
     let corsOptions = {
         // TODO: Point this to the actual front end domain
-        origin: "https://codecollab.me",
+        origin: process.env.CORS_ORIGIN,
         credentials: true,
     };
 
@@ -85,14 +85,11 @@ const main = async () => {
     const server = createServer(app);
     // apolloServer.installSubscriptionHandlers(server);
 
-    server.listen(PORT, function () {
+    server.listen(process.env.PORT, function () {
         console.log(`
-            HTTP GraphQL server on http://localhost:${PORT}/graphql/
+            HTTP GraphQL server on http://localhost:${process.env.PORT}/graphql/
             Run queries at https://studio.apollographql.com/dev/
         `);
-        // console.log(
-        //     `🚀 Subscriptions ready at ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
-        // );
     });
 
     // Setup ShareDB
