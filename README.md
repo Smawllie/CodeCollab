@@ -8,7 +8,7 @@
 
 ## Final version
 
--   Final Project: codecollab.me
+-   Final Project: https://codecollab.me
 
 ## Video
 
@@ -16,5 +16,5 @@
 
 ## API Documentation
 
--   GraphQL playground: codecollab.me/graphql
--   Exported documentation: docs.codecollab.me
+-   GraphQL playground: https://codecollab.me/graphql
+-   Exported documentation: https://docs.codecollab.me
