@@ -10,7 +10,6 @@ import { CreateProjectResolver } from "./modules/project/createProject.resolver"
 import { ProjectFieldResolver } from "./entities/project.entity";
 import { AddCollaboratorResolver } from "./modules/project/addCollaborator.resolver";
 import { GetProjectResolver } from "./modules/project/getProject.resolver";
-import { DeleteProjectResolver } from "./modules/project/deleteProject.resolver";
 import { GetProjectRoles } from "./modules/authorization/getProjectRoles.resolver";
 
 // User resolvers
@@ -28,7 +27,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     ProjectFieldResolver,
     GetProjectResolver,
     AddCollaboratorResolver,
-    DeleteProjectResolver,
     GetProjectRoles,
 
     // User Resolvers
