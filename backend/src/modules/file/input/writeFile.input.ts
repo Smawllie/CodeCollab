@@ -1,10 +1,10 @@
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for writing to a file" })
 export class WriteFileInput {
-    @Field()
+    @Field({ description: "id of file" })
     fileId: string;
 
-    @Field()
+    @Field({ description: "content of file" })
     content: string;
 }

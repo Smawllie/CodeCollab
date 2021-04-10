@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for creating a project" })
 export class CreateProjectInput {
-    @Field()
+    @Field({ description: "name of project" })
     name: string;
 }

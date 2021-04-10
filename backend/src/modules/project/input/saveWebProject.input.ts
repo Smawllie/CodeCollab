@@ -1,16 +1,16 @@
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for saving a project" })
 export class SaveWebProjectInput {
-    @Field()
+    @Field({ description: "id of project" })
     projectId: string;
 
-    @Field()
+    @Field({ description: "html of project" })
     html: string;
 
-    @Field()
+    @Field({ description: "css of project" })
     css: string;
 
-    @Field()
+    @Field({ description: "js of project" })
     js: string;
 }

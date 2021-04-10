@@ -35,13 +35,13 @@ const routes: Routes[] = [
         component: ProjectEditPage,
         protected: true,
     },
-    {
-        path: "/project/:projectId/view",
-        exact: true,
-        name: "Project Viewing Page",
-        component: ProjectViewPage,
-        protected: true,
-    },
+    // {
+    //     path: "/project/:projectId/view",
+    //     exact: true,
+    //     name: "Project Viewing Page",
+    //     component: ProjectViewPage,
+    //     protected: true,
+    // },
     {
         path: "/*",
         name: "Not found",

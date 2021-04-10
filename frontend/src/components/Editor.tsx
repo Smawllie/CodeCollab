@@ -25,6 +25,8 @@ interface EditorProps {
     code: any;
     onChange: any;
     readOnly?: boolean;
+    setupShareDB: any;
+    visible: boolean;
 }
 
 function Editor({
@@ -33,37 +35,54 @@ function Editor({
     code,
     onChange,
     readOnly,
+    setupShareDB,
+    visible,
 }: EditorProps) {
 
-    //let isReadOnly = readOnly ? readOnly : false;
+    let isReadOnly = readOnly ? readOnly : false;
+
     const editorOptions = {
         lint:true,
         mode:language,
         lineWrapping:true,
         lineNumbers: true,
+        smartIndent: false,
         theme:'material',
         foldGutter:true,
         maxHighlightLength:Infinity,
-        autocorrect:true
+        autocorrect:true,
+        readOnly: isReadOnly,
+        extraKeys: {
+            "Enter": onEnter
+        }
     }
-    
-    function handleChange(editor: any, data: String, value: string) {
-        onChange({ ...code, [language]: value });
+
+    function handleChange(editor: any, event: any , value: string) {
+        onChange(value);
     }
+
+    function onEnter(cm: any) {
+        let sels = cm.listSelections()
+        for (let i = sels.length - 1; i >= 0; i--)
+            cm.replaceRange(cm.doc.lineSeparator(), sels[i].anchor, sels[i].head, "+input")
+    }
+
+
     return (
-        <div className="w-full h-full" >
+        <div className="w-full h-full" style={visible ? {} : {display: "none"}}>
             <div className="bg-gray-700 flex justify-between py-2 px-3 text-white">
                 {displayName}
             </div>
-          <ControlledEditor
-            className="h-full w-full"
-            onBeforeChange={handleChange}
-            value={code[language]}
-            options={editorOptions}
-            editorDidMount={e => {e.setSize(null, '100%')
-        }}
-          
-          />
+            <ControlledEditor
+                className="h-full w-full"
+                onBeforeChange={handleChange}
+                value={code}
+                editorDidMount={editor => {
+                           e.setSize(null, '100%');
+                           setupShareDB(editor, displayName.toLowerCase());
+                           }}
+                options={editorOptions}
+            />
         </div>
     );
 }

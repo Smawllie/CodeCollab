@@ -8,8 +8,16 @@ import { UserModel } from "../../entities/user.entity";
 
 @Resolver()
 export class DeleteProjectResolver {
-    @Mutation(() => Boolean)
-    async deleteProject(@Arg("id") id: String, @Ctx() context: Context) {
+    @Mutation(() => Boolean, {
+        description: "mutation for deleting project",
+    })
+    async deleteProject(
+        @Arg("id", {
+            description: "id of project",
+        })
+        id: String,
+        @Ctx() context: Context
+    ) {
         let project = await ProjectModel.findById(id).exec();
 
         if (!project) throw new Error(`Project with id: ${id} does not exist`);

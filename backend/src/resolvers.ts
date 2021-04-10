@@ -11,7 +11,7 @@ import { ProjectFieldResolver } from "./entities/project.entity";
 import { AddCollaboratorResolver } from "./modules/project/addCollaborator.resolver";
 import { GetProjectResolver } from "./modules/project/getProject.resolver";
 import { DeleteProjectResolver } from "./modules/project/deleteProject.resolver";
-import { SaveWebProjectResolver } from "./modules/project/saveWebProject.resolver";
+// import { SaveWebProjectResolver } from "./modules/project/saveWebProject.resolver";
 
 // User resolvers
 import { GetUserResolver } from "./modules/user/getUser.resolver";
@@ -36,7 +36,7 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     GetProjectResolver,
     AddCollaboratorResolver,
     DeleteProjectResolver,
-    SaveWebProjectResolver,
+    // SaveWebProjectResolver,
 
     // User Resolvers
     GetUserResolver,

@@ -10,21 +10,16 @@ const httpLink = new HttpLink({
     credentials: "include",
 });
 
-const errorLink = onError(({graphQLErrors,networkError})=>{
-    console.log(networkError);
-    console.log(graphQLErrors);
-});
-
-const wsLink = new WebSocketLink({
-    // uri: "ws://localhost:4000/subscriptions",
-    uri: process.env.REACT_APP_APOLLO_SERVER_SUBSCRIPTION!,
-    options: {
-        reconnect: true,
-        connectionParams: {
-            sid: document.cookie.split("connect.sid"),
-        },
-    },
-});
+// const wsLink = new WebSocketLink({
+//     // uri: "ws://localhost:4000/subscriptions",
+//     uri: process.env.REACT_APP_APOLLO_SERVER_SUBSCRIPTION!,
+//     options: {
+//         reconnect: true,
+//         connectionParams: {
+//             sid: document.cookie.split("connect.sid"),
+//         },
+//     },
+// });
 
 // The split function takes three parameters:
 //
@@ -32,20 +27,20 @@ const wsLink = new WebSocketLink({
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
 // Code snippet from: https://www.apollographql.com/docs/react/data/subscriptions/
-const splitLink = split(
-    ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-            definition.kind === "OperationDefinition" &&
-            definition.operation === "subscription"
-        );
-    },
-    wsLink,
-    httpLink
-);
+// const splitLink = split(
+//     ({ query }) => {
+//         const definition = getMainDefinition(query);
+//         return (
+//             definition.kind === "OperationDefinition" &&
+//             definition.operation === "subscription"
+//         );
+//     },
+//     wsLink,
+//     httpLink
+// );
 
 const client = new ApolloClient({
-    link: splitLink.concat(errorLink),
+    link: httpLink,
     cache: new InMemoryCache(),
     headers: {
         "client-name": "code-collab",

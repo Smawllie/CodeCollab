@@ -1,10 +1,10 @@
 import { Field, InputType } from "type-graphql";
 
-@InputType()
+@InputType({ description: "Schema for adding collaborators" })
 export class AddCollaboratorInput {
-    @Field()
+    @Field({ description: "id of collaborator" })
     collaboratorId: string;
 
-    @Field()
+    @Field({ description: "id of project" })
     projectId: string;
 }

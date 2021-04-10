@@ -15,7 +15,10 @@ import { AuthenticationError } from "apollo-server-errors";
 
 @Resolver()
 export class SaveWebProjectResolver {
-    @Mutation(() => Project)
+    @Mutation(() => Project, {
+        description:
+            "unused currently but can be used for extending to other languages",
+    })
     @Authorized()
     async saveWebProject(
         @PubSub() pubSub: PubSubEngine,

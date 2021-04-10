@@ -4,7 +4,7 @@ import { Context } from "../../context";
 
 @Resolver()
 export class SignOutResolver {
-    @Mutation(() => Boolean)
+    @Mutation(() => Boolean, { description: "Mutation used for sign out" })
     @Authorized()
     async signOut(@Ctx() context: Context): Promise<Boolean> {
         console.log("signout");

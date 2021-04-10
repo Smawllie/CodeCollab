@@ -7,10 +7,15 @@ import { UserModel } from "../../entities/user.entity";
 
 @Resolver()
 export class AddCollaboratorResolver {
-    @Mutation(() => Project)
+    @Mutation(() => Project, {
+        description: "mutation for adding collaborators",
+    })
     @Authorized()
     async addCollaborator(
-        @Arg("project") { collaboratorId, projectId }: AddCollaboratorInput,
+        @Arg("project", {
+            description: "contains collaborator and project id",
+        })
+        { collaboratorId, projectId }: AddCollaboratorInput,
         @Ctx() context: Context
     ) {
         let project = await ProjectModel.findById(projectId).exec();
@@ -26,9 +31,10 @@ export class AddCollaboratorResolver {
                 "You must be the owner of the project to add a new collaborator"
             );
 
-        let collaboratorExists = project.collaborators.some(
-            (userId: any) => userId.toString() === collaboratorId
-        ) || project!.owner!.toString() === collaboratorId;
+        let collaboratorExists =
+            project.collaborators.some(
+                (userId: any) => userId.toString() === collaboratorId
+            ) || project!.owner!.toString() === collaboratorId;
 
         if (collaboratorExists)
             throw new Error(

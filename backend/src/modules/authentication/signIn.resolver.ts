@@ -8,9 +8,9 @@ import { SignInInput } from "./input/signIn.input";
 
 @Resolver()
 export class SignInResolver {
-    @Mutation(() => User)
+    @Mutation(() => User, { description: "Mutation used to sign in" })
     async signIn(
-        @Arg("user")
+        @Arg("user", { description: "email and password of user" })
         { email, password }: SignInInput,
         @Ctx() context: Context
     ): Promise<User> {

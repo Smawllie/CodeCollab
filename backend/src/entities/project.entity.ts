@@ -12,36 +12,39 @@ import {
 import { File, FileModel } from "./file.entity";
 import { User, UserModel } from "./user.entity";
 
-@ObjectType()
+@ObjectType({ description: "Each project contains html, css, and js" })
 export class Project {
-    @Field(() => ID)
+    @Field(() => ID, { description: "id of project" })
     _id: Types.ObjectId;
 
-    @Field()
+    @Field({ description: "name of project" })
     @Property({ required: true })
     name: string;
 
-    @Field(() => User)
+    @Field(() => User, { description: "owner of project" })
     @Property({ ref: "User", required: true })
     owner: Ref<User>;
 
-    @Field(() => [File])
+    @Field(() => [File], {
+        description:
+            "files in project (currently unused but helpful for extension)",
+    })
     @Property({ ref: "File", required: true })
     files: Ref<File>[];
 
-    @Field(() => String)
-    @Property({ default: "" })
-    html: string;
+    @Field(() => String, { description: "html file of project" })
+    @Property({ required: true })
+    html: Types.ObjectId;
 
-    @Field(() => String)
-    @Property({ default: "" })
-    css: string;
+    @Field(() => String, { description: "css file of project" })
+    @Property({ required: true })
+    css: Types.ObjectId;
 
-    @Field(() => String)
-    @Property({ default: "" })
-    js: string;
+    @Field(() => String, { description: "js file of project" })
+    @Property({ required: true })
+    js: Types.ObjectId;
 
-    @Field(() => [User])
+    @Field(() => [User], { description: "list of collaborators of project" })
     @Property({ ref: "User", required: true, default: [] })
     collaborators: Ref<User>[];
 

@@ -2,18 +2,20 @@
 
 import { ObjectType, Field, ID } from "type-graphql";
 
-@ObjectType()
+@ObjectType({
+    description: "notification containing project id and 3 files",
+})
 export class Notification {
-    @Field()
+    @Field({ description: "id of project" })
     projectId: string;
 
-    @Field()
+    @Field({ description: "html of project" })
     html: string;
 
-    @Field()
+    @Field({ description: "css of project" })
     css: string;
 
-    @Field()
+    @Field({ description: "js of project" })
     js: string;
 }
 

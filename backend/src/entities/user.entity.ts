@@ -11,18 +11,18 @@ import {
 
 import { Project, ProjectModel } from "./project.entity";
 
-@ObjectType()
+@ObjectType({ description: "Users created on signup" })
 export class User {
-    @Field(() => ID)
+    @Field(() => ID, { description: "id of user" })
     _id: Types.ObjectId;
 
-    @Field()
+    @Field({ description: "email of user" })
     @Property({ required: true, unique: true })
     email: string;
 
   
 
-    @Property({ required: true })
+    @Property({ required: true, description: "password of user" })
     passwordHash: string;
 
     
@@ -30,7 +30,7 @@ export class User {
     @Property({ ref: "Project", default: [] })
     createdProjects: Ref<Project>[];
 
-    @Field(() => [Project])
+    @Field(() => [Project], { description: "projects shared with user" })
     @Property({ ref: "Project", default: [] })
     sharedProjects: Ref<Project>[];
 

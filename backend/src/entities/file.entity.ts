@@ -11,20 +11,24 @@ import {
 
 import { Project, ProjectModel } from "./project.entity";
 
-@ObjectType()
+// File type
+@ObjectType({
+    description:
+        "Currently not used but can be used for extending to other programming languages",
+})
 export class File {
-    @Field(() => ID)
+    @Field(() => ID, { description: "id of file" })
     _id: Types.ObjectId;
 
-    @Field()
+    @Field({ description: "name of file" })
     @Property({ required: true })
     name: string;
 
-    @Field(() => Project)
+    @Field(() => Project, { description: "project the file is in" })
     @Property({ ref: "Project", required: true })
     project: Ref<Project>;
 
-    @Field()
+    @Field({ description: "content of file" })
     @Property({ required: true, default: "" })
     content: string;
 

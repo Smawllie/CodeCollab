@@ -9,10 +9,14 @@ import { ProjectModel } from "../../entities/project.entity";
 
 @Resolver()
 export class AddFileResolver {
-    @Mutation(() => File)
+    @Mutation(() => File, {
+        description:
+            "unused currently but can be used for extending to other languages",
+    })
     @Authorized()
     async addFile(
-        @Arg("file") { name, projectId, content }: AddFileInput,
+        @Arg("file", { description: "file name, id and content" })
+        { name, projectId, content }: AddFileInput,
         @Ctx() context: Context
     ) {
         let project = await ProjectModel.findById(projectId)

@@ -5,13 +5,19 @@ import { Context } from "../../context";
 import { Project, ProjectModel } from "../../entities/project.entity";
 import { CreateProjectInput } from "./input/createProject.input";
 import { UserModel } from "../../entities/user.entity";
+import { Types } from "mongoose";
 
 @Resolver()
 export class CreateProjectResolver {
-    @Mutation(() => Project)
+    @Mutation(() => Project, {
+        description: "mutation for creating project",
+    })
     @Authorized()
     async createProject(
-        @Arg("project") { name }: CreateProjectInput,
+        @Arg("project", {
+            description: "contains name of project",
+        })
+        { name }: CreateProjectInput,
         @Ctx() context: Context
     ): Promise<Project> {
         // Check if user exists
@@ -39,9 +45,9 @@ export class CreateProjectResolver {
         let project = new ProjectModel({
             name,
             owner: user,
-            html: "",
-            css: "",
-            js: "",
+            html: Types.ObjectId(),
+            css: Types.ObjectId(),
+            js: Types.ObjectId(),
         });
 
         // Add the newly created project to the user
