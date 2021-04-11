@@ -18,3 +18,7 @@
 
 -   GraphQL playground: https://codecollab.me/graphql
 -   Exported documentation: https://docs.codecollab.me
+
+## Credits
+
+-   Credits can be found in the README.md files in the frontend and backend folders
