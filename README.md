@@ -6,27 +6,21 @@
 
 This project was created for Programming on the Web (CSCC09) at U of T and earned top marks. 
 
-## Team members
+## [Demo](https://www.youtube.com/watch?v=vf6fZMGhPdo)
 
--   Laphonso Reyes - 1004331243 - reyeslap
--   Bhavya Jain - 1005604749 - jainbha3
--   Luke Zhang - 1004136231 - zhan4908
+![GifOCR](https://user-images.githubusercontent.com/13020652/118185971-27c82480-b40b-11eb-86e3-f721a00356c5.gif)
 
-## Final version
+## Links
 
--   Final Project: https://codecollab.me
-
-## Video
-
--   Video: https://youtu.be/vf6fZMGhPdo
-
-## API Documentation
-
+-   Production website: https://codecollab.me
 -   GraphQL playground: https://codecollab.me/graphql
 -   Exported documentation: https://docs.codecollab.me
 
-## Credits
 
--   Credits can be found in the README.md files in the frontend and backend folders
+## License
+[MIT](./LICENSE) &copy; [Luke Zhang](https://github.com/Smawllie).
+[MIT](./LICENSE) &copy; [Bhavya Jain](https://github.com/bjain853).
+[MIT](./LICENSE) &copy; [Laphonso Reyes](https://github.com/poncie).
 
 [1]: https://codecollab.me
+[2]: https://www.youtube.com/watch?v=vf6fZMGhPdo
