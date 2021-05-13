@@ -18,9 +18,11 @@ This project was created for Programming on the Web (CSCC09) at U of T and earne
 
 
 ## License
-[MIT](./LICENSE) &copy; [Luke Zhang](https://github.com/Smawllie).
-[MIT](./LICENSE) &copy; [Bhavya Jain](https://github.com/bjain853).
-[MIT](./LICENSE) &copy; [Laphonso Reyes](https://github.com/poncie).
+[MIT](./LICENSE) &copy; [Luke Zhang](https://github.com/Smawllie)
+
+[MIT](./LICENSE) &copy; [Bhavya Jain](https://github.com/bjain853)
+
+[MIT](./LICENSE) &copy; [Laphonso Reyes](https://github.com/poncie)
 
 [1]: https://codecollab.me
 [2]: https://www.youtube.com/watch?v=vf6fZMGhPdo
