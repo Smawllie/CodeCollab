@@ -10,7 +10,7 @@ This project was created for Programming on the Web (CSCC09) at U of T and earne
 
 ![GifOCR](https://user-images.githubusercontent.com/13020652/118185971-27c82480-b40b-11eb-86e3-f721a00356c5.gif)
 
-## Features
+## Technology
 
 -   **DNS**/**HTTPS**: NameCheap and Cloudflare
 -   **Server**: Three-tiered architecture (frontend, backend, and database) on DigitalOcean using Nginx reverse proxy to route to frontend and backend
