@@ -34,7 +34,7 @@ This project was created for Programming on the Web (CSCC09) at U of T and earne
 
 > Summarize your experience in this course
 
-All in all, although we are new to web development Thierry (CSCC09 professor) really brought us from zero to hero in this course and we are proud to say we are all on the way to becoming full-stack developers. It was a painful combined 45 hrs/week on this course, and there were many times we failed, did not meet expectations, and had to cut features we had intended but in the end we finished with something we were all satisfied with. We learned many modern and exciting technologies that have jumpstarted our journey into the vast and bottomless depths of web development. After spending 500+ combined hours on this course we are happy with the outcome.
+All in all, although we were new to web development Thierry (CSCC09 professor) really brought us from zero to hero in this course and we are proud to say we are now all on the way to becoming full-stack developers. It was a painful combined 45 hrs/week on this course, and there were many times we failed, did not meet expectations, and had to cut features we had intended but in the end we finished with something we were all satisfied with. We learned many modern and exciting technologies that have jumpstarted our journey into the vast and bottomless depths of web development. After spending 500+ combined hours on this course we are happy with the outcome.
 
 ## Links
 
